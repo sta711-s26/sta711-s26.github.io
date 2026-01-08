@@ -1,0 +1,198 @@
+---
+title: "Linear and logistic regression"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Warmup
+
+Work on the warmup activity
+
+## Warmup
+
+```{r, message=F, warning=F}
+library(Stat2Data)
+data("FirstYearGPA")
+
+lm(GPA ~ HSGPA + SATM, data = FirstYearGPA) |> coef()
+```
+
+```{r}
+y <- FirstYearGPA$GPA
+X <- cbind(1, FirstYearGPA$HSGPA, FirstYearGPA$SATM)
+solve(t(X) %*% X) %*% t(X) %*% y
+```
+
+## Regression assumptions
+
+$$\text{GPA}_i = \beta_0 + \beta_1 \text{HSGPA}_i + \beta_2 \text{SATM}_i + \varepsilon_i$$
+
+**Question:** What assumptions do we often make when fitting a linear regression model?
+
+\vspace{3cm}
+
+## Regression assumptions
+
+$$\text{GPA}_i = \beta_0 + \beta_1 \text{HSGPA}_i + \beta_2 \text{SATM}_i + \varepsilon_i$$
+
+Some common assumptions:
+
+* Shape
+* Constant variance (variance of $\varepsilon_i$ is the same for all observations)
+* Normality ($\varepsilon_i$ comes from a normal distribution)
+* Independence
+
+**Question:** How do we assess these assumptions?
+
+## Diagnostic plots
+
+```{r, echo=F, message=F, warning = F, fig.width=5, fig.height=2}
+library(patchwork)
+library(tidyverse)
+
+m1 <- lm(GPA ~ HSGPA + SATM, data = FirstYearGPA)
+
+p1 <- data.frame(resids = m1$residuals, pred = m1$fitted.values) |>
+  ggplot(aes(x = pred, y = resids)) +
+  geom_point(size=0.5) +
+  geom_hline(yintercept = 0, color="blue") +
+  theme_bw() +
+  labs(x = "Predicted first-year GPA", y = "Residuals")
+
+p2 <- data.frame(resids = m1$residuals) |>
+  ggplot(aes(sample = resids)) +
+  geom_qq(size=0.5) +
+  geom_qq_line() +
+  theme_bw() +
+  labs(x = "Theoretical normal quantiles", y = "Observed residual quantiles")
+
+p1 + p2
+```
+
+**Question:** Do the regression assumptions seem reasonable here?
+
+\vspace{1cm}
+
+## Another motivating example: Dengue fever
+
+**Dengue fever:** a mosquito-borne viral disease affecting 400 million people a year
+
+![](DengueSymptomsUpdated.jpg)
+
+
+## Motivating example: Dengue data
+
+**Data:** Data on 5720 Vietnamese children, admitted to the hospital with possible dengue fever. Variables include:
+
+* *Sex*: patient's sex (female or male)
+* *Age*: patient's age (in years)
+* *WBC*: white blood cell count
+* *PLT*: platelet count
+* other diagnostic variables...
+* *Dengue*: whether the patient has dengue (0 = no, 1 = yes)
+
+**Research goal:** Predict dengue status using diagnostic measurements
+
+## Fitting a model: initial attempt
+
+What if we try a linear regression model?
+
+$$Y_i = \text{dengue status of } i\text{th  patient}$$
+
+$$Y_i = \beta_0 + \beta_1 WBC_i + \varepsilon_i \hspace{1cm} \varepsilon_i \overset{iid}{\sim} N(0, \sigma_\varepsilon^2)$$
+
+What are some potential issues with this linear regression model?
+
+\vspace{3cm}
+
+## Don't fit linear regression with a binary response
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=6, fig.height=4}
+dengue <- read.csv("https://sta279-s22.github.io/labs/dengue.csv")
+```
+
+```{r setup, echo=F, fig.width=4.5, fig.height=2, fig.align='center', message=F, warning=F}
+
+p1 <- dengue %>%
+  ggplot(aes(x = Age, y = Dengue)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method="lm", se=F) +
+  theme_bw()
+
+p2 <- dengue %>%
+  ggplot(aes(x = WBC, y = Dengue)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method="lm", se=F) +
+  theme_bw()
+
+p1 + p2
+```
+
+## Don't fit linear regression with a binary response
+
+Diagnostic plots:
+
+```{r, echo=F, message=F, warning = F, fig.width=5, fig.height=2}
+m1 <- lm(Dengue ~ WBC, data = dengue)
+
+p1 <- data.frame(resids = m1$residuals, pred = m1$fitted.values) |>
+  ggplot(aes(x = pred, y = resids)) +
+  geom_point(size=0.5) +
+  geom_hline(yintercept = 0, color="blue") +
+  theme_bw() +
+  labs(x = "Predicted Dengue", y = "Residuals")
+
+p2 <- data.frame(resids = m1$residuals) |>
+  ggplot(aes(sample = resids)) +
+  geom_qq(size=0.5) +
+  geom_qq_line() +
+  theme_bw() +
+  labs(x = "Theoretical normal quantiles", y = "Observed residual quantiles")
+
+p1 + p2
+```
+
+\vspace{2cm}
+
+## Second attempt
+
+Let's rewrite the linear regression model:
+
+\vspace{6cm}
+
+## Second attempt
+
+$$Y_i \sim Bernoulli(p_i) \hspace{1cm} p_i = \mathbb{P}(Y_i = 1 | WBC_i)$$
+
+$$p_i = \beta_0 + \beta_1 WBC_i$$
+
+Are there still any potential issues with this approach?
+
+\vspace{4cm}
+
+## Fixing the issue: logistic regression
+
+$$Y_i \sim Bernoulli(p_i)$$
+
+$$g(p_i) = \beta_0 + \beta_1 WBC_i$$
+
+where $g: (0, 1) \to \mathbb{R}$ is unbounded.
+
+**Usual choice:** $g(p_i) = \log \left( \dfrac{p_i}{1 - p_i} \right)$
+
+\vspace{4cm}
+
+## Logistic regression model
+
+$$Y_i \sim Bernoulli(p_i)$$
+
+$$\log \left(\dfrac{p_i}{1 - p_i}\right) = \beta_0 + \beta_1 WBC_i$$
+
+Why is there no noise term $\varepsilon_i$ in the logistic regression model? Discuss for 1--2 minutes with your neighbor, then we will discuss as a class.
+
+\vspace{4cm}
+
+
+
+
+
