@@ -16,4 +16,4 @@ You will be graded on your communication of the problem, your conceptual underst
 
 | Criteria | Ratings and scores | Points |
 | --- | --- | --- |
-| Formulation of problem | Mastery | /1 pt |
+| Formulation of problem | <ul> <li> Mastery </li> </ul> | /1 pt |
