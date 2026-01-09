@@ -10,7 +10,7 @@ LaTeX is a typesetting system that allows you to create documents with a lot of 
 
 ### Using Overleaf for HW assignments
 
-1. Download the [LaTeX homework template](https://sta711-s25.github.io/homework/hw_template.tex) from the course webpage
+1. Download the [LaTeX homework template](https://sta711-s26.github.io/homework/hw_template.tex) from the course webpage
 2. Create a *free* account on Overleaf
 3. Create a new project for your STA 711 homework assignments
 4. Upload the homework template, and change the file name (e.g. "hw_1.tex"). Make sure to keep the .tex extension!
