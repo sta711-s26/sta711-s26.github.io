@@ -38,9 +38,11 @@ Logistic regression is an example of a *generalized linear model* (GLM), and you
 
 **Laptops:** You will need a laptop for this class, and you will sometimes need it during class. I recommend bringing your laptop each day.
 
-**Textbook:**
+**Textbook and supplementary notes:**
 
 * *Statistical Inference* (2nd edition), by Casella and Berger. This is a classic textbook for first-year graduate statistics courses, and is an excellent, comprehensive reference. It is also full of good exercises for study and practice.
+
+* [Supplementary course notes](https://ciaran-evans.quarto.pub/sta-711-notes/), especially covering topics which are important to the class but do not appear in Casella and Berger.
 
 **Supplementary texts:** Here are some *optional* supplementary texts, which you may find useful as additional resources. These are *not* required for the course.
 
