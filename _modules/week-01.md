@@ -13,6 +13,7 @@ January 12
 
 January 14
 : Linear regression
+  : [Slides](https://sta711-s26.github.io/slides/lecture_2.pdf), [Activity](https://sta711-s26.github.io/class_activities/ca_02.html)
 
 : Supplementary notes, sections [1.1, 1.2.1 - 1.2.4](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html)
 
