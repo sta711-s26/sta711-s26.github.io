@@ -223,6 +223,44 @@ Why is there no noise term $\varepsilon_i$ in the logistic regression model? Dis
 
 \vspace{4cm}
 
+## Fitting the logistic regression model
+
+$$Y_i|WBC_i \ \sim \ Bernoulli(p_i)$$
+
+$$\log \left(\dfrac{p_i}{1 - p_i}\right) = \beta_0 + \beta_1 WBC_i$$
+
+```{r, eval=F, echo=T}
+m1 <- glm(Dengue ~ WBC, data = dengue, 
+          family = binomial)
+summary(m1)
+```
+
+\vspace{2cm}
+
+
+## Fitting the logistic regression model
+
+$$Y_i|WBC_i \  \sim \ Bernoulli(p_i)$$
+
+$$\log \left(\dfrac{p_i}{1 - p_i}\right) = \beta_0 + \beta_1 WBC_i$$
+
+```{r, output.lines=9:13}
+m1 <- glm(Dengue ~ WBC, data = dengue, 
+          family = binomial)
+summary(m1)
+```
+
+
+## Making predictions
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = 1.737 - 0.361 \ WBC_i$$
+
+Work in groups of 2-3 on the following questions:
+
+* What is the predicted odds of dengue for a patient with a WBC of 10?
+* For a patient with a WBC of 10, is the predicted probability of dengue $> 0.5$, $< 0.5$, or $= 0.5$?
+* What is the predicted *probability* of dengue for a patient with a WBC of 10?
+
 
 
 
