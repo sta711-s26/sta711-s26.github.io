@@ -4,9 +4,40 @@ author: "Ciaran Evans"
 output: beamer_presentation
 ---
 
+## Last time: parameter estimation for linear regression
+
+$$
+\begin{bmatrix} Y_1 \\ Y_2 \\ \vdots \\ Y_n  \end{bmatrix} = \begin{bmatrix} 1 & X_{11} & X_{12} & \cdots & X_{1k} \\
+1 & X_{21} & X_{22} & \cdots & X_{2k} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\ 
+1 & X_{n1} & X_{n2} & \cdots & X_{nk}\end{bmatrix} \begin{bmatrix} \beta_0 \\  \vdots \\ \beta_k \end{bmatrix} + \begin{bmatrix} \varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n \end{bmatrix}
+$$
+
+$$
+\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}
+$$
+
+$$SSE(\boldsymbol{\beta}) = (\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$$
+
+$$
+\frac{\partial}{\partial \boldsymbol{\beta}} SSE(\boldsymbol{\beta}) = \hspace{3cm}
+$$
+
+## Parameter estimation for linear regression
+
+$$
+\frac{\partial}{\partial \boldsymbol{\beta}} SSE(\boldsymbol{\beta}) \ \ = \ \ -2 \mathbf{X}^T(\mathbf{y} - \mathbf{X} \boldsymbol{\beta}) \ \ \overset{set}{=} \ \ \mathbf{0}
+$$
+
+\vspace{4cm}
+
 ## Warmup
 
-Work on the warmup activity
+Work on the warmup activity:
+
+[https://sta711-s26.github.io/class_activities/ca_02.html](https://sta711-s26.github.io/class_activities/ca_02.html)
+
+Submit your work on Canvas.
 
 ## Warmup
 
@@ -99,7 +130,7 @@ What if we try a linear regression model?
 
 $$Y_i = \text{dengue status of } i\text{th  patient}$$
 
-$$Y_i = \beta_0 + \beta_1 WBC_i + \varepsilon_i \hspace{1cm} \varepsilon_i \overset{iid}{\sim} N(0, \sigma_\varepsilon^2)$$
+$$Y_i = \beta_0 + \beta_1 WBC_i + \varepsilon_i \hspace{1cm} \varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$$
 
 What are some potential issues with this linear regression model?
 
@@ -162,7 +193,7 @@ Let's rewrite the linear regression model:
 
 ## Second attempt
 
-$$Y_i \sim Bernoulli(p_i) \hspace{1cm} p_i = \mathbb{P}(Y_i = 1 | WBC_i)$$
+$$Y_i|WBC_i  \ \sim \ Bernoulli(p_i) \hspace{1cm} p_i = \mathbb{P}(Y_i = 1 | WBC_i)$$
 
 $$p_i = \beta_0 + \beta_1 WBC_i$$
 
@@ -172,7 +203,7 @@ Are there still any potential issues with this approach?
 
 ## Fixing the issue: logistic regression
 
-$$Y_i \sim Bernoulli(p_i)$$
+$$Y_i | WBC_i \ \sim \ Bernoulli(p_i)$$
 
 $$g(p_i) = \beta_0 + \beta_1 WBC_i$$
 
@@ -184,7 +215,7 @@ where $g: (0, 1) \to \mathbb{R}$ is unbounded.
 
 ## Logistic regression model
 
-$$Y_i \sim Bernoulli(p_i)$$
+$$Y_i | WBC_i \ \sim \ Bernoulli(p_i)$$
 
 $$\log \left(\dfrac{p_i}{1 - p_i}\right) = \beta_0 + \beta_1 WBC_i$$
 

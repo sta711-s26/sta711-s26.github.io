@@ -1,0 +1,45 @@
+---
+title: "Warmup: Fitting linear regression models"
+format: html
+---
+
+**Instructions:** 
+
+* Work individually or with a neighbor to answer the following questions 
+* Complete your work in a Quarto (.qmd) or RMarkdown (.Rmd) file
+* When you are finished, render the file as an HTML and submit the HTML to Canvas (let me know if you encounter any problems).
+* If you work in a group, only one group member needs to submit the activity on Canvas; just list all group members at the top.
+
+## Fitting linear regression models
+
+We demonstrated in class that the least-squares estimates $\widehat{\boldsymbol{\beta}}$ for the coefficients of a linear regression model are given by
+
+$$\widehat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$$
+
+where $\mathbf{y}$ is the vector of observed responses, and $\mathbf{X}$ is the design matrix. The first column of $\mathbf{X}$ is a column of all 1s, and each of the subsequent columns corresponds to the values of one of the explanatory variables in our model.
+
+### Example
+
+The `FirstYearGPA` dataset from the `Stat2Data` package contains information on the first-year college GPA of 219 college students, with additional information on their high school GPA, SAT scores, and demographics. The variables include:
+
+* `GPA`: First-year college GPA on a 0.0 to 4.0 scale
+* `HSGPA`: High school GPA on a 0.0 to 4.0 scale
+* `SATM`: Math SAT score
+
+We can load the data in R with the following (you may need to install the `Stat2Data` package):
+
+```{r, eval=F}
+library(Stat2Data)
+data("FirstYearGPA")
+```
+
+### Question
+
+Suppose we want to predict first-year college GPA from high school GPA and math SAT score. The design matrix $\mathbf{X}$ will be
+
+$$\mathbf{X} = \begin{bmatrix} 1 & \text{HSGPA}_1 & \text{SATM}_1 \\ 1 & \text{HSGPA}_2 & \text{SATM}_2 \\ \vdots & \vdots & \vdots \\ 1 & \text{HSGPA}_{219} & \text{SATM}_{219} \end{bmatrix}$$
+
+
+1. Calculate the fitted regression coefficients $\widehat{\boldsymbol{\beta}}$ using the expression $(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$. Verify that your estimates agree with the results of the `lm` function in R.
+
+
