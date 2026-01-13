@@ -18,7 +18,7 @@ January 14
 : Supplementary notes, sections [1.1, 1.2.1 - 1.2.4](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html)
 
 January 16
-: Intro to logistic regression
+: Intro to logistic regression 
 
 : [Supplementary notes, Chapter 2](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html)
 
