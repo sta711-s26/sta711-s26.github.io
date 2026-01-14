@@ -1,0 +1,26 @@
+---
+title: "Activity: Predictions from a logistic regression model"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+**Group members:**
+
+## Making predictions
+
+For the dengue data, our fitted logistic regression model is
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = 1.737 - 0.361 \ WBC_i$$
+
+1. What is the predicted *odds* of dengue for a patient with a white blood cell count of 15?
+
+\vspace{5cm}
+
+2. What is the predicted *probability* of dengue for a patient with a WBC of 15?
+
+
+
+
+

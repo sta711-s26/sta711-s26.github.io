@@ -1,0 +1,30 @@
+---
+title: "Activity: Interpretation"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+**Group members:**
+
+## Interpreting a logistic regression model
+
+For the dengue data, our fitted logistic regression model is
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = 1.737 - 0.361 \ WBC_i$$
+
+1. Are patients with a higher WBC more or less likely to have dengue?
+
+\vspace{2cm}
+
+2. What is the change in *log odds* associated with a unit increase in WBC?
+
+\vspace{3cm}
+
+3. What is the change in *odds* associated with a unit increase in WBC?
+
+
+
+
+

@@ -18,7 +18,8 @@ January 14
 : Supplementary notes, sections [1.1, 1.2.1 - 1.2.4](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html)
 
 January 16
-: Intro to logistic regression 
+: Intro to logistic regression
+  : [Slides](https://sta711-s26.github.io/slides/lecture_3.pdf), [Activity 1](https://sta711-s26.github.io/class_activities/ca_03_1.pdf), [Activity 2](https://sta711-s26.github.io/class_activities/ca_03_2.pdf)
 
-: [Supplementary notes, Chapter 2](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html)
+: Supplementary notes, sections [2.1 - 2.2](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html)
 

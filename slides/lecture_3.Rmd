@@ -1,0 +1,212 @@
+---
+title: "Logistic regression"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Last time: Dengue data
+
+**Data:** Data on 5720 Vietnamese children, admitted to the hospital with possible dengue fever. Variables include:
+
+* *Sex*: patient's sex (female or male)
+* *Age*: patient's age (in years)
+* *WBC*: white blood cell count
+* *PLT*: platelet count
+* other diagnostic variables...
+* *Dengue*: whether the patient has dengue (0 = no, 1 = yes)
+
+**Research goal:** Predict dengue status using diagnostic measurements
+
+## Last time: initial attempt
+
+What if we try a linear regression model?
+
+$$Y_i = \text{dengue status of } i\text{th  patient}$$
+
+$$Y_i = \beta_0 + \beta_1 WBC_i + \varepsilon_i \hspace{1cm} \varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$$
+
+## Don't fit linear regression with a binary response
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=6, fig.height=4}
+library(tidyverse)
+library(patchwork)
+dengue <- read.csv("https://sta279-s22.github.io/labs/dengue.csv")
+```
+
+```{r setup, echo=F, fig.width=4.5, fig.height=2, fig.align='center', message=F, warning=F}
+
+p1 <- dengue %>%
+  ggplot(aes(x = Age, y = Dengue)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method="lm", se=F) +
+  theme_bw()
+
+p2 <- dengue %>%
+  ggplot(aes(x = WBC, y = Dengue)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method="lm", se=F) +
+  theme_bw()
+
+p1 + p2
+```
+
+## Last time: rewriting the linear regression model
+
+$$
+\begin{aligned}
+Y_i | WBC_i \ &\sim \ N(\mu_i, \sigma^2) & \text{(random component)} \\
+\mu_i &= \beta_0 + \beta_1 WBC_i & \text{(systematic component)}
+\end{aligned}
+$$
+
+\vspace{3cm}
+
+## Second attempt
+
+$$Y_i|WBC_i  \ \sim \ Bernoulli(p_i) \hspace{1cm} p_i = \mathbb{P}(Y_i = 1 | WBC_i)$$
+
+$$p_i = \beta_0 + \beta_1 WBC_i$$
+
+Are there still any potential issues with this approach?
+
+\vspace{4cm}
+
+## Fixing the issue: logistic regression
+
+$$Y_i | WBC_i \ \sim \ Bernoulli(p_i)$$
+
+$$g(p_i) = \beta_0 + \beta_1 WBC_i$$
+
+where $g: (0, 1) \to \mathbb{R}$ is unbounded.
+
+**Usual choice:** $g(p_i) = \log \left( \dfrac{p_i}{1 - p_i} \right)$
+
+\vspace{4cm}
+
+## Logistic regression model
+
+$$Y_i | WBC_i \ \sim \ Bernoulli(p_i)$$
+
+$$\log \left(\dfrac{p_i}{1 - p_i}\right) = \beta_0 + \beta_1 WBC_i$$
+
+Why is there no noise term $\varepsilon_i$ in the logistic regression model? Discuss for 1--2 minutes with your neighbor, then we will discuss as a class.
+
+\vspace{4cm}
+
+## Fitting the logistic regression model
+
+$$Y_i|WBC_i \ \sim \ Bernoulli(p_i)$$
+
+$$\log \left(\dfrac{p_i}{1 - p_i}\right) = \beta_0 + \beta_1 WBC_i$$
+
+```{r, eval=F, echo=T}
+m1 <- glm(Dengue ~ WBC, data = dengue, 
+          family = binomial)
+summary(m1)
+```
+
+\vspace{2cm}
+
+
+## Fitting the logistic regression model
+
+$$Y_i|WBC_i \  \sim \ Bernoulli(p_i)$$
+
+$$\log \left(\dfrac{p_i}{1 - p_i}\right) = \beta_0 + \beta_1 WBC_i$$
+
+```{r, output.lines=9:13}
+m1 <- glm(Dengue ~ WBC, data = dengue, 
+          family = binomial)
+summary(m1)
+```
+
+## Activity
+
+Work on the activity (handout) in groups, then we will discuss as a class.
+
+\vspace{4cm}
+
+## Activity
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = 1.737 - 0.361 \ WBC_i$$
+
+What is the predicted *odds* of dengue for a patient with a white blood cell count of 15?
+
+\vspace{4cm}
+
+## Activity
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = 1.737 - 0.361 \ WBC_i$$
+
+What is the predicted *probability* of dengue for a patient with a WBC of 15?
+
+\vspace{4cm}
+
+## Interpretation: Activity 2
+
+Work on the activity (handout) in groups, then we will discuss as a class.
+
+\vspace{4cm}
+
+## Interpretation
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = 1.737 - 0.361 \ WBC_i$$
+
+Are patients with a higher WBC more or less likely to have dengue?
+
+\vspace{4cm}
+
+## Interpretation
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = 1.737 - 0.361 \ WBC_i$$
+
+What is the change in *log odds* associated with a unit increase in WBC?
+
+\vspace{4cm}
+
+## Interpretation
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = 1.737 - 0.361 \ WBC_i$$
+
+What is the change in *odds* associated with a unit increase in WBC?
+
+\vspace{4cm}
+
+## Coefficient interpretation
+
+$$\log \left(\dfrac{\widehat{p}_i}{1 - \widehat{p}_i}\right) = \widehat{\beta}_0 + \widehat{\beta}_1 X_i$$
+
+\vspace{4cm}
+
+
+## Fitting a *logistic* regression model?
+
+Linear regression: minimize $\sum \limits_{i=1}^n (Y_i - \beta_0 - \beta_1 X_{i1} - \cdots - \beta_k X_{ik})^2$
+
+\bigskip
+
+**Question:** Should we minimize a similar sum of squares for a *logistic* regression model?
+
+\vspace{4cm}
+
+
+## Motivation: likelihoods and estimation
+
+Let $Y \sim Bernoulli(p)$ be a Bernoulli random variable, with $p \in [0,1]$. We observe 5 independent samples from this distribution:
+
+$$Y_1 = 1, \ Y_2 = 1, \ Y_3 = 0, \ Y_4 = 0, \ Y_5 = 1$$
+
+The true value of $p$ is unknown, so two friends propose different guesses for the value of $p$: 0.3 and 0.7. Which do you think is a "better" guess?
+
+\vspace{3cm}
+
+
+## Likelihood
+
+**Definition:** Let $\mathbf{y} = (Y_1,...,Y_n)$ be a sample of $n$ observations, and let $f(\mathbf{y}|\theta)$ denote the joint pdf or pmf of $\mathbf{y}$, with parameter(s) $\theta$. The *likelihood function* is
+$$L(\theta | \mathbf{y}) = f(\mathbf{y} | \theta)$$
+
+\vspace{5cm}
+
+
+## Example: Bernoulli data
