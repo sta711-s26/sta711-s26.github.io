@@ -1,0 +1,78 @@
+---
+title: "Maximum likelihood estimation"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Fitting a *logistic* regression model?
+
+Linear regression: minimize $\sum \limits_{i=1}^n (Y_i - \beta_0 - \beta_1 X_{i1} - \cdots - \beta_k X_{ik})^2$
+
+\bigskip
+
+**Question:** Should we minimize a similar sum of squares for a *logistic* regression model?
+
+\vspace{4cm}
+
+
+## Motivation: likelihoods and estimation
+
+Let $Y \sim Bernoulli(p)$ be a Bernoulli random variable, with $p \in [0,1]$. We observe 5 independent samples from this distribution:
+
+$$Y_1 = 1, \ Y_2 = 1, \ Y_3 = 0, \ Y_4 = 0, \ Y_5 = 1$$
+
+The true value of $p$ is unknown, so two friends propose different guesses for the value of $p$: 0.3 and 0.7. Which do you think is a "better" guess?
+
+\vspace{3cm}
+
+
+## Likelihood
+
+**Definition:** Let $\mathbf{y} = (Y_1,...,Y_n)$ be a sample of $n$ observations, and let $f(\mathbf{y}|\theta)$ denote the joint pdf or pmf of $\mathbf{y}$, with parameter(s) $\theta$. The *likelihood function* is
+$$L(\theta | \mathbf{y}) = f(\mathbf{y} | \theta)$$
+
+\vspace{5cm}
+
+
+## Example: Bernoulli data
+
+## Example: Bernoulli data
+
+$Y_1,...,Y_5 \overset{iid}{\sim} Bernoulli(p)$, with observed data
+$$Y_1 = 1, \ Y_2 = 1, \ Y_3 = 0, \ Y_4 = 0, \ Y_5 = 1$$
+
+$L(p|\mathbf{y}) = p^3(1 - p)^2$
+
+```{r, echo=F, fig.align='center', fig.width=3, fig.height=2.5, message=F, warning=F}
+library(tidyverse)
+p <- seq(0, 1, 0.01)
+y <- p^3*(1 - p)^2
+data.frame(p, y) %>%
+  ggplot(aes(x = p, y = y)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "p", y = "L(p|Y)")
+```
+
+## Maximum likelihood estimator
+
+**Definition:** Let $\mathbf{y} = (Y_1,...,Y_n)$ be a sample of $n$ observations. The *maximum likelihood estimator* (MLE) is 
+
+$$\widehat{\theta} = \ \text{argmax}_{\theta} \ L(\theta | \mathbf{y})$$
+
+\vspace{4cm}
+
+
+## Example: $Bernoulli(p)$
+
+## Example: $N(\theta, 1)$
+
+## Example: $Uniform(0, \theta)$
+
+Let $Y_1,...,Y_n \overset{iid}{\sim} Uniform(0, \theta)$, where $\theta > 0$. We want the maximum likelihood estimator of $\theta$.
+
+Discuss with your neighbors what the MLE of $\theta$ might be. *Hint: focus on finding and sketching the likelihood function* $L(\mathbf{y}|\theta)$
+
+\vspace{4cm}
+
+
