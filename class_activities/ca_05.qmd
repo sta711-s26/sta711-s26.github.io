@@ -1,0 +1,33 @@
+---
+title: "Warmup: Maximum likelihood estimation"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Maximum likelihood estimation
+
+Let $Y_1,...,Y_n \overset{iid}{\sim} N(\mu, \sigma^2)$, with both $\mu$ and $\sigma^2$ unknown. Let $\boldsymbol{\theta} = \begin{bmatrix} \mu \\ \sigma^2 \end{bmatrix}$. We would like to estimate $\boldsymbol{\theta}$ using the method of maximum likelihood. Recall that
+
+$$
+f(Y_i | \boldsymbol{\theta}) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left\lbrace - \frac{1}{2\sigma^2} (Y_i - \mu)^2 \right\rbrace
+$$
+
+1. Let $\mathbf{y} = (Y_1,...,Y_n)$. Find expressions for the likelihood $L(\boldsymbol{\theta} | \mathbf{y})$ and log likelihood $\ell(\boldsymbol{\theta} | \mathbf{y})$.
+
+\vspace{4.5cm}
+
+2. By taking the partial derivatives $\dfrac{\partial}{\partial \mu} \ell(\boldsymbol{\theta} | \mathbf{y})$ and $\dfrac{\partial}{\partial \sigma^2} \ell(\boldsymbol{\theta} | \mathbf{y})$, show that the MLEs for $\mu$ and $\sigma^2$ are 
+$$\widehat{\mu} = \frac{1}{n} \sum \limits_{i=1}^n Y_i$$
+and
+$$\widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \widehat{Y}_i)^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2$$
+(Don't worry about the second derivative for now, just set the partial derivatives equal to 0 and solve).
+
+
+
+
+
+
+
+

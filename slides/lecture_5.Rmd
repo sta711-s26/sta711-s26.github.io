@@ -1,0 +1,69 @@
+---
+title: "Maximum likelihood estimation"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Warmup
+
+Work on the warmup activity (handout) with your neighbors, then we will discuss as a class.
+
+\vspace{4cm}
+
+## Warmup
+
+$Y_1,...,Y_n \overset{iid}{\sim} N(\mu, \sigma^2)$. Let $\boldsymbol{\theta} = \begin{bmatrix} \mu \\ \sigma^2 \end{bmatrix}$ and $\mathbf{y} = (Y_1,...,Y_n)$. 
+
+$$
+L(\boldsymbol{\theta} | \mathbf{y}) = \hspace{7cm}
+$$
+
+\vspace{5cm}
+
+## Warmup
+
+$$
+\ell(\boldsymbol{\theta} | \mathbf{y}) = -\frac{n}{2} \log(2 \pi \sigma^2) - \frac{1}{2 \sigma^2} \sum \limits_{i=1}^n (Y_i - \mu)^2
+$$
+
+$$
+\frac{\partial}{\partial \mu} \ell(\boldsymbol{\theta} | \mathbf{y}) = \hspace{7cm}
+$$
+
+\vspace{1.5cm}
+
+$$
+\frac{\partial}{\partial \sigma^2} \ell(\boldsymbol{\theta} | \mathbf{y}) = \hspace{7cm}
+$$
+
+\vspace{2cm}
+
+## Invariance of the MLE
+
+For $Y_1,...,Y_n \overset{iid}{\sim} N(\mu, \sigma^2)$, we saw that the MLE of the variance is $\widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2$. What if we instead want to estimate the *standard deviation*, $\sigma$?
+
+\vspace{4cm}
+
+## Another example: $Uniform(0, \theta)$
+
+Let $Y_1,...,Y_n \overset{iid}{\sim} Uniform(0, \theta)$, where $\theta > 0$. We want the maximum likelihood estimator of $\theta$.
+
+
+\vspace{6cm}
+
+## Maximum likelihood estimation and linear regression
+
+Let $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ be iid samples from the model
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i &\sim N(\mu_i, \sigma^2) \\
+\mu_i &= \mathbf{x}_i^T \boldsymbol{\beta},
+\end{aligned}
+$$
+
+$$L(\boldsymbol{\beta}, \sigma^2 | \mathbf{y}, \mathbf{X}) = \hspace{6cm}$$
+
+\vspace{4cm}
+
+

@@ -1,0 +1,80 @@
+\documentclass[11pt]{article}
+\usepackage{url}
+\usepackage{alltt}
+\usepackage{bm}
+\usepackage{bbm}
+\linespread{1}
+\textwidth 6.5in
+\oddsidemargin 0.in
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2in}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\begin{document}
+
+
+\begin{center}
+\Large
+STA 711 Homework 2\\
+\normalsize
+\vspace{5mm}
+\end{center}
+
+\noindent \textbf{Due:} Friday, January 30, 11:59pm on Canvas.\\ 
+
+\noindent \textbf{Instructions:} Submit your work as a single PDF. You may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. See the course website for a \href{https://sta711-s26.github.io/homework/hw_template.tex}{homework template file} and \href{https://sta711-s26.github.io/homework/latex_instructions/}{instructions} on getting started with LaTeX and Overleaf.
+
+\section*{Maximum likelihood estimation}
+
+\begin{enumerate}
+\item Let $Y_1,...,Y_n \overset{iid}{\sim} Poisson(\lambda)$, and let $\mathbf{y} = (Y_1,...,Y_n)$ denote the combined sample.
+
+\begin{enumerate}
+\item Write down the likelihood $L(\lambda |\mathbf{y} )$.
+
+\item Find the maximum likelihood estimator $\widehat{\lambda}$ of $\lambda$.
+\end{enumerate}
+
+\item Let $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\theta)$, so $f(y | \theta) = \theta e^{-\theta y}$.
+
+\begin{enumerate}
+\item Write down the likelihood $L(\theta | \mathbf{y})$.
+
+\item Find the maximum likelihood estimator $\widehat{\theta}$ of $\theta$.
+
+\item Show that $Y_{(1)} \sim Exponential(n \theta)$.
+\end{enumerate}
+
+\item Let $Y_1,...,Y_n$ be iid from a distribution with pdf
+$$f(y|\theta) = \theta y^{-2} \mathbbm{1}\{y \geq \theta \},$$
+where $\theta > 0$. Find the maximum likelihood estimator of $\theta$.
+
+\item Let $Y_1,...,Y_n$ be iid with one of two pdfs. If $\theta = 0$, then
+$$f(y | \theta) = \begin{cases}
+1 & 0 < y < 1 \\
+0 & \text{else}.
+\end{cases}$$
+If $\theta = 1$, then
+$$f(y | \theta) = \begin{cases}
+\dfrac{1}{2 \sqrt{y}} & 0 < y < 1 \\
+0 & \text{else}.
+\end{cases}$$
+Find the maximum likelihood estimator of $\theta$.
+
+\item Let $Y$ be a single observation from a normal distribution with mean $\theta$ and variance $\theta^2$, where $\theta > 0$. Find the maximum likelihood estimator of $\theta^2$.
+
+\item Let $Y_1,...,Y_n$ be a random sample from a distribution with pdf
+$$f(y | \mu, \sigma) = \frac{1}{\sigma} \exp \left \lbrace - \left( \dfrac{y - \mu}{\sigma} \right) \right \rbrace \mathbbm{1}\{y \geq \mu \},$$
+where $-\infty < \mu < \infty$, and $\sigma > 0$.
+
+\begin{enumerate}
+\item Find the maximum likelihood estimators of $\mu$ and $\sigma$. \textit{(Hint: find $\widehat{\mu}$ first)}
+
+\item Let $\tau(\mu, \sigma) = \mathbb{P}_{\mu, \sigma}(Y_1 \geq t)$, where $t > \mu$, and $\mathbb{P}_{\mu, \sigma}$ denotes probability when $\mu, \sigma$ are the true parameters. Find the maximum likelihood estimator of $\tau(\mu, \sigma)$.
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

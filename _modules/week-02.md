@@ -13,6 +13,10 @@ January 21
 
 January 23
 : Maximum likelihood estimation
+  : [Slides](https://sta711-s26.github.io/slides/lecture_5.pdf), [Activity](https://sta711-s26.github.io/class_activities/ca_05.pdf)
 
 : Casella and Berger 6.3, 7.2.2
+
+: **HW 2 released**{: .label .label-yellow }
+  : [HW 2](https://sta711-s26.github.io/homework/hw_02.pdf)
 

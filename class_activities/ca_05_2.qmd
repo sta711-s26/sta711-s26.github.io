@@ -1,0 +1,34 @@
+---
+title: "Maximum likelihood estimation and linear regression"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Maximum likelihood estimation
+
+Let $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ be iid samples from the model
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i &\sim N(\mu_i, \sigma^2) \\
+\mu_i &= \mathbf{x}_i^T \boldsymbol{\beta},
+\end{aligned}
+$$
+where the distribution of $\mathbf{x}_i$ does not depend on $\sigma^2$ or $\boldsymbol{\beta}$.
+
+1. Using the fact that $f(\mathbf{x}_i, Y_i | \boldsymbol{\beta}, \sigma^2) = f(\mathbf{x}_i) f(Y_i | \mathbf{x}_i, \boldsymbol{\beta}, \sigma^2)$, show that 
+
+$$
+L(\boldsymbol{\beta}, \sigma^2 | \mathbf{y}, \mathbf{X}) \propto (2 \pi \sigma^2)^{-n/2} \exp \left\lbrace - \frac{1}{2\sigma^2} \sum \limits_{i=1}^n (Y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2 \right\rbrace.
+$$
+
+\vspace{5cm}
+
+2. From question 1, conclude that the maximum likelihood estimator of $\boldsymbol{\beta}$ is found by minimizing the sum of squared errors $\sum \limits_{i=1}^n (Y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2$.
+
+
+
+
+
