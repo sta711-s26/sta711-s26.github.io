@@ -21,7 +21,7 @@ $$
 2. By taking the partial derivatives $\dfrac{\partial}{\partial \mu} \ell(\boldsymbol{\theta} | \mathbf{y})$ and $\dfrac{\partial}{\partial \sigma^2} \ell(\boldsymbol{\theta} | \mathbf{y})$, show that the MLEs for $\mu$ and $\sigma^2$ are 
 $$\widehat{\mu} = \frac{1}{n} \sum \limits_{i=1}^n Y_i$$
 and
-$$\widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \widehat{Y}_i)^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2$$
+$$\widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \widehat{\mu})^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2$$
 (Don't worry about the second derivative for now, just set the partial derivatives equal to 0 and solve).
 
 
