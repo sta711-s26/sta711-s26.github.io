@@ -200,9 +200,9 @@ Other information and requirements:
 
 There will be two in-person midterm exams during the semester, and one cumulative final exam. Exam grading will be based on both completeness and correctness.  More details on exams to follow.
 
-**Exam 1:** Week of February 16 (tentative)
+**Exam 1:** February 20, 9 - 10:50am
 
-**Exam 2:** Week of March 23 (tentative)
+**Exam 2:** March 27, 9 - 10:50am
 
 **Final exam:** May 6, 9am
 
