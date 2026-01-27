@@ -34,7 +34,7 @@ Y_i | \mathbf{x}_i &\sim Bernoulli(p_i) \\
 $$
 where the distribution of $\mathbf{x}_i$ does not depend on $\boldsymbol{\beta}$.
 
-$$L(\boldsymbol{\beta}, \sigma^2 | \mathbf{y}, \mathbf{X}) \propto \prod \limits_{i=1}^n f(Y_i | \mathbf{x}_i, \boldsymbol{\beta}) = \hspace{5cm}$$
+$$L(\boldsymbol{\beta}| \mathbf{y}, \mathbf{X}) \propto \prod \limits_{i=1}^n f(Y_i | \mathbf{x}_i, \boldsymbol{\beta}) = \hspace{5cm}$$
 
 \vspace{4cm}
 
