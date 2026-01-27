@@ -1,0 +1,19 @@
+---
+title: Maximum likelihood estimation
+---
+
+January 26
+: **No class (weather)**{: .label .label-blue }
+
+January 28
+: Maximum likelihood estimation for logistic regression
+  
+: Supplementary notes, sections [1.2.5](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html#sec-mle_linear), [2.3](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html#parameter-estimation-for-logistic-regression), [Appendix D](https://ciaran-evans.quarto.pub/sta-711-notes/optimization.html)
+
+January 30
+: Maximum likelihood estimation for logistic regression
+
+: Supplementary notes, sections [1.2.5](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html#sec-mle_linear), [2.3](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html#parameter-estimation-for-logistic-regression), [Appendix D](https://ciaran-evans.quarto.pub/sta-711-notes/optimization.html)
+
+: **HW 3 released**{: .label .label-yellow }
+
