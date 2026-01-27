@@ -1,0 +1,106 @@
+---
+title: "Maximum likelihood estimation for regression models"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+
+## Maximum likelihood estimation and linear regression
+
+Let $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ be iid samples from the model
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i &\sim N(\mu_i, \sigma^2) \\
+\mu_i &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{aligned}
+$$
+
+where the distribution of $\mathbf{x}_i$ does not depend on $\boldsymbol{\beta}$ or $\sigma^2$.
+
+$$L(\boldsymbol{\beta}, \sigma^2 | \mathbf{y}, \mathbf{X}) = \hspace{6cm}$$
+
+\vspace{4cm}
+
+## Maximum likelihood estimation and logistic regression
+
+Let $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ be iid samples from the model
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i &\sim Bernoulli(p_i) \\
+\log \left( \dfrac{p_i}{1 - p_i} \right) &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{aligned}
+$$
+
+$$L(\boldsymbol{\beta}, \sigma^2 | \mathbf{y}, \mathbf{X}) \propto \prod \limits_{i=1}^n f(Y_i | \mathbf{x}_i, \boldsymbol{\beta}, \sigma^2) = \hspace{5cm}$$
+
+\vspace{4cm}
+
+## Maximizing
+
+$$
+\ell(\boldsymbol{\beta} | \mathbf{y}, \mathbf{X}) \overset{\text{(up to a constant)}}{=}  \sum \limits_{i=1}^n \left\lbrace Y_i \mathbf{x}_i^T \boldsymbol{\beta} - \log(1 + e^{\mathbf{x}_i^T \boldsymbol{\beta}}) \right\rbrace
+$$
+
+$$
+\frac{\partial \ell}{\partial \boldsymbol{\beta}} = \hspace{8cm}
+$$
+
+\vspace{6cm}
+
+## Score
+
+**Definition (score):** Let $\mathbf{y} = (Y_1,...,Y_n)$ be a sample of $n$ observations from some distribution with parameter vector $\boldsymbol{\theta}$. Let $L(\boldsymbol{\theta} | \mathbf{y})$ be the likelihood function, and $\ell(\boldsymbol{\theta} | \mathbf{y}) = \log L(\boldsymbol{\theta} | \mathbf{y})$ the log-likelihood.
+
+The **score**, which we will denote $U(\boldsymbol{\theta})$, is the gradient of the log-likelihood with respect to $\boldsymbol{\theta}$:
+
+$$
+U(\boldsymbol{\theta}) = \frac{\partial}{\partial \boldsymbol{\theta}} \ell(\boldsymbol{\theta} | \mathbf{y}).
+$$
+
+**Example:** For logistic regression: $U(\boldsymbol{\beta}) = \mathbf{X}^T(\mathbf{y} - \mathbf{p})$
+
+**Question:** How would I solve $\mathbf{X}^T(\mathbf{y} - \mathbf{p}) = \mathbf{0}$?
+
+\vspace{2cm}
+
+
+## Newton's method
+
+We want to find $\boldsymbol{\beta}^*$ such that $U(\boldsymbol{\beta}^*) = \mathbf{0}$. Issue: no closed form solution!
+
+**Idea:** Approximate $U(\boldsymbol{\beta}^*)$ with a first-order Taylor expansion:
+
+$$
+U(\boldsymbol{\beta}^*) \approx \hspace{8cm}
+$$
+
+\vspace{6cm}
+
+## Newton's method
+
+* Want $\boldsymbol{\beta}^*$ such that $U(\boldsymbol{\beta}^*) = \mathbf{0}$
+* Begin with initial estimate $\boldsymbol{\beta}^{(k)}$
+* Iterative updates:
+
+$$\boldsymbol{\beta}^{(r+1)} = \boldsymbol{\beta}^{(r)} - \left(\mathbf{H}(\boldsymbol{\beta}^{(r)}) \right)^{-1} U(\boldsymbol{\beta}^{(r)})$$
+
+\vspace{4cm}
+
+## The Hessian
+
+$$U(\boldsymbol{\beta}) = \frac{\partial}{\partial \boldsymbol{\beta}} \ell(\boldsymbol{\beta} | \mathbf{y}, \mathbf{X}) = \mathbf{X}^T(\mathbf{y} - \mathbf{p})$$
+
+$$\mathbf{H}(\boldsymbol{\beta}) = \frac{\partial}{\partial \boldsymbol{\beta}} U(\boldsymbol{\beta}) = \frac{\partial}{\partial \boldsymbol{\beta}} \mathbf{X}^T(\mathbf{y} - \mathbf{p})$$
+
+\vspace{6cm}
+
+## Putting everything together
+
+Want to maximize the log likelihood $\ell(\boldsymbol{\beta} | \mathbf{y}, \mathbf{X})$. 
+
+\vspace{6cm}
+
+
+
