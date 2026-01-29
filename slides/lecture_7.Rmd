@@ -1,0 +1,89 @@
+---
+title: "Maximum likelihood estimation for regression models"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Warmup
+
+Work on the warmup activity (handout), then we will discuss as a class.
+
+\vspace{4cm}
+
+## Warmup
+
+Suppose that we have independent observations $(\mathbf{x}_1, Y_1), ..., (\mathbf{x}_n, Y_n)$ from the model
+$$
+Y_i|\mathbf{x}_i \sim N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma_i^2).
+$$
+Suppose that the variances $\sigma_1^2,...,\sigma_n^2$ are known. Show that the maximum likelihood estimator of $\boldsymbol{\beta}$ minimizes the weighted sum of squares 
+$$
+WSS(\boldsymbol{\beta}) = \sum \limits_{i=1}^n w_i(Y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2 = (\mathbf{y} - \mathbf{X} \boldsymbol{\beta})^T \mathbf{W} (\mathbf{y} - \mathbf{X} \boldsymbol{\beta})
+$$
+
+\vspace{4cm}
+
+## Maximum likelihood estimation and logistic regression
+
+Let $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ be iid samples from the model
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i &\sim Bernoulli(p_i) \\
+\log \left( \dfrac{p_i}{1 - p_i} \right) &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{aligned}
+$$
+where the distribution of $\mathbf{x}_i$ does not depend on $\boldsymbol{\beta}$.
+
+$$
+\ell(\boldsymbol{\beta} | \mathbf{y}, \mathbf{X}) \overset{\text{(up to a constant)}}{=}  \sum \limits_{i=1}^n \left\lbrace Y_i \mathbf{x}_i^T \boldsymbol{\beta} - \log(1 + e^{\mathbf{x}_i^T \boldsymbol{\beta}}) \right\rbrace
+$$
+
+$$U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}} =  \mathbf{X}^T(\mathbf{y} - \mathbf{p})$$
+
+
+
+\vspace{4cm}
+
+
+## Newton's method
+
+* Want $\boldsymbol{\beta}^*$ such that $U(\boldsymbol{\beta}^*) = \mathbf{0}$
+* Begin with initial estimate $\boldsymbol{\beta}^{(0)}$
+* Iterative updates:
+
+$$\boldsymbol{\beta}^{(r+1)} = \boldsymbol{\beta}^{(r)} - \left(\mathbf{H}(\boldsymbol{\beta}^{(r)}) \right)^{-1} U(\boldsymbol{\beta}^{(r)})$$
+
+\vspace{4cm}
+
+## The Hessian
+
+$$U(\boldsymbol{\beta}) = \frac{\partial}{\partial \boldsymbol{\beta}} \ell(\boldsymbol{\beta} | \mathbf{y}, \mathbf{X}) = \mathbf{X}^T(\mathbf{y} - \mathbf{p})$$
+
+$$
+\begin{aligned}
+\mathbf{H}(\boldsymbol{\beta}) &= \frac{\partial}{\partial \boldsymbol{\beta}} U(\boldsymbol{\beta}) = \frac{\partial}{\partial \boldsymbol{\beta}} \mathbf{X}^T(\mathbf{y} - \mathbf{p}) = \left( - \frac{\partial \mathbf{p}}{\partial \boldsymbol{\beta}} \right) \mathbf{X} \\
+\frac{\partial \mathbf{p}}{\partial \boldsymbol{\beta}} &= \begin{bmatrix} \frac{\partial p_1}{\partial \boldsymbol{\beta}} & \frac{\partial p_2}{\partial \boldsymbol{\beta}} & \cdots & \frac{\partial p_n}{\partial \boldsymbol{\beta}} \end{bmatrix} \in \mathbb{R}^{(k+1) \times n}
+\end{aligned}
+$$
+
+\vspace{4cm}
+
+## Putting everything together
+
+Want to maximize the log likelihood $\ell(\boldsymbol{\beta} | \mathbf{y}, \mathbf{X})$. 
+
+\vspace{6cm}
+
+## Class activity
+
+Work on the class activity:
+
+[https://sta711-s26.github.io/class_activities/ca_07_2.html](https://sta711-s26.github.io/class_activities/ca_07_2.html)
+
+Submit your work on Canvas.
+
+\vspace{3cm}
+
+
+

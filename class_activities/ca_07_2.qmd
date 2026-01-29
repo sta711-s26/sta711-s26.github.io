@@ -1,0 +1,178 @@
+---
+title: "Newton's method for logistic regression"
+format: html
+editor: source
+---
+
+**Instructions:** 
+
+* Work individually or with a neighbor to answer the following questions 
+* Complete your work in a Quarto (.qmd) or RMarkdown (.Rmd) file
+* When you are finished, render the file as an HTML and submit the HTML to Canvas (let me know if you encounter any problems).
+* If you work in a group, only one group member needs to submit the activity on Canvas; just list all group members at the top.
+
+## Newton's method for logistic regression
+
+The logistic regression model is
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i &\sim Bernoulli(p_i) & \text{(random component)} \\
+\log \left( \dfrac{p_i}{1 - p_i} \right) &= \mathbf{x}_i^T \boldsymbol{\beta} & \text{(systematic component)}
+\end{aligned}
+$${#eq-logistic_model}
+
+
+::: {.callout-note}
+
+## Fitting logistic regression models with Newton's method
+
+::: {#alg-logistic_newton}
+
+Newton's method for logistic regression models.
+
+**Data:** $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n) \in \mathbb{R}^{(k+1)} \times \mathbb{R}$ from the model in @eq-logistic_model, initial estimate $\boldsymbol{\beta}^{(0)}$
+
+**Result:** Maximum likelihood estimates $\widehat{\boldsymbol{\beta}}$ for the unknown regression coefficients $\boldsymbol{\beta}$
+
+* $r \gets 0$
+
+* **while** stopping criterion not met **do**
+
+    1. $p_i^{(r)} = \dfrac{e^{\mathbf{x}_i^T \boldsymbol{\beta}^{(r)}}}{1 + e^{\mathbf{x}_i^T \boldsymbol{\beta}^{(r)}}}$, for $i=1,...,n$
+    2. $\mathbf{p}^{(r)} = (p_1^{(r)}, ..., p_n^{(r)})^T$, $\mathbf{W}^{(r)} = \text{diag}(p_1^{(r)}(1 - p_1^{(r)}), ..., p_n^{(r)}(1 - p_n^{(r)}))$
+    3. $\boldsymbol{\beta}^{(r+1)} = \boldsymbol{\beta}^{(r)} + (\mathbf{X}^T \mathbf{W}^{(r)} \mathbf{X})^{-1} \mathbf{X}^T(\mathbf{y} - \mathbf{p}^{(r)})$
+    4. $r \gets r+1$
+
+* **end while**
+
+* $\widehat{\boldsymbol{\beta}} = \boldsymbol{\beta}^{(r)}$
+:::
+
+:::
+
+## Example
+
+The following code generates $n=100$ observations from a simple logistic regression model, then estimates the coefficients of the model with the `glm` function:
+
+```{r}
+set.seed(49823021)
+
+n <- 100 # number of observations
+beta <- c(-1, 2) # coefficients
+
+X <- cbind(1, runif(n)) # design matrix
+p <- as.numeric(exp(X %*% beta)/(1 + exp(X %*% beta)))
+y <- rbinom(n, 1, p) # observed responses
+
+glm(y ~ X[,2], family = binomial) |> coef()
+```
+
+Let our initial guess for $\boldsymbol{\beta}$ be 
+
+$$
+\boldsymbol{\beta}^{(0)} = \left( \log \left( \frac{\overline{Y}}{1 - \overline{Y}} \right), 0, 0, ..., 0 \right)^T
+$$
+
+In the following questions, you will implement part of Newton's method in R. Solutions are provided for your reference (click the "Solution" button), but please ask if you get stuck on anything!
+
+::: {.callout-tip icon=false}
+
+### Question 1
+
+Using the simulated data above, calculate $\boldsymbol{\beta}^{(0)}$ in R.
+:::
+
+<SCRIPT>
+function ShowAndHide(divid) {
+    var x = document.getElementById(divid);
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+
+<BUTTON ONCLICK="ShowAndHide('q1_solution')">Solution</BUTTON>
+
+<DIV ID="q1_solution" STYLE="display:none">
+```{r, eval=F}
+beta_est <- c(log(mean(y)/(1 - mean(y))), 0)
+```
+</DIV>
+
+::: {.callout-tip icon=false}
+
+### Question 2
+
+Using $\boldsymbol{\beta}^{(0)}$ from question 1, calculate $\mathbf{p}^{(0)}$ and $\mathbf{W}^{(0)}$.
+
+R tips:
+
+* Modify my code for creating `p` in the provided code
+* `%*%` is matrix multiplication in R
+* The `diag()` function can be used to create diagonal matrices
+:::
+
+<BUTTON ONCLICK="ShowAndHide('q2_solution')">Solution</BUTTON>
+
+<DIV ID="q2_solution" STYLE="display:none">
+```{r, eval=F}
+p_est <- as.numeric(exp(X %*% beta_est)/(1 + exp(X %*% beta_est)))
+W_est <- diag(p_est*(1 - p_est))
+```
+
+Note that this code does not require any loops or iteration! R is good at *vectorizing* mathematical operations, so we can compute `p_est` and `W_est` in one line.
+</DIV>
+
+::: {.callout-tip icon=false}
+
+### Question 3
+
+Using $\boldsymbol{\beta}^{(0)}$, $\mathbf{p}^{(0)}$, $\mathbf{W}^{(0)}$, perform one iteration of Newton's method in R to calculate the updated estimate $\boldsymbol{\beta}^{(1)}$.
+
+R tips:
+
+* `solve()` can be used to invert matrices
+* `t()` can be used to transpose matrices
+:::
+
+<BUTTON ONCLICK="ShowAndHide('q3_solution')">Solution</BUTTON>
+
+<DIV ID="q3_solution" STYLE="display:none">
+```{r, eval=F}
+beta_est <- beta_est + solve(t(X) %*% W_est %*% X) %*% t(X) %*% (y - p_est)
+```
+
+</DIV>
+
+::: {.callout-tip icon=false}
+
+### Question 4
+
+Iterate Newton's method several times. After a few iterations, $\boldsymbol{\beta}^{(r)}$ should be close to the values returned by the `glm` function!
+:::
+
+<BUTTON ONCLICK="ShowAndHide('q4_solution')">Solution</BUTTON>
+
+<DIV ID="q4_solution" STYLE="display:none">
+```{r, eval=F}
+beta_est <- c(log(mean(y)/(1 - mean(y))), 0)
+
+for(i in 1:5){
+  p_est <- as.numeric(exp(X %*% beta_est)/(1 + exp(X %*% beta_est)))
+  W_est <- diag(p_est*(1 - p_est))
+
+  beta_est <- beta_est + solve(t(X) %*% W_est %*% X) %*% t(X) %*% (y - p_est)
+}
+
+beta_est
+```
+
+I'm using a `for` loop here just to repeat the process a few times. In practice, though, we would want to repeat until a stopping criterion is reached, so a `while` loop would really be more appropriate. See discussion in the [supplementary notes](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html#stopping-criterion) on stopping criteria.
+
+</DIV>
+
+If you finish early: try writing an R function to fit logistic regression models with Newton's method, for arbitrary datasets.
+

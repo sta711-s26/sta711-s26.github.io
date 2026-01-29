@@ -1,0 +1,29 @@
+---
+title: "Homework 3"
+format: html
+---
+
+**Due:** Friday, February 6, 11:59pm on Canvas
+
+**Instructions:** For mathematical work, you may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.
+
+See the course website for a [homework template](https://sta711-s26.github.io/homework/hw_template.tex) file and [instructions](https://sta711-s26.github.io/homework/latex_instructions/) on getting started with LaTeX and Overleaf.
+
+## Estimation for regression models
+
+1. [Exercise 1.8](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html#exr-linear8)
+
+2. [Exercise 2.2](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html#exr-logistic_2)
+
+3. [Exercise 2.3](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html#exr-logistic_3)
+
+4. [Exercise 2.4](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html#exr-logistic_4)
+
+5. [Exercise 2.6](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html#exr-logistic_6)
+
+6. [Exercise 1.10](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html#exr-linear10)
+
+7. [Exercise 1.11](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html#exr-linear11)
+
+8. [Exercise 1.12](https://ciaran-evans.quarto.pub/sta-711-notes/linear_regression.html#exr-linear12)
+
