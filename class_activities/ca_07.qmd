@@ -1,0 +1,22 @@
+---
+title: "Warmup: Maximum likelihood estimation and linear regression"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Maximum likelihood estimation
+
+Suppose that we have independent observations $(\mathbf{x}_1, Y_1), ..., (\mathbf{x}_n, Y_n)$ from the model
+$$
+Y_i|\mathbf{x}_i \sim N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma_i^2).
+$$
+Suppose that the variances $\sigma_1^2,...,\sigma_n^2$ are known. Show that the maximum likelihood estimator of $\boldsymbol{\beta}$ minimizes the weighted sum of squares 
+$$
+WSS(\boldsymbol{\beta}) = \sum \limits_{i=1}^n w_i(Y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2 = (\mathbf{y} - \mathbf{X} \boldsymbol{\beta})^T \mathbf{W} (\mathbf{y} - \mathbf{X} \boldsymbol{\beta})
+$$
+
+
+
+
