@@ -1,0 +1,24 @@
+---
+title: "Warmup: Convergence of the sample mean"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Convergence of the sample mean
+
+Let $X_1, X_2,...,X_n$ be an iid sample from a distribution with $\mathbb{E}[X_i] = \mu$ and $Var(X_i) = \sigma^2 < \infty$. Let $\overline{X}_n = \frac{1}{n} \sum \limits_{i=1}^n X_i$ be the sample mean.
+
+1. Show that $\mathbb{E}[\overline{X}_n] = \mu$ and $Var(\overline{X}_n) = \frac{\sigma^2}{n}$.
+
+\vspace{4cm}
+
+2. Using question 1 and a probability inequality from last time, show that for any $\varepsilon > 0$,
+$$
+P(|\overline{X}_n - \mu| \geq \varepsilon) \to 0
+$$
+as $n \to \infty$.
+
+
+

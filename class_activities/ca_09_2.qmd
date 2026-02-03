@@ -1,0 +1,16 @@
+---
+title: "Activity: Convergence in probability"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Convergence in probability
+
+1. Suppose that $X_1, X_2, ... \overset{iid}{\sim} Uniform(0, 1)$, and let $X_{(n)} = \max\{X_1,...,X_n\}$. Show that $X_{(n)} \overset{p}{\to} 1$.
+
+\newpage
+
+2. Suppose that $X_1, X_2, ... \overset{iid}{\sim} Exponential(1)$, with pdf $f(x) = e^{-x}$. Let $Y_{n} = \min\{X_1,...,X_n\}$, and from HW 2 we know that $Y_n \sim Exponential(n)$, with pdf $f(y) = ne^{-ny}$. Show that $Y_n \overset{p}{\to} 0$.
+

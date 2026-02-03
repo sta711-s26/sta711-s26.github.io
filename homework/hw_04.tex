@@ -1,0 +1,107 @@
+\documentclass[11pt]{article}
+\usepackage{url}
+\usepackage{alltt}
+\usepackage{bm}
+\usepackage{bbm}
+\linespread{1}
+\textwidth 6.5in
+\oddsidemargin 0.in
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2in}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\begin{document}
+
+
+\begin{center}
+\Large
+STA 711 Homework 4\\
+\normalsize
+\vspace{5mm}
+\end{center}
+
+\noindent \textbf{Due:} Friday, February 13, 11:59pm on Canvas.\\ 
+
+\noindent \textbf{Instructions:} Submit your work as a single PDF. You may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.\\
+
+\noindent See the course website for a \href{https://sta711-s26.github.io/homework/hw_template.tex}{homework template file} and \href{https://sta711-s26.github.io/homework/latex_instructions/}{instructions} on getting started with LaTeX and Overleaf.
+
+\section*{Convergence of random variables}
+
+In this section, you will practice proving limits for sequences of random variables. As a reminder, here are some of the common techniques for proving convergence:
+
+\begin{itemize}
+\item For convergence in probability: 
+\begin{itemize}
+\item If you have a sequence of means, try to apply the WLLN
+\item If you can easily calculate a mean or variance, try bounding probabilities with Markov's or Chebyshev's inequality
+\item If calculating means or variances is hard, try calculating the probabilities directly for the convergence
+\end{itemize}
+\item For convergence in distribution:
+\begin{itemize}
+\item To a normal or $\chi^2$: check if the central limit theorem applies
+\item If CLT is not the right strategy, try calculating the cdfs directly
+\end{itemize}
+\end{itemize}
+
+
+\vspace{1cm}
+
+\begin{enumerate}
+\item For each of the following sequences $\{Y_n\}$, show that $Y_n \overset{p}{\to} 1$. Then write a simulation in R demonstrating the convergence.
+\begin{enumerate}
+\item $Y_n = 1 + n X_n$, where $X_n \sim Bernoulli(1/n)$
+
+\item $Y_n = \frac{1}{n} \sum \limits_{i=1}^n X_i^2$, where $X_i \overset{iid}{\sim} N(0, 1)$
+\end{enumerate}
+
+\item Suppose that $Y_1, Y_2,... \overset{iid}{\sim} Beta(1, \beta)$. Find a value of $\nu$ such that $n^{\nu}(1 - Y_{(n)})$ converges in distribution. Then write a simulation in R demonstrating the convergence. (\textit{Hint:} if you are struggling to find $\nu$, starting with simulations may be helpful)
+
+\item Suppose that $Y_1, Y_2,... \overset{iid}{\sim} Exponential(1)$. Find a sequence $a_n$ such that $Y_{(n)} - a_n$ converges in distribution.
+
+\item In this problem, we will prove part of the continuous mapping theorem. Let $\{Y_n\}$ be a sequence of real-valued random variables such that $Y_n \overset{p}{\to} Y$ for some random variable $Y$. Let $g$ be a continuous function; recall that $g$ is continuous if for all $\varepsilon > 0$, there exists some $\delta > 0$ such that $|g(x) - g(y)| < \varepsilon$ whenever $|x - y| < \delta$. Prove that $g(Y_n) \overset{p}{\to} g(Y)$.
+
+\item Consider the simple linear regression model
+$$Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$$
+where the $X_i$ are known constants, and the $\varepsilon_i$ are iid with $\mathbb{E}[\varepsilon_i] = 0$ and $Var(\varepsilon_i) = \sigma^2$. It can be shown that the least squares estimate of $\beta_1$ is
+$$\widehat{\beta}_1 = \beta_1 + \dfrac{\sum \limits_{i=1}^n (X_i - \overline{X}_n) \varepsilon_i}{\sum \limits_{i=1}^n (X_i - \overline{X}_n)^2}.$$
+Show that if $\sum \limits_{i=1}^n (X_i - \overline{X}_n)^2 \to \infty$ as $n \to \infty$, then $\widehat{\beta}_1 \overset{p}{\to} \beta_1$. (Note: no distribution for $\varepsilon_i$ or $Y_i$ has been assumed, so $\widehat{\beta}_1$ cannot be treated as a maximum likelihood estimator).
+
+\item Let $(X_1, Y_1),...,(X_n, Y_n)$ be an iid sample from the joint distribution of $X$ and $Y$, such that $Var(X)$, $Var(Y)$, $Var(X^2)$, $Var(Y^2)$, $Var(XY)$, and $Var(X^2Y^2)$ are all finite, and all of these variances are greater than 0.
+
+We are interested in estimating the \textit{correlation} between $X$ and $Y$:
+$$\rho = \frac{Cov(X, Y)}{\sqrt{Var(X)} \sqrt{Var(Y)}}.$$
+The Pearson correlation estimates $\rho$ by
+$$\widehat{\rho} = \frac{\sum \limits_{i=1}^n (X_i - \overline{X})(Y_i - \overline{Y})}{\sqrt{\sum \limits_{i=1}^n (X_i - \overline{X})^2} \sqrt{\sum \limits_{i=1}^n (Y_i - \overline{Y})^2}}.$$
+The goal of this question is to show that $\widehat{\rho} \overset{p}{\to} \rho$ as $n \to \infty$. (\textit{Hint}: Both Slutsky's theorem and the continuous mapping theorem will be useful in this question).
+
+\begin{enumerate}
+\item Show that $\frac{1}{n} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \overset{p}{\to} Var(X)$ and $\frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2 \overset{p}{\to} Var(Y)$.
+
+\item Show that $\frac{1}{n} \sum \limits_{i=1}^n (X_i - \overline{X})(Y_i - \overline{Y}) \overset{p}{\to} Cov(X, Y)$. 
+
+\item Show that $\widehat{\rho} \overset{p}{\to} \rho$.
+\end{enumerate}
+
+%\item Let $\{Y_n\}$ be a sequence of random variables. We say that the sequence converges in \textit{quadratic mean} to a random variable $Y$, and write $Y_n \overset{q.m.}{\to} Y$, if $\mathbb{E}[(Y_n - Y)^2] \to 0$ as $n \to \infty$.
+
+%\begin{enumerate}
+%\item Show that if $Y_n \overset{q.m.}{\to} Y$, then $Y_n \overset{p}{\to} Y$. (That is, convergence in quadratic mean implies convergence in probability).
+
+%\item Let $U \sim Uniform(0, 1)$, and let $Y_n = \sqrt{n} \mathbbm{1}\{U \leq \frac{1}{n} \}$. Show that $Y_n \overset{p}{\to} 0$, but $Y_n$ does \textit{not} converge in quadratic mean to 0.
+
+%\item Suppose that $\{Y_n\}$ is a sequence of random variables such that $Y_n \overset{p}{\to} Y$. Furthermore, suppose that $|Y| \leq M$ and $|Y_i| \leq M$ for all $i$. Using the fact that
+%$$
+%\mathbb{E}[(Y_n - Y)^2] = \mathbb{E}[(Y_n - Y)^2 | |Y_n - Y| > \delta]P(|Y_n - Y| > \delta) + \mathbb{E}[(Y_n - Y)^2 | |Y_n - Y| \leq \delta]P(|Y_n - Y| \leq \delta),
+%$$
+%for any $\delta > 0$, show that $Y_n \overset{q.m.}{\to} Y$.
+%\end{enumerate}
+
+\end{enumerate}
+
+
+
+\end{document}
