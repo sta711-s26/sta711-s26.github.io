@@ -45,20 +45,27 @@ In this section, you will practice proving limits for sequences of random variab
 \item To a normal or $\chi^2$: check if the central limit theorem applies
 \item If CLT is not the right strategy, try calculating the cdfs directly
 \end{itemize}
+
+\item Other key results:
+\begin{itemize}
+\item Continuous mapping theorem is useful for functions of sequences: if a sequence $\{X_n\}$ converges and $g$ is continuous, then $\{g(X_n)\}$ converges
+
+\item Slutsky's theorem is useful for sums, products, and ratios of of multiple sequences
+\end{itemize}
 \end{itemize}
 
 
 \vspace{1cm}
 
 \begin{enumerate}
-\item For each of the following sequences $\{Y_n\}$, show that $Y_n \overset{p}{\to} 1$. Then write a simulation in R demonstrating the convergence.
+\item For each of the following sequences $\{Y_n\}$, show that $Y_n \overset{p}{\to} 1$. Then write a simulation in R demonstrating the convergence. (For your simulation, choose some $\varepsilon > 0$, and some $n$. Generate many samples of $Y_n$, and approximate $P(|Y_n - 1| \geq \varepsilon)$. Then repeat with different values of $n$, and plot $P(|Y_n - 1| \geq \varepsilon)$ as a function of $n$).
 \begin{enumerate}
 \item $Y_n = 1 + n X_n$, where $X_n \sim Bernoulli(1/n)$
 
 \item $Y_n = \frac{1}{n} \sum \limits_{i=1}^n X_i^2$, where $X_i \overset{iid}{\sim} N(0, 1)$
 \end{enumerate}
 
-\item Suppose that $Y_1, Y_2,... \overset{iid}{\sim} Beta(1, \beta)$. Find a value of $\nu$ such that $n^{\nu}(1 - Y_{(n)})$ converges in distribution. Then write a simulation in R demonstrating the convergence. (\textit{Hint:} if you are struggling to find $\nu$, starting with simulations may be helpful)
+\item Suppose that $Y_1, Y_2,... \overset{iid}{\sim} Beta(1, \beta)$. Find a value of $\nu$ such that $n^{\nu}(1 - Y_{(n)})$ converges in distribution. Then write a simulation in R demonstrating the convergence. (\textit{Hint:} if you are struggling to find $\nu$, starting with simulations may be helpful). For your simulations, start with some value of $n$, and generate many samples of $n^{\nu}(1 - Y_{(n)})$. Plot the empirical cdf (the \texttt{ecdf} function in R), and overlay the limiting cdf. Make the plot for different values of $n$, and show that the cdfs get closer as $n$ increases.
 
 \item Suppose that $Y_1, Y_2,... \overset{iid}{\sim} Exponential(1)$. Find a sequence $a_n$ such that $Y_{(n)} - a_n$ converges in distribution.
 

@@ -1,0 +1,23 @@
+---
+title: "Activity: convergence in distribution"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Convergence in distribution of sample extremes
+
+Suppose that $X_1, X_2,...$ are iid random variables from a Pareto distribution with cdf 
+
+$$
+F(x) = \begin{cases}
+1 - \left(\dfrac{1}{x} \right)^{\alpha} & x \geq 1\\
+0 & x < 1
+\end{cases}
+$$
+where $\alpha > 0$. Let $X_{(n)} = \max\{X_1,...,X_n\}$, and $Y_n = n^{-1/\alpha} X_{(n)}$. Show that as $n \to \infty$,
+
+$$F_{Y_n}(t) \to e^{-t^{-\alpha}}$$
+
+for all $t > 0$.

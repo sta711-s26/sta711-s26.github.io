@@ -1,0 +1,177 @@
+---
+title: "Convergence of random variables"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Last time: Class activity
+
+
+Suppose that $X_1, X_2, ... \overset{iid}{\sim} Uniform(0, 1)$, and let $X_{(n)} = \max\{X_1,...,X_n\}$. Then $X_{(n)} \overset{p}{\to} 1$.
+
+\vspace{6cm}
+
+## Last time: Class activity
+
+Suppose that $X_1, X_2, ... \overset{iid}{\sim} Uniform(0, 1)$. Then $X_{(n)} \sim Beta(n, 1)$
+
+
+```{r, echo=F, message=F, warning=F}
+library(tidyverse)
+library(patchwork)
+library(latex2exp)
+
+n <- 1
+gridpts <- seq(0, 1, 0.001)
+y <- dbeta(gridpts, shape1 = n, shape2 = 1)
+p1 <- data.frame(gridpts, y) |>
+  ggplot(aes(x = gridpts, y = y)) +
+  geom_line() +
+  geom_vline(xintercept = c(0.95), color = "orange") +
+  geom_vline(xintercept = 1, color="grey", lty=2) +
+  theme_classic() +
+  labs(x = "x", y = "density", 
+       title = TeX(r'(n = 1, $P(|X_{(n)} - 1| \geq 0.05) = 0.95$)'))
+
+n <- 10
+y <- dbeta(gridpts, shape1 = n, shape2 = 1)
+p2 <- data.frame(gridpts, y) |>
+  ggplot(aes(x = gridpts, y = y)) +
+  geom_line() +
+  geom_vline(xintercept = c(0.95), color = "orange") +
+  geom_vline(xintercept = 1, color="grey", lty=2) +
+  theme_classic() +
+  labs(x = "x", y = "density", 
+       title = TeX(r'(n = 10, $P(|X_{(n)} - 1| \geq 0.05) = 0.60$)'))
+
+n <- 50
+y <- dbeta(gridpts, shape1 = n, shape2 = 1)
+p3 <- data.frame(gridpts, y) |>
+  ggplot(aes(x = gridpts, y = y)) +
+  geom_line() +
+  geom_vline(xintercept = c(0.95), color = "orange") +
+  geom_vline(xintercept = 1, color="grey", lty=2) +
+  theme_classic() +
+  labs(x = "x", y = "density", 
+       title = TeX(r'(n = 50, $P(|X_{(n)} - 1| \geq 0.05) = 0.077$)'))
+
+n <- 100
+y <- dbeta(gridpts, shape1 = n, shape2 = 1)
+p4 <- data.frame(gridpts, y) |>
+  ggplot(aes(x = gridpts, y = y)) +
+  geom_line() +
+  geom_vline(xintercept = c(0.95), color = "orange") +
+  geom_vline(xintercept = 1, color="grey", lty=2) +
+  theme_classic() +
+  labs(x = "x", y = "density", 
+       title = TeX(r'(n = 100, $P(|X_{(n)} - 1| \geq 0.05) = 0.006$)'))
+
+
+(p1 + p2)/(p3 + p4)
+```
+
+## Warmup
+
+Work on the warmup activity (handout), then we will discuss as a class.
+
+\vspace{4cm}
+
+## Warmup
+
+Suppose that $X_1, X_2, ... \overset{iid}{\sim} Uniform(0, 1)$, $X_{(n)} = \max\{X_1,...,X_n\}$, and let $Y_n = n(1 - X_{(n)})$.
+
+$$F_{Y_n}(t) = P(Y_n \leq t) = \hspace{8cm}$$
+
+\vspace{5.5cm}
+
+## Warmup
+
+$F_{Y_n}(t) = 1 - \left(1 - \dfrac{t}{n} \right)^n \to F_Y(t) = 1 - e^{-t}$
+
+```{r, echo=F, message=F, warning=F, fig.width=8, fig.height=3}
+library(tidyverse)
+library(patchwork)
+
+n <- 5
+gridpts <- seq(0, 5, 0.1)
+y1 <- 1 - (1 - gridpts/n)^n
+y2 <- 1 - exp(-gridpts)
+p1 <- data.frame(y = c(gridpts, gridpts), 
+           dens = c(y1, y2),
+           type = rep(c("Yn", "Y"), each = length(gridpts))) |>
+  ggplot(aes(x = y, y = dens, color = type)) +
+  geom_line(lwd = 0.75) +
+  theme_classic() +
+  labs(x = "y", y = "CDF", color = "", title = "n = 5")
+
+n <- 10
+y1 <- 1 - (1 - gridpts/n)^n
+y2 <- 1 - exp(-gridpts)
+p2 <- data.frame(y = c(gridpts, gridpts), 
+           dens = c(y1, y2),
+           type = rep(c("Yn", "Y"), each = length(gridpts))) |>
+  ggplot(aes(x = y, y = dens, color = type)) +
+  geom_line(lwd = 0.75) +
+  theme_classic() +
+  labs(x = "y", y = "CDF", color = "", title = "n = 10")
+
+n <- 30
+y1 <- 1 - (1 - gridpts/n)^n
+y2 <- 1 - exp(-gridpts)
+p3 <- data.frame(y = c(gridpts, gridpts), 
+           dens = c(y1, y2),
+           type = rep(c("Yn", "Y"), each = length(gridpts))) |>
+  ggplot(aes(x = y, y = dens, color = type)) +
+  geom_line(lwd = 0.75) +
+  theme_classic() +
+  labs(x = "y", y = "CDF", color = "", title = "n = 30")
+
+p1 + p2 + p3 +  plot_layout(guides = 'collect')
+```
+
+## Convergence in distribution
+
+**Definition:** A sequence of random variables $X_1, X_2,...$ *converges in distribution* to a random variable $X$ if
+
+$$\lim \limits_{n \to \infty} F_{X_n}(x) = F_X(x)$$
+at all points where $F_X(x)$ is continuous. We write $X_n \overset{d}{\to} X$.
+
+\vspace{4cm}
+
+## Class activity
+
+Work on the class activity (handout), then we will discuss as a class.
+
+\vspace{4cm}
+
+## Class activity
+
+Suppose that $X_1, X_2,...$ are iid random variables with cdf 
+
+$$
+F(x) = \begin{cases}
+1 - \left(\dfrac{1}{x} \right)^{\alpha} & x \geq 1\\
+0 & x < 1
+\end{cases}
+$$
+
+Let $X_{(n)} = \max\{X_1,...,X_n\}$, and $Y_n = n^{-1/\alpha} X_{(n)}$.
+
+$$
+F_{Y_n}(t) = P(n^{-1/\alpha} X_{(n)} \leq t) = \hspace{8cm}
+$$
+
+\vspace{4cm}
+
+## Convergence in distribution: Central Limit Theorem
+
+Let $X_1, X_2,...$ be iid random variables,  with $\mu = \mathbb{E}[X_i]$ and $\sigma^2 = Var(X_i) < \infty$. Then 
+
+$$\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma} \overset{d}{\to} Z$$
+
+where $Z \sim N(0, 1)$.
+
+\vspace{4cm}
+
+
+

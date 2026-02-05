@@ -1,0 +1,20 @@
+---
+title: "Warmup: convergence of CDFs"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Convergence of CDFs
+
+Suppose that $X_1, X_2, ... \overset{iid}{\sim} Uniform(0, 1)$, $X_{(n)} = \max\{X_1,...,X_n\}$, and let
+
+$Y_n = n(1 - X_{(n)})$.
+
+
+1. Find the cdf $F_{Y_n}(t) = P(Y_n \leq t)$.
+
+\vspace{4cm}
+
+2. Using question 1, and the fact that $\lim \limits_{n \to \infty} \left(1 + \frac{x}{n} \right)^n = e^{x}$, show that for any given $t$, $F_{Y_n}(t) \to 1 - e^{-t}$.

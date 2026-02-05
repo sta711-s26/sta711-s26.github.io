@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage{url}
+\usepackage{alltt}
+\usepackage{bm}
+\usepackage{bbm}
+\linespread{1}
+\textwidth 6.5in
+\oddsidemargin 0.in
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2in}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\begin{document}
+
+
+\begin{center}
+\Large
+STA 711 Exam 1 Review\\
+\normalsize
+\vspace{5mm}
+\end{center} 
+
+\noindent \textbf{Instructions:} Submit your work as a single PDF. You may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. See the course website for a \href{https://sta711-s26.github.io/homework/hw_template.tex}{homework template file} and \href{https://sta711-s26.github.io/homework/latex_instructions/}{instructions} on getting started with LaTeX and Overleaf.
+
+\section*{Questions}
+
+\begin{enumerate}
+\item Let $Y_1,...,Y_n \overset{iid}{\sim} Uniform(a, b)$, where $a$ and $b$ are unknown and $a < b$. Recall that a uniform distribution has pdf
+\begin{align*}
+f(y) = \begin{cases}
+\frac{1}{b - a} & a \leq y \leq b \\
+0 & \text{else}
+\end{cases}
+\end{align*}
+\begin{enumerate}
+\item Find the maximum likelihood estimators $\widehat{a}$ and $\widehat{b}$.
+\item Let $\tau = \mathbb{E}[Y_1]$. Find the MLE $\widehat{\tau}$.
+\end{enumerate}
+
+\item Let $Y_1,...,Y_n$ be iid from a distribution with pdf
+$$f(y) = \frac{2}{\lambda \sqrt{2 \pi}} e^y \exp \left\lbrace \frac{-(e^y - 1)^2}{2\lambda^2} \right\rbrace,$$
+where $y > 0$ and $\lambda > 0$. Find the MLE of $\lambda$.
+
+\item Let $Y_1,...,Y_n$ be an iid sample from a continuous distribution with pdf 
+$$f(y) = \frac{1}{2} \exp\{-|y - \theta|\},$$
+where $-\infty < y < \infty$ and $-\infty < \theta < \infty$. Find the maximum likelihood estimator of $\theta$. \textit{Hint:} avoid calculus
+
+\item Let $Y_1,...,Y_n$ be iid from a distribution with pdf
+$$f(y) = a^{\theta} \theta y^{-\theta - 1}$$
+where $\theta > 0$, $y \geq a$, and $a$ is a known constant. Find the MLE of $\theta$.
+
+\item Let $Y_1,...,Y_n$ be iid from a distribution with pdf
+$$f(y) = \begin{cases} \dfrac{1}{\theta_1 + \theta_2} \exp\left\lbrace \dfrac{-y}{\theta_1}\right\rbrace & y > 0 \\ \dfrac{1}{\theta_1 + \theta_2} \exp\left\lbrace \dfrac{y}{\theta_2}\right\rbrace & y \leq 0 \end{cases}$$
+with $\theta_1, \theta_2 > 0$. Show that the maximum likelihood estimators of $\widehat{\theta}_1$ and $\widehat{\theta}_2$ are given by
+$$\widehat{\theta}_1= T_1 + \sqrt{T_1 T_2} \hspace{1cm} \widehat{\theta}_2 = T_2 + \sqrt{T_1 T_2}$$
+where
+$$T_1 = \frac{1}{n} \sum \limits_{i=1}^n Y_i \mathbbm{1}\{Y_i > 0\} \hspace{1cm} T_2 = -\frac{1}{n} \sum \limits_{i=1}^n Y_i \mathbbm{1}\{Y_i \leq 0\}.$$
+You are not required to check a second derivative for this problem.
+
+\item The exponential distribution with parameter $\lambda$ has pdf
+$$f(y | \lambda) = \frac{1}{\lambda} \exp\left\lbrace - \frac{y}{\lambda} \right\rbrace, \hspace{1cm} y > 0.$$
+Let $Y_i > 0$ be a continuous, positive response variable of interest, and let $\mathbf{x}_i \in \mathbb{R}^{k+1}$ be a vector of covariates. Suppose we observe independent samples $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ from the following model:
+\begin{align*}
+Y_i|\mathbf{x}_i &\sim Exponential(\lambda_i) \\
+-\frac{1}{\lambda_i} &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{align*}
+where the distribution of $\mathbf{x}_i$ does not depend on $\boldsymbol{\beta}$. Find the score function $U(\boldsymbol{\beta})$ and the Hessian $\mathbf{H}(\boldsymbol{\beta})$ in matrix form.
+
+\item Suppose that $Y_1, Y_2, ...$ are identically distributed with $\mathbb{E}[Y_i] = \mu$, $Var(Y_i) = \sigma^2$, and covariances
+$$Cov(Y_i, Y_{i+j}) = \begin{cases} 
+\rho \sigma^2 & |j| \leq 2 \\
+0 & |j| > 2
+\end{cases},$$
+where $\rho \in [-1, 1]$ and $\rho \neq 0$. Show that $\overline{Y}_n \overset{p}{\to} \mu$ as $n \to \infty$. (Note: you may not directly use the version of the WLLN stated in class, because it assumes iid data).
+
+\item Let $X_n \sim Pareto(1, n)$. This means that $X_n \geq 1$, and the pdf of $X_n$ is
+$$f_{X_n}(x) = \dfrac{n}{x^{n+1}}.$$
+
+\begin{enumerate}
+\item As $n \to \infty$, $X_n \overset{p}{\to} c$. Find $c$, and prove the convergence in probability. Show all work.
+
+\item Find a sequence $a_n$ such that $nX_n - a_n$ converges in distribution. Show all work.
+\end{enumerate}
+
+\item Suppose that $Y_1,...,Y_n$ are an iid sample from the \textit{log-normal} distribution, with pdf
+$$f(y|\mu, \sigma^2) = \frac{1}{y \sigma \sqrt{2 \pi}} \exp \left\lbrace -\frac{1}{2\sigma^2} (\log(y) - \mu)^2 \right\rbrace.$$
+
+\begin{enumerate}
+\item Show that $\log(Y_i) \sim N(\mu, \sigma^2)$.
+
+\item Show that the geometric mean $\left( \prod \limits_{i=1}^n Y_i \right)^{1/n} \overset{p}{\to} \exp(\mu)$.
+\end{enumerate}
+
+\item Let $X_1,...,X_n$ be an iid sample from a population with mean $\mu_1$ and variance $\sigma^2$, and $Y_1,...,Y_m$ an iid sample from a population with mean $\mu_2$ and variance $\sigma^2$. Furthermore, assume that the common variance $\sigma^2$ for the two populations is finite. We wish to test the hypotheses $H_0: \mu_1 = \mu_2$ vs. $H_A: \mu_1 \neq \mu_2$. Consider the test statistic
+
+$$T = \frac{\overline{X} - \overline{Y}}{\sqrt{s_p^2 \left(\frac{1}{n} + \frac{1}{m} \right)}}$$
+
+where 
+
+$$s_p^2 = \dfrac{\sum \limits_{i=1}^n (X_i - \overline{X})^2 + \sum \limits_{j=1}^m (Y_j - \overline{Y})^2}{n+m-2}$$
+
+\begin{enumerate}
+\item Show that if $H_0$ is true and $\mu_1 = \mu_2 = \mu$, you can rewrite $T$ as
+
+$$T = \left(\sqrt{1 - \lambda_{n,m}} \sqrt{n} (\overline{X} - \mu) - \sqrt{ \lambda_{n,m}} \sqrt{m} (\overline{Y} - \mu) \right)/s_p$$
+
+where $\lambda_{n,m} = \dfrac{n}{n+m}$.
+
+\item Suppose that $n,m \to \infty$ such that $\lambda_{n,m} \to \lambda \in (0, 1)$. Using the fact that
+
+$$\frac{1}{n} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \overset{p}{\to} \sigma^2 \hspace{1cm} \frac{1}{m} \sum \limits_{j=1}^m (Y_j - \overline{Y})^2 \overset{p}{\to} \sigma^2$$
+
+show that $s_p^2 \overset{p}{\to} \sigma^2$.
+
+\item Suppose that $H_0$ is true and $n,m \to \infty$ such that $\lambda_{n,m} \to \lambda \in (0, 1)$. Show that $T \overset{d}{\to} N(0, 1)$.
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

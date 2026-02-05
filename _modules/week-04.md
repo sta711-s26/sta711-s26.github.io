@@ -16,8 +16,10 @@ February 4
 
 February 6
 : Convergence of random variables
+  : [Slides](https://sta711-s26.github.io/slides/lecture_10.pdf), [Warmup](https://sta711-s26.github.io/class_activities/ca_10.pdf), [Activity](https://sta711-s26.github.io/class_activities/ca_10_2.pdf)
 
 : Casella and Berger 5.5
 
 : **HW 4 released**{: .label .label-yellow }
+  : [HW 4](https://sta711-s26.github.io/homework/hw_04.pdf)
 
