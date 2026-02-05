@@ -93,10 +93,16 @@ The goal of this question is to show that $\widehat{\rho} \overset{p}{\to} \rho$
 \item Show that $\widehat{\rho} \overset{p}{\to} \rho$.
 \end{enumerate}
 
-%\item Let $\{Y_n\}$ be a sequence of random variables. We say that the sequence converges in \textit{quadratic mean} to a random variable $Y$, and write $Y_n \overset{q.m.}{\to} Y$, if $\mathbb{E}[(Y_n - Y)^2] \to 0$ as $n \to \infty$.
+\newpage
 
-%\begin{enumerate}
-%\item Show that if $Y_n \overset{q.m.}{\to} Y$, then $Y_n \overset{p}{\to} Y$. (That is, convergence in quadratic mean implies convergence in probability).
+\item Let $\{Y_n\}$ be a sequence of random variables. We say that the sequence converges in \textit{quadratic mean} to a random variable $Y$, and write $Y_n \overset{q.m.}{\to} Y$, if $\mathbb{E}[(Y_n - Y)^2] \to 0$ as $n \to \infty$.
+
+\begin{enumerate}
+\item Show that if $Y_n \overset{q.m.}{\to} Y$, then $Y_n \overset{p}{\to} Y$. (That is, convergence in quadratic mean implies convergence in probability).
+
+\item Show that for any constant $c$, $\mathbb{E}[(Y_n - c)^2] = (\mathbb{E}[Y_n] - c)^2 + Var(Y_n)$.
+
+\item Using part (a) and part (b), show that if $\mathbb{E}[Y_n] \to c$ and $Var(Y_n) \to 0$ as $n \to \infty$, then $Y_n \overset{p}{\to} c$.
 
 %\item Let $U \sim Uniform(0, 1)$, and let $Y_n = \sqrt{n} \mathbbm{1}\{U \leq \frac{1}{n} \}$. Show that $Y_n \overset{p}{\to} 0$, but $Y_n$ does \textit{not} converge in quadratic mean to 0.
 
@@ -105,7 +111,7 @@ The goal of this question is to show that $\widehat{\rho} \overset{p}{\to} \rho$
 %\mathbb{E}[(Y_n - Y)^2] = \mathbb{E}[(Y_n - Y)^2 | |Y_n - Y| > \delta]P(|Y_n - Y| > \delta) + \mathbb{E}[(Y_n - Y)^2 | |Y_n - Y| \leq \delta]P(|Y_n - Y| \leq \delta),
 %$$
 %for any $\delta > 0$, show that $Y_n \overset{q.m.}{\to} Y$.
-%\end{enumerate}
+\end{enumerate}
 
 \end{enumerate}
 
