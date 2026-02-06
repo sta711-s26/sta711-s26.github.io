@@ -23,7 +23,7 @@ STA 711 Exam 1 Review\\
 \vspace{5mm}
 \end{center} 
 
-\noindent \textbf{Instructions:} Submit your work as a single PDF. You may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. See the course website for a \href{https://sta711-s26.github.io/homework/hw_template.tex}{homework template file} and \href{https://sta711-s26.github.io/homework/latex_instructions/}{instructions} on getting started with LaTeX and Overleaf.
+\noindent \textbf{Information:} The first exam will cover maximum likelihood estimation (including in the context of regression models), and convergence. This matches with material from the first four homework assignments. The questions below are not completely comprehensive, but will give you a sense of the kinds of questions I could ask on the exam.
 
 \section*{Questions}
 
@@ -68,6 +68,28 @@ Y_i|\mathbf{x}_i &\sim Exponential(\lambda_i) \\
 -\frac{1}{\lambda_i} &= \mathbf{x}_i^T \boldsymbol{\beta}
 \end{align*}
 where the distribution of $\mathbf{x}_i$ does not depend on $\boldsymbol{\beta}$. Find the score function $U(\boldsymbol{\beta})$ and the Hessian $\mathbf{H}(\boldsymbol{\beta})$ in matrix form.
+
+\item We have seen that fitting a linear regression model with ordinary least squares is equivalent to maximum likelihood estimation if we assume that the distribution of the error term $\varepsilon_i$ is Normal with a constant variance. What if we don't have normal errors -- that is, what if $Y_i | \mathbf{x}_i$ is not normal? 
+
+A common approach is to \textit{transform} our response so that the transformed variable looks more Normal. That is, choose some function $g$ such that $g(Y_i) | \mathbf{x}_i$ is approximately Normal. Often, we choose a transformation based on exploration of the data and residual plots, but another approach is the \textit{Box-Cox transformation}.
+
+Suppose that we have independent data $(\mathbf{x}_i, Y_i)$ from some model, with all $Y_i > 0$. The Box-Cox transformation, with parameter $\lambda$, is
+
+$$
+Y_{\lambda i} = \frac{Y_i^\lambda - 1}{\lambda}
+$$
+
+The goal is to find $\lambda$ such that $Y_{\lambda i} |\mathbf{x}_i \approx N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma^2)$. To estimate the parameters $\lambda, \boldsymbol{\beta}$, and $\sigma^2$, the method of maximum likelihood is used.
+
+\begin{enumerate}
+\item Show that the log-likelihood $\ell(\lambda, \boldsymbol{\beta}, \sigma^2 | \mathbf{y}, \mathbf{X})$ is (up to a constant) given by
+
+$$
+-\frac{n}{2} \log(\sigma^2) - \frac{1}{\sigma^2} \sum \limits_{i=1}^n (Y_{\lambda i} - \mathbf{x}_i^T \boldsymbol{\beta})^2 + (\lambda - 1) \sum \limits_{i=1}^n \log(Y_i)
+$$
+
+\item Given a value of $\lambda$, find maximum likelihood estimators for $\boldsymbol{\beta}$ and $\sigma^2$.
+\end{enumerate}
 
 \item Suppose that $Y_1, Y_2, ...$ are identically distributed with $\mathbb{E}[Y_i] = \mu$, $Var(Y_i) = \sigma^2$, and covariances
 $$Cov(Y_i, Y_{i+j}) = \begin{cases} 
@@ -115,7 +137,7 @@ $$\frac{1}{n} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \overset{p}{\to} \sigm
 
 show that $s_p^2 \overset{p}{\to} \sigma^2$.
 
-\item Suppose that $H_0$ is true and $n,m \to \infty$ such that $\lambda_{n,m} \to \lambda \in (0, 1)$. Show that $T \overset{d}{\to} N(0, 1)$.
+\item Suppose that $H_0$ is true and $n,m \to \infty$ such that $\lambda_{n,m} \to \lambda \in (0, 1)$. Show that $T \overset{d}{\to} N(0, 1)$. For this, you may use the fact that if $\{U_n\}$ and $\{V_n\}$ are two independent sequences such that $U_n \overset{d}{\to} U$ and $V_n \overset{d}{\to} V$, and $U$ and $V$ are also independent, then $U_n + V_n \overset{d}{\to} U + V$.
 \end{enumerate}
 
 \end{enumerate}

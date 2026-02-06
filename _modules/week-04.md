@@ -22,4 +22,7 @@ February 6
 
 : **HW 4 released**{: .label .label-yellow }
   : [HW 4](https://sta711-s26.github.io/homework/hw_04.pdf)
+  
+: Exam 1 review
+  : [review questions](https://sta711-s26.github.io/homework/exam_1_review.pdf)
 
