@@ -1,0 +1,51 @@
+---
+title: "Convergence of random variables"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Recap: convergence
+
+**Definition:** A sequence of random variables $X_1, X_2,...$ *converges in probability* to a random variable $X$ if, for every $\varepsilon > 0$,
+
+$$
+\lim \limits_{n \to \infty} P(|X_n - X| \geq \varepsilon) = 0
+$$
+We write $X_n \overset{p}{\to} X$.
+
+\vspace{1cm}
+
+**Definition:** A sequence of random variables $X_1, X_2,...$ *converges in distribution* to a random variable $X$ if
+
+$$\lim \limits_{n \to \infty} F_{X_n}(x) = F_X(x)$$
+at all points where $F_X(x)$ is continuous. We write $X_n \overset{d}{\to} X$.
+
+
+## Central Limit Theorem
+
+Let $X_1, X_2,...$ be iid random variables,  with $\mu = \mathbb{E}[X_i]$ and $\sigma^2 = Var(X_i) < \infty$. Then 
+
+$$\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma} \overset{d}{\to} Z$$
+
+where $Z \sim N(0, 1)$.
+
+\vspace{4cm}
+
+## Other key results
+
+**Continuous mapping theorem:** Let $X_1, X_2,...$ be a sequence of random variables, and $g$ a continuous function.
+
+\vspace{2cm}
+
+**Slutsky's theorem:** Let $\{X_n\}, \{Y_n\}$ be sequences of random variables, and suppose that $X_n \overset{d}{\to} X$ and $Y_n \overset{p}{\to} c$, where $c$ is a constant. Then:
+
+\vspace{4cm}
+
+
+## Relationships between types of convergence
+
+(a) If $X_n \overset{d}{\to} c$, where $c$ is a constant, then $X_n \overset{p}{\to} c$
+(b) If $X_n \overset{p}{\to} X$, then $X_n \overset{d}{\to} X$
+
+\vspace{7cm}
+

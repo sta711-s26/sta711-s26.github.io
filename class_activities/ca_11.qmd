@@ -1,0 +1,30 @@
+---
+title: "Activity: counterexamples"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Convergence in distribution but *not* in probability
+
+Suppose $X \sim N(0, 1)$, and let $X_n = -X$ for $n = 1, 2, 3,...$. We will show that $X_n \overset{d}{\to} X$ but $X_n$ does *not* converge in probability.
+
+1. Using the fact that $X$ is *symmetric* around 0, show that $F_{X_n}(t) = F_X(t)$ for all $n$ and $t$. Conclude that $X_n \overset{d}{\to} X$.
+
+\vspace{5cm}
+
+2. Show that for any $\varepsilon > 0$, $\lim \limits_{n \to \infty} P(|X_n - X| \geq \varepsilon) > 0$. Conclude that $X_n$ does not converge in probability to $X$.
+
+\newpage
+
+## Convergence in probability does not imply convergence of moments
+
+Let $X_1, X_2, X_3,...$ be a sequence such that each $X_n \in \{0, n\}$, with $P(X_n = n) = \frac{1}{n}$ and $P(X_n = 0) = 1 - \frac{1}{n}$.
+
+1. Show that $X_n \overset{p}{\to} 0$.
+
+\vspace{6cm}
+
+2. Show that $\mathbb{E}[X_n] \not \to \ 0$. 
+
