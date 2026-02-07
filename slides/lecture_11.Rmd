@@ -31,6 +31,7 @@ where $Z \sim N(0, 1)$.
 
 \vspace{4cm}
 
+
 ## Other key results
 
 **Continuous mapping theorem:** Let $X_1, X_2,...$ be a sequence of random variables, and $g$ a continuous function.
@@ -40,6 +41,14 @@ where $Z \sim N(0, 1)$.
 **Slutsky's theorem:** Let $\{X_n\}, \{Y_n\}$ be sequences of random variables, and suppose that $X_n \overset{d}{\to} X$ and $Y_n \overset{p}{\to} c$, where $c$ is a constant. Then:
 
 \vspace{4cm}
+
+## Asymptotic normality with sample standard deviation
+
+Let $X_1, X_2,...$ be iid random variables,  with $\mu = \mathbb{E}[X_i]$ and $\sigma^2 = Var(X_i) < \infty$. Let $\widehat{\sigma}^2$ be an estimate of $\sigma^2$ such that $\widehat{\sigma}^2 \overset{p}{\to} \sigma^2$. Then
+
+$$\frac{\sqrt{n}(\bar{X}_n - \mu)}{\widehat{\sigma}} \overset{d}{\to} Z \sim N(0, 1)$$
+
+\vspace{5cm}
 
 
 ## Relationships between types of convergence
