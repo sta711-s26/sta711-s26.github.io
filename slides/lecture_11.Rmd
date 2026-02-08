@@ -23,7 +23,7 @@ at all points where $F_X(x)$ is continuous. We write $X_n \overset{d}{\to} X$.
 
 ## Central Limit Theorem
 
-Let $X_1, X_2,...$ be iid random variables,  with $\mu = \mathbb{E}[X_i]$ and $\sigma^2 = Var(X_i) < \infty$. Then 
+Let $X_1, X_2,...$ be iid random variables,  with $\mu = \mathbb{E}[X_i]$ and $0 < \sigma^2 = Var(X_i) < \infty$. Then 
 
 $$\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma} \overset{d}{\to} Z$$
 
@@ -44,7 +44,7 @@ where $Z \sim N(0, 1)$.
 
 ## Asymptotic normality with sample standard deviation
 
-Let $X_1, X_2,...$ be iid random variables,  with $\mu = \mathbb{E}[X_i]$ and $\sigma^2 = Var(X_i) < \infty$. Let $\widehat{\sigma}^2$ be an estimate of $\sigma^2$ such that $\widehat{\sigma}^2 \overset{p}{\to} \sigma^2$. Then
+Let $X_1, X_2,...$ be iid random variables,  with $\mu = \mathbb{E}[X_i]$ and $0 < \sigma^2 = Var(X_i) < \infty$. Let $\widehat{\sigma}^2$ be an estimate of $\sigma^2$ such that $\widehat{\sigma}^2 \overset{p}{\to} \sigma^2$. Then
 
 $$\frac{\sqrt{n}(\bar{X}_n - \mu)}{\widehat{\sigma}} \overset{d}{\to} Z \sim N(0, 1)$$
 
