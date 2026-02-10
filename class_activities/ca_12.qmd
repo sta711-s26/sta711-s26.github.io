@@ -1,0 +1,89 @@
+---
+title: "Distribution of the MLE"
+format: html
+editor: source
+---
+
+## Bernoulli distribution
+
+Suppose we have $Y_1,...,Y_n \overset{iid}{\sim} Bernoulli(p)$. The log-likelihood is then given by
+
+$$\ell_n(p) = p \left( \sum \limits_{i=1}^n Y_i \right) + (1 - p)\left(n - \sum \limits_{i=1}^n Y_i\right)$$
+
+The derivative of the log-likelihood (the score) is
+
+$$\ell_n'(p) = \dfrac{\sum \limits_{i=1}^n Y_i}{p} - \dfrac{\left(n - \sum \limits_{i=1}^n Y_i\right)}{1 -p}$$
+
+And the second derivative of the log-likelihood is
+
+$$\ell_n''(p) = -\dfrac{\sum \limits_{i=1}^n Y_i}{p^2} - \dfrac{\left(n - \sum \limits_{i=1}^n Y_i\right)}{(1 -p)^2}$$
+
+Finally, the maximum likelihood estimate is $\widehat{p} = \frac{1}{n} \sum \limits_{i=1}^n Y_i$.
+
+**Goal:** Our goal in this activity is to explore the behavior of $\ell_n'(p)$ and $\ell_n''(p)$, and see how this relates to the distribution of the MLE $\widehat{p}$.
+
+### Simulation
+
+The code below simulates $n=100$ observations from a Bernoulli distribution with $p = 0.5$, and calculates $\widehat{p}$, $\ell_n'(p)$, and $\ell_n''(p)$:
+
+```{r, eval=F}
+log_lik <- function(p, y){
+  sum(y)*log(p) + sum(1 - y)*log(1 - p)
+}
+
+score <- function(p, y){
+  sum(y)/p - sum(1 - y)/(1 - p)
+}
+
+second_deriv <- function(p, y){
+  -sum(y)/(p^2) - sum(1 - y)/((1 - p)^2)
+}
+
+n <- 100
+p0 <- 0.5
+
+y <- rbinom(n, 1, p0)
+
+mean(y) #p_hat
+score(p0, y) # score function
+second_deriv(p0, y) # second derivative
+```
+
+### Questions
+
+1. Use a loop to repeat the code many times, storing the results ($\widehat{p}$, the score, and the second derivative of the log-likelihood) for each iteration.
+
+2. Look at the distribution of the score values. What does the distribution look like? What are the approximate mean and variance?
+
+3. How does the variance of the score compare to the variance of $\widehat{p}$?
+
+4. How does the variance of the score compare to the *mean* of the second derivative?
+
+```{r, include=F, eval=F}
+nsim <- 1000
+p_hat <- rep(NA, nsim)
+score_vals <- rep(NA, nsim)
+deriv_vals <- rep(NA, nsim)
+for(i in 1:nsim){
+  y <- rbinom(n, 1, p0)
+
+  p_hat[i] <- mean(y) #p_hat
+  score_vals[i] <- score(p0, y) # score function
+  deriv_vals[i] <- second_deriv(p0, y) # second derivative
+}
+
+mean(score_vals)
+var(score_vals)
+var(p_hat)
+1/var(score_vals)
+mean(deriv_vals)
+```
+
+
+
+
+
+
+
+
+
