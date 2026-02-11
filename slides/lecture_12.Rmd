@@ -70,7 +70,7 @@ Work on the class activity, then we will discuss as a group.
 
 $Y_1,...,Y_n \overset{iid}{\sim} Bernoulli(p)$
 
-$\ell_n(p) = p \left( \sum \limits_{i=1}^n Y_i \right) + (1 - p)\left(n - \sum \limits_{i=1}^n Y_i\right)$
+$\ell_n(p) = \log(p) \left( \sum \limits_{i=1}^n Y_i \right) + \log(1 - p)\left(n - \sum \limits_{i=1}^n Y_i\right)$
 
 $\ell_n'(p) = \dfrac{\sum \limits_{i=1}^n Y_i}{p} - \dfrac{\left(n - \sum \limits_{i=1}^n Y_i\right)}{1 -p}$
 
