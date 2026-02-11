@@ -8,7 +8,7 @@ editor: source
 
 Suppose we have $Y_1,...,Y_n \overset{iid}{\sim} Bernoulli(p)$. The log-likelihood is then given by
 
-$$\ell_n(p) = p \left( \sum \limits_{i=1}^n Y_i \right) + (1 - p)\left(n - \sum \limits_{i=1}^n Y_i\right)$$
+$$\ell_n(p) = \log(p) \left( \sum \limits_{i=1}^n Y_i \right) + \log(1 - p)\left(n - \sum \limits_{i=1}^n Y_i\right)$$
 
 The derivative of the log-likelihood (the score) is
 

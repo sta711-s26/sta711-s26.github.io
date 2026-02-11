@@ -131,7 +131,7 @@ window.Quarto = {
 <section id="bernoulli-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="bernoulli-distribution">Bernoulli distribution</h2>
 <p>Suppose we have <span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} Bernoulli(p)\)</span>. The log-likelihood is then given by</p>
-<p><span class="math display">\[\ell_n(p) = p \left( \sum \limits_{i=1}^n Y_i \right) + (1 - p)\left(n - \sum \limits_{i=1}^n Y_i\right)\]</span></p>
+<p><span class="math display">\[\ell_n(p) = \log(p) \left( \sum \limits_{i=1}^n Y_i \right) + \log(1 - p)\left(n - \sum \limits_{i=1}^n Y_i\right)\]</span></p>
 <p>The derivative of the log-likelihood (the score) is</p>
 <p><span class="math display">\[\ell_n'(p) = \dfrac{\sum \limits_{i=1}^n Y_i}{p} - \dfrac{\left(n - \sum \limits_{i=1}^n Y_i\right)}{1 -p}\]</span></p>
 <p>And the second derivative of the log-likelihood is</p>
