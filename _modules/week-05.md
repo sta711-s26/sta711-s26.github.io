@@ -16,5 +16,6 @@ February 11
 
 February 13
 : Asymptotic properties of the MLE
+  : [Slides](https://sta711-s26.github.io/slides/lecture_13.pdf)
 
 : Casella and Berger 10.1
