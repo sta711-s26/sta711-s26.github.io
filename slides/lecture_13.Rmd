@@ -1,0 +1,90 @@
+---
+title: "Asymptotic properties of maximum likelihood estimators"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+
+## Last time: Key results for the MLE
+
+Let $Y_1, Y_2, ...$ be iid from a distribution with probability function $f(y|\boldsymbol{\theta})$, where $\boldsymbol{\theta} \in \mathbb{R}^d$ is the parameter(s) we are trying to estimate. Let
+
+$$\ell_n(\boldsymbol{\theta}) = \sum \limits_{i=1}^n \log f(Y_i | \boldsymbol{\theta}) $$
+$$\widehat{\boldsymbol{\theta}}_n = \text{argmax}_{\boldsymbol{\theta}} \ell_n(\boldsymbol{\theta})$$
+**Theorem:** Under certain regularity conditions (to be discussed later),
+
+(a) $\widehat{\boldsymbol{\theta}}_n \overset{p}{\to} \boldsymbol{\theta}$
+(b) $\sqrt{n}(\widehat{\boldsymbol{\theta}}_n - \boldsymbol{\theta}) \overset{d}{\to} N(\mathbf{0}, v(\boldsymbol{\theta}))$
+
+(where we still need to determine what the variance $v(\boldsymbol{\theta})$ should be!)
+
+\vspace{2cm}
+
+## Last time: class activity
+
+$Y_1,...,Y_n \overset{iid}{\sim} Bernoulli(p)$
+
+$\ell_n(p) = \log(p) \left( \sum \limits_{i=1}^n Y_i \right) + \log(1 - p)\left(n - \sum \limits_{i=1}^n Y_i\right)$
+
+$\ell_n'(p) = \dfrac{\sum \limits_{i=1}^n Y_i}{p} - \dfrac{\left(n - \sum \limits_{i=1}^n Y_i\right)}{1 -p}$
+
+\vspace{1cm}
+
+$\ell_n''(p) = -\dfrac{\sum \limits_{i=1}^n Y_i}{p^2} - \dfrac{\left(n - \sum \limits_{i=1}^n Y_i\right)}{(1 -p)^2}$
+
+\vspace{1cm}
+
+$\widehat{p} = \frac{1}{n} \sum \limits_{i=1}^n Y_i$
+
+\vspace{1cm}
+
+## The expected score
+
+Let $Y$ be a random variable with probability function $f(y|\boldsymbol{\theta})$.
+
+**Claim:** Under regularity conditions,
+
+$$\mathbb{E}\left[ \frac{\partial}{\partial \boldsymbol{\theta}} \log f(Y | \boldsymbol{\theta}) \right] = \mathbf{0}$$
+
+\vspace{6cm}
+
+## Fisher information
+
+Let $Y$ be a random variable with probability function $f(y|\boldsymbol{\theta})$.
+
+**Definition:** The **Fisher information** for a single sample $Y$, denoted $\mathcal{I}_1(\boldsymbol{\theta})$, is defined as 
+$$\mathcal{I}_1(\boldsymbol{\theta}) = Var\left( \frac{\partial}{\partial \boldsymbol{\theta}} \log f(Y | \boldsymbol{\theta}) \right)$$
+\vspace{1cm}
+
+**Claim:** Under regularity conditions,
+
+$$Var\left( \frac{\partial}{\partial \boldsymbol{\theta}} \log f(Y | \boldsymbol{\theta}) \right) = -\mathbb{E}\left[ \frac{\partial^2}{\partial \boldsymbol{\theta}^2} \log f(Y | \boldsymbol{\theta}) \right]$$
+
+\vspace{3cm}
+
+## Fisher information
+
+**Claim:** Under regularity conditions,
+
+$$Var\left( \frac{\partial}{\partial \boldsymbol{\theta}} \log f(Y | \boldsymbol{\theta}) \right) = -\mathbb{E}\left[ \frac{\partial^2}{\partial \boldsymbol{\theta}^2} \log f(Y | \boldsymbol{\theta}) \right]$$
+
+\vspace{6cm}
+
+## Asymptotic normality: proof approach
+
+We will sketch the proof in the case that $\theta \in \mathbb{R}$. Let $\ell'_n(\theta) = \frac{d}{d \theta} \ell_n(\theta)$, $\ell''_n(\theta) = \frac{d^2}{d \theta^2} \ell_n(\theta)$
+
+Using a Taylor expansion of $\ell'_n$ around $\theta$:
+$$\widehat{\theta}_n - \theta \approx \frac{\ell_n'(\theta)}{-\ell_n''(\theta)} \hspace{8cm}$$
+
+\vspace{5cm}
+
+## Asymptotic normality: proof approach
+
+$$\sqrt{n}(\widehat{\theta}_n - \theta) \approx \dfrac{\frac{1}{\sqrt{n}} \ell_n'(\theta)}{-\frac{1}{n} \ell_n''(\theta)} \hspace{7cm}$$
+
+\vspace{6cm}
+
+
+
+
