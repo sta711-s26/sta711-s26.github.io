@@ -1,0 +1,21 @@
+---
+title: "Activity: Fisher information"
+format: pdf
+editor: source
+---
+
+\vspace{-1.5cm}
+
+## Fisher information
+
+Let $Y_1,...,Y_n \overset{iid}{\sim} Poisson(\lambda)$. We have previously shown that the MLE is $\widehat{\lambda} = \frac{1}{n} \sum \limits_{i=1}^n Y_i$.
+
+1. Compute $Var(\widehat{\lambda})$.
+
+\vspace{3cm}
+
+2. For the Poisson, the derivative of the log-likelihood for a single observation is $\frac{d}{d\lambda} \log f(Y|\lambda) = -1 + \frac{Y}{\lambda}$. Compute the Fisher information, and compare with your answer to question 1.
+
+
+
+
