@@ -1,0 +1,54 @@
+---
+title: "Asymptotic properties of maximum likelihood estimators"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+
+## Key results for the MLE
+
+Let $Y_1, Y_2, ...$ be iid from a distribution with probability function $f(y|\boldsymbol{\theta})$, where $\boldsymbol{\theta} \in \mathbb{R}^d$ is the parameter(s) we are trying to estimate. Let
+
+$$\ell_n(\boldsymbol{\theta}) = \sum \limits_{i=1}^n \log f(Y_i | \boldsymbol{\theta}) $$
+$$\widehat{\boldsymbol{\theta}}_n = \text{argmax}_{\boldsymbol{\theta}} \ell_n(\boldsymbol{\theta})$$
+**Theorem:** Under certain regularity conditions,
+
+(a) $\widehat{\boldsymbol{\theta}}_n \overset{p}{\to} \boldsymbol{\theta}$
+(b) $\sqrt{n}(\widehat{\boldsymbol{\theta}}_n - \boldsymbol{\theta}) \overset{d}{\to} N(\mathbf{0}, \mathcal{I}_1^{-1}(\boldsymbol{\theta}))$
+
+\vspace{2cm}
+
+## Application to regression models
+
+Suppose that $(\mathbf{x}_1, Y_1), ..., (\mathbf{x}_n, Y_n)$ are iid from the linear regression model
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i & \sim N(\mu_i, \sigma^2) \\
+\mu_i &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{aligned}
+$$
+The MLE is $\widehat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$. Asymptotic normality of the MLE means that
+
+$$\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}) \overset{d}{\to} N(\mathbf{0}, \mathcal{I}^{-1}_1(\boldsymbol{\beta}))$$
+
+\vspace{2cm}
+
+## Fisher information for the linear regression model
+
+$Y_i | \mathbf{x}_i \sim N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma^2)$
+
+**Score:** $U(\boldsymbol{\beta}) = \frac{1}{\sigma^2} \mathbf{X}^T(\mathbf{y} - \mathbf{X} \boldsymbol{\beta})$
+
+\vspace{6cm}
+
+## Fisher information for the linear regression model
+
+$Y_i | \mathbf{x}_i \sim N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma^2)$
+
+**Fisher information:** $\mathcal{I}_1(\boldsymbol{\beta}) = \frac{1}{\sigma^2} \mathbb{E}[\mathbf{x}_i\mathbf{x}_i^T]$
+
+\vspace{6cm}
+
+
+

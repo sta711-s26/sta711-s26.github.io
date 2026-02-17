@@ -10,6 +10,7 @@ February 16
 
 February 18
 : MLE and regression models
+  : [Slides](https://sta711-s26.github.io/slides/lecture_15.pdf), [Activity](https://sta711-s26.github.io/class_activities/ca_15.html)
 
 February 20
 : **Exam 1**{: .label .label-green }
