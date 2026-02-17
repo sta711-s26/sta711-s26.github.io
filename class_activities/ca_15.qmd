@@ -1,0 +1,82 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+## Asymptotic normality for regression coefficients
+
+Suppose that $(\mathbf{x}_1, Y_1), ..., (\mathbf{x}_n, Y_n)$ are iid from the linear regression model
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i & \sim N(\mu_i, \sigma^2) \\
+\mu_i &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{aligned}
+$$
+The MLE is $\widehat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$. Asymptotic normality of the MLE means that
+
+$$\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}) \overset{d}{\to} N(\mathbf{0}, \mathcal{I}^{-1}_1(\boldsymbol{\beta}))$$
+
+We showed in class that for this linear regression model, the Fisher information for a single observation is
+
+$$\mathcal{I}_1(\boldsymbol{\beta}) = \frac{1}{\sigma^2} \mathbb{E}[\mathbf{x}_i\mathbf{x}_i^T]$$
+
+## Questions
+
+Suppose that our data come from the model
+
+$$Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i, \hspace{0.5cm} \varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$$
+That is, $\boldsymbol{\beta} = (\beta_0, \beta_1)^T$ and $\mathbf{x}_i = (1, X_i)^T$. Also suppose that $X_i \overset{iid}{\sim} Uniform(0, b)$. (There is no general assumption that our explanatory variables are uniform, but we need to pick *some* distribution for the simulation).
+
+1. Show that, if $X_i \sim Uniform(0, b)$, then $\mathbb{E}[\mathbf{x}_i \mathbf{x}_i^T] = \begin{bmatrix} 1 & \frac{b}{2} \\ \frac{b}{2} & \frac{b^2}{3}\end{bmatrix}$
+
+### Simulation
+
+The following code simulates $n = 100$ observations from this linear regression model with $\beta_0 = 0.5$, $\beta_1 = 1.5$, $\sigma^2 = 1$, and $b = 5$:
+
+```{r, eval=F}
+set.seed(3235)
+
+# simulation settings
+b <- 5
+beta <- c(0.5, 1.5)
+sigma2 <- 1
+n <- 100
+
+# generate x and y
+X <- cbind(1, runif(n, 0, b))
+y <- as.numeric(X %*% beta + rnorm(n, sd = sqrt(sigma2)))
+
+# fit the model
+m1 <- lm(y ~ X[,2])
+```
+
+The variance-covariance matrix for $\widehat{\boldsymbol{\beta}}$ is
+
+$$Var(\widehat{\boldsymbol{\beta}}) = \frac{1}{n} \mathcal{I}_1^{-1}(\boldsymbol{\beta}) = \frac{\sigma^2}{n} (\mathbb{E}[\mathbf{x}_i \mathbf{x}_i^T])^{-1}$$
+and the *estimated* variance-covariance matrix is
+
+$$\widehat{Var}(\widehat{\boldsymbol{\beta}}) = \dfrac{\widehat{\sigma}^2}{n} \left( \frac{1}{n} \sum \limits_{i=1}^n \mathbf{x}_i \mathbf{x}_i^T \right)^{-1} = \dfrac{\widehat{\sigma}^2}{n} \left( \frac{1}{n} \mathbf{X}^T\mathbf{X} \right)^{-1} = \widehat{\sigma}^2 (\mathbf{X}^T\mathbf{X})^{-1}$$
+
+2. For the simulated data above, calculate the estimated variance-covariance matrix $\widehat{Var}(\widehat{\boldsymbol{\beta}})$. (You can get $\widehat{\sigma}$ from `summary(m1)$sigma`). 
+
+3. Check that the estimate from question 2 is close to the true value $\frac{\sigma^2}{n} (\mathbb{E}[\mathbf{x}_i \mathbf{x}_i^T])^{-1}$.
+
+4. You can also calculate the estimated variance-covariance matrix in R with `vcov(m1)`. Verify that the matrix in R is the same as the matrix you calculated yourself in question 2.
+
+### Distribution
+
+5. Repeat the provided code many times, generating many different samples from the distribution. Store the estimates $\widehat{\beta}_0$ and $\widehat{\beta}_1$ from each repetition, and use them to approximate $Var(\widehat{\beta}_0)$, $Var(\widehat{\beta}_1)$, and $Cov(\widehat{\beta}_0, \widehat{\beta}_1)$. Check that these values agree with the true values in $\frac{\sigma^2}{n} (\mathbb{E}[\mathbf{x}_i \mathbf{x}_i^T])^{-1}$.
+
+6. Confirm (e.g., by using a QQ plot) that the distributions of $\widehat{\beta}_0$ and $\widehat{\beta}_1$ are approximately normal.
+
+**If you're done early:** Try to derive the Fisher information for the logistic regression model.
+
+
+
+
+
+
+
+
