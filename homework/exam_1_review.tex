@@ -85,7 +85,7 @@ The goal is to find $\lambda$ such that $Y_{\lambda i} |\mathbf{x}_i \approx N(\
 \item Show that the log-likelihood $\ell(\lambda, \boldsymbol{\beta}, \sigma^2 | \mathbf{y}, \mathbf{X})$ is (up to a constant) given by
 
 $$
--\frac{n}{2} \log(\sigma^2) - \frac{1}{\sigma^2} \sum \limits_{i=1}^n (Y_{\lambda i} - \mathbf{x}_i^T \boldsymbol{\beta})^2 + (\lambda - 1) \sum \limits_{i=1}^n \log(Y_i)
+-\frac{n}{2} \log(\sigma^2) - \frac{1}{2\sigma^2} \sum \limits_{i=1}^n (Y_{\lambda i} - \mathbf{x}_i^T \boldsymbol{\beta})^2 + (\lambda - 1) \sum \limits_{i=1}^n \log(Y_i)
 $$
 
 \item Given a value of $\lambda$, find maximum likelihood estimators for $\boldsymbol{\beta}$ and $\sigma^2$.
