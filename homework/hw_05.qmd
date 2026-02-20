@@ -1,0 +1,54 @@
+---
+title: "Homework 5"
+format: html
+---
+
+**Due:** Friday, February 27, 11:59pm on Canvas
+
+**Instructions:** For mathematical work, you may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.
+
+See the course website for a [homework template](https://sta711-s26.github.io/homework/hw_template.tex) file and [instructions](https://sta711-s26.github.io/homework/latex_instructions/) on getting started with LaTeX and Overleaf.
+
+## Random vectors and multivariate normal distributions
+
+Read [Appendix E](https://ciaran-evans.quarto.pub/sta-711-notes/multivariate_normal.html) in the supplementary notes, then answer the following questions.
+
+1. [Exercise E.1](https://ciaran-evans.quarto.pub/sta-711-notes/multivariate_normal.html#exr-mv_norm_1)
+
+2. [Exercise E.2](https://ciaran-evans.quarto.pub/sta-711-notes/multivariate_normal.html#exr-mv_norm_2)
+
+3. [Exercise E.3](https://ciaran-evans.quarto.pub/sta-711-notes/multivariate_normal.html#exr-mv_norm_3)
+
+## Fisher information for logistic regression
+
+4. Suppose we have iid samples $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ from the logistic regression model described in [Definition 2.1](https://ciaran-evans.quarto.pub/sta-711-notes/logistic_regression.html#def-logistic_regression) of the supplementary notes. Recall that we have previously derived the score:
+$$
+U(\boldsymbol{\beta}) = \mathbf{X}^T(\mathbf{y} - \mathbf{p}) = \sum \limits_{i=1}^n (Y_i - p_i)\mathbf{x}_i
+$$
+Show that the Fisher information for a single observation is $\mathcal{I}_1(\boldsymbol{\beta}) = \mathbb{E}[p_i(1 - p_i)\mathbf{x}_i \mathbf{x}_i^T]$.
+
+5. The estimate of the Fisher information from the previous question, using the observed data, is
+$$
+\widehat{\mathcal{I}}_1(\boldsymbol{\beta}) = \frac{1}{n} \sum \limits_{i=1}^n \widehat{p}_i(1 - \widehat{p}_i) \mathbf{x}_i \mathbf{x}_i^T = \frac{1}{n} \mathbf{X}^T \mathbf{W} \mathbf{X}
+$$
+where $\mathbf{W} = \text{diag}(\widehat{p}_i(1 - \widehat{p}_i))$. The estimated variance of the MLE $\widehat{\boldsymbol{\beta}}$ is then
+$$
+\widehat{Var}(\widehat{\boldsymbol{\beta}}) = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1}
+$$
+Simulate some data from a logistic regression model in R, fit a logistic regression model to the simulated data, and calculate this variance-covariance matrix using the provided formula. Then compare with the results from the `vcov` function.
+
+## Fisher information for a normal distribution
+
+Suppose that $Y \sim N(\mu, \sigma^2)$ is a single observation from a univariate normal distribution, with both $\mu$ and $\sigma^2$ unknown. Let $\boldsymbol{\theta} = (\mu, \sigma^2)^T$. We would like to calculate the Fisher information $\mathcal{I}_1(\boldsymbol{\theta})$. The normal distribution satisfies our desired regularity conditions, so the Fisher information can be calculated as
+
+$$
+\mathcal{I}_1(\boldsymbol{\theta}) = -\mathbb{E}\left[ \dfrac{\partial^2}{\partial \boldsymbol{\theta}^2} \log f(Y|\boldsymbol{\theta}) \right]
+$$
+For the normal, this second derivative is
+
+$$
+\dfrac{\partial^2}{\partial \boldsymbol{\theta}^2} = \begin{bmatrix} \frac{\partial^2}{\partial \mu^2} \log f(Y|\boldsymbol{\theta}) & \frac{\partial^2}{\partial \sigma^2 \partial \mu} \log f(Y|\boldsymbol{\theta}) \\ \frac{\partial^2}{\partial \sigma^2 \partial \mu} \log f(Y|\boldsymbol{\theta}) & \frac{\partial^2}{\partial \sigma^4} \log f(Y|\boldsymbol{\theta}) \end{bmatrix}
+$$
+6. Using this information, find $\mathcal{I}_1(\boldsymbol{\theta})$ for the $N(\mu, \sigma^2)$ distribution.
+
+

@@ -14,3 +14,6 @@ February 18
 
 February 20
 : **Exam 1**{: .label .label-green }
+
+: **HW 5 released**{: .label .label-yellow }
+  : [HW 5](https://sta711-s26.github.io/homework/hw_05.html)
