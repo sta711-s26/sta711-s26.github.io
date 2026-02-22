@@ -1,0 +1,22 @@
+---
+title: "Activity: MSE"
+format: pdf
+editor: source
+---
+
+\vspace{-3cm}
+
+## MSE
+
+Let $X_1,...,X_n \overset{iid}{\sim} Uniform(0, \theta)$. The method of moments estimator of $\theta$ is $\widehat{\theta}_{\text{MoM}} = 2\overline{X}$, and the maximum likelihood estimator is $\widehat{\theta}_{\text{MLE}} = X_{(n)}$.
+
+We would like to compute and compare the MSE for both estimators. It will help to know that $\mathbb{E}[X_i] = \dfrac{\theta}{2}$, $Var(X_i) = \dfrac{\theta^2}{12}$, $\mathbb{E}[X_{(n)}] = \dfrac{n}{n+1} \theta$, and $Var(X_{(n)}) = \dfrac{n\theta^2}{(n+1)^2(n+2)}$.
+
+1. Calculate $MSE(\widehat{\theta}_{\text{MoM}})$ and $MSE(\widehat{\theta}_{\text{MLE}})$. Which estimator has a smaller MSE?
+
+\vspace{6cm}
+
+2. The maximum likelihood estimator $\widehat{\theta}_{\text{MLE}} = X_{(n)}$ is a *biased* estimator of $\theta$. We may wonder if we can improve the MSE by *unbiasing* the MLE. Find a simple transformation $g(\widehat{\theta}_{\text{MLE}})$ such that $\mathbb{E}[g(\widehat{\theta}_{\text{MLE}})] = \theta$, then calculate $MSE(g(\widehat{\theta}_{\text{MLE}}))$ and compare to $MSE(\widehat{\theta}_{\text{MLE}})$.
+
+
+

@@ -1,0 +1,68 @@
+---
+title: "Comparing estimators"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Course so far
+
+* Maximum likelihood estimation
+* Tools for asymptotic results
+* Asymptotic properties of MLEs
+
+\bigskip
+
+**Questions:**
+
+* How else could we estimate parameters?
+* What makes a good estimator? How do we compare estimators?
+* Why is maximum likelihood estimation so widespread?
+* What happens to MLEs if our model is *wrong*?
+
+## Example
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} Uniform(0, \theta)$. How could I estimate $\theta$?
+
+\vspace{6cm}
+
+## Example
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} Uniform(a, b)$. How could I estimate $a$ and $b$?
+
+\vspace{6cm}
+
+## Method of moments
+
+Let $X_1,...,X_n$ be a sample from a distribution with probability function $f(x|\theta_1,...,\theta_k)$, with $k$ parameters $\theta_1,...,\theta_k$.
+
+\vspace{6cm}
+
+## Example
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$.
+
+\vspace{6cm}
+
+## What makes a good estimator?
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} Uniform(0, \theta)$. Two possible estimates:
+
+$$\text{MLE: }\ \widehat{\theta} = X_{(n)} \hspace{1cm} \text{MoM: } \ \widehat{\theta} = 2 \overline{X}$$
+
+**Question:** How would I choose between these estimators? 
+
+\vspace{5cm}
+
+## Bias, variance, and MSE
+
+## Example
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} Uniform(0, \theta)$.
+
+\vspace{6cm}
+
+
+
+
+
+
