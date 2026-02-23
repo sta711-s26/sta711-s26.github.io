@@ -4,7 +4,7 @@ title: Comparing estimators
 
 February 23
 : Method of moments, MSE
-  : [Slides](https://sta711-s26.github.io/slides/lecture_16.pdf), [Activity](https://sta711-s26.github.io/class_activities/ca_16.pdf)
+  : [Slides](https://sta711-s26.github.io/slides/lecture_16.pdf), [Activity](https://sta711-s26.github.io/class_activities/ca_16.pdf), [Activity solutions](https://sta711-s26.github.io/class_activities/ca_16_solutions.pdf)
   
 : Casella and Berger 7.2.1, 7.3.1
 
