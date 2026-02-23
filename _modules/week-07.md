@@ -10,6 +10,7 @@ February 23
 
 February 25
 : Cramer-Rao lower bound (CRLB)
+  : [Slides](https://sta711-s26.github.io/slides/lecture_17.pdf), [Activity](https://sta711-s26.github.io/class_activities/ca_17.pdf)
 
 : Casella and Berger 7.3.1, 7.3.2
 

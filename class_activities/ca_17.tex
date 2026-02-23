@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage{url}
+\usepackage{alltt}
+\usepackage{bm}
+\usepackage{bbm}
+\linespread{1}
+\textwidth 6.5in
+\oddsidemargin 0.in
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2in}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{bbm}
+
+\newcommand{\indep}{\perp \!\!\! \perp}
+
+\begin{document}
+
+
+\begin{center}
+\Large
+MSE for estimating Normal variance \\
+\normalsize
+\vspace{5mm}
+\end{center}
+
+\noindent Suppose $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. Consider two estimates of $\sigma^2$:
+$$\widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \hspace{1cm} s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X})^2$$
+Our goal is to find the MSE for these two estimators. We will use the following key facts:
+
+\begin{itemize}
+\item $\frac{1}{\sigma^2} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \sim \chi^2_{n-1}$
+
+\item If $V \sim \chi^2_{\nu}$, then $\mathbb{E}[V] = \nu$ and $Var(V) = 2\nu$
+\end{itemize}
+
+\subsection*{Questions}
+
+\begin{enumerate}
+\item Using the information above, show that $\mathbb{E}[s^2] = \sigma^2$ (that is, the sample variance $s^2$ is an unbiased estimator). 
+
+\vspace{7cm}
+
+\item Now calculate $\mathbb{E}[\widehat{\sigma}^2]$. Does $\widehat{\sigma}^2$ tend to overestimate or underestimate $\sigma^2$?
+
+\newpage
+
+\item Using the information above, compute $Var(s^2)$ and $Var(\widehat{\sigma}^2)$.
+
+\vspace{12cm}
+
+\item Which estimator has a lower MSE?
+
+\newpage
+
+\item You are currently showing on homework that the Fisher information (for a single observation) for the variance of a normal distribution is $\mathcal{I}_1(\sigma^2) = \dfrac{1}{2\sigma^4}$. Does $s^2$ attain the CRLB?
+
+\vspace{6cm}
+
+\item Now \textbf{suppose we know the mean} $\mu$, and consider the estimator $\widetilde{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (X_i - \mu)^2$. Show that this estimator is unbiased for $\sigma^2$. (\textit{Hint}: If $Z \sim N(0, 1)$ then $Z^2 \sim \chi^2_1$)
+
+\newpage
+
+\item Does $\widetilde{\sigma}^2$ from the previous question attain the CRLB?
+
+
+
+\end{enumerate}
+
+\end{document}
