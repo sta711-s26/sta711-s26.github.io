@@ -1,0 +1,36 @@
+---
+title: "Best unbiased estimators and the Cramer-Rao lower bound"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Best unbiased estimators
+
+Suppose we restrict ourselves to **unbiased** estimators.
+
+**Definition** (best unbiased estimator):
+
+\vspace{6cm}
+
+## Cramer-Rao lower bound
+
+Let $Y_1,...,Y_n$ be a sample from a distribution with probability function $f(y|\theta)$, and let $\widehat{\theta}$ be an estimator of $\theta \in \mathbb{R}$. Under regularity conditions,
+$$Var_{\theta}(\widehat{\theta}) \geq \dfrac{\left(\frac{d}{d\theta} \mathbb{E}_{\theta}(\widehat{\theta}) \right)^2}{\mathbb{E}_{\theta}\left[ \left(\frac{d}{d\theta} \log f(Y_1,...,Y_n | \theta) \right)^2 \right]}$$
+
+\vspace{4cm}
+
+## Example
+
+Suppose $Y_1,...,Y_n \overset{iid}{\sim} Poisson(\lambda)$
+
+\vspace{6cm}
+
+## Your assignment
+
+Suppose $Y_1,...,Y_n \overset{iid}{\sim} Bernoulli(p)$. 
+
+* Find the Cramer-Rao lower bound for an unbiased estimator of $p$
+* The MLE $\widehat{p} = \overline{Y}$ is unbiased for $p$. Does the MLE attain the CRLB?
+
+\vspace{4cm}
+
