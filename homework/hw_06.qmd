@@ -46,7 +46,7 @@ where $\alpha > 0$. We also know that $\mathbb{E}[Y_1] = \alpha$ and $Var(Y_1) =
     (e) Find the Fisher information $\mathcal{I}_1(\alpha)$. The derivative of the digamma function can't be simplified and does not have a nice closed form; you may leave it as $\psi^{(1)}$ (the *trigamma* function). (Desired regularity conditions hold for the Gamma distribution!)
     (f) Find a limiting distribution for $\sqrt{n}(\widehat{\alpha}_{\text{MLE}} - \alpha)$, and justify. (Desired regularity conditions hold for the Gamma distribution!)
     (g) Find the asymptotic relative efficiency $ARE(\widehat{\alpha}_{\text{MLE}}, \widehat{\alpha}_{\text{MoM}})$, as a function of $\alpha$.
-    (h) Make a plot in R showing $ARE(\widehat{\alpha}_{\text{MLE}}, \widehat{\alpha}_{\text{MoM}})$ as a function of $\alpha$ (the `digamma` function in R will be useful!). What do you notice as $\alpha$ increases?
+    (h) Make a plot in R showing $ARE(\widehat{\alpha}_{\text{MLE}}, \widehat{\alpha}_{\text{MoM}})$ as a function of $\alpha$ (the `trigamma` function in R will be useful!). What do you notice as $\alpha$ increases?
     (i) Plot the distribution of the $Gamma(0.5, 1)$ and $Gamma(100, 1)$ distributions. What do you notice? How might this be related to your results in part (h)?
     
 ## Method of moments vs. MLE: Normal distribution
