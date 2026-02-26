@@ -18,7 +18,7 @@ February 27
 : Asymptotic relative efficiency, delta method
   : [Slides](https://sta711-s26.github.io/slides/lecture_18.pdf)
 
-: Casella and Berger 5.5.4
+: Casella and Berger 5.5.4, 10.1.3
 
 : **HW 6 released**{: .label .label-yellow }
   : [HW 6](https://sta711-s26.github.io/homework/hw_06.html)
