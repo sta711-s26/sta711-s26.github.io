@@ -13,21 +13,45 @@ See the course website for a [homework template](https://sta711-s26.github.io/ho
 
 In this class, normal and $\chi^2$ distributions appear frequently when looking at test statistics and limiting distributions. These two distributions are closely connected, and we will often move between them. The purpose of these questions is to reinforce that connection.
 
+::: {.callout-note icon=false}
+
+## Question 1
+
 1. Suppose that $Z \sim N(0, 1)$ is a standard normal random variable. Show that the pdf of $Y = Z^2$ is given by
 $$f_Y(y) = \frac{1}{\sqrt{2 \pi}} \frac{1}{\sqrt{y}} e^{-y/2}, \hspace{0.5cm} y > 0.$$
 That is, $Z^2 \sim \chi^2_1$.
 
+:::
+
 Suppose that $Y \sim \chi^2_{\nu}$. Then, the moment generating function of $Y$ is given by $M_Y(t) = (1 - 2t)^{-\nu/2}$ for $t < \frac{1}{2}$.
 
+::: {.callout-note icon=false}
+
+## Question 2
+
 2. Suppose that $Z_1,...,Z_k \overset{iid}{\sim} N(0, 1)$. Using mgfs, show that $\sum \limits_{i=1}^k Z_i^2 \sim \chi^2_k$.
+
+:::
 
 We can extend the connection between the normal and $\chi^2$ distributions to multivariate normal random vectors.
 
 Suppose that $\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ is a multivariate normal random vector. We know that the covariance matrix $\boldsymbol{\Sigma}$ is positive semi-definite, and a useful fact about positive semi-definite matrices is that there exists a unique positive semi-definite matrix, which we will denote $\boldsymbol{\Sigma}^{\frac{1}{2}}$, such that $\boldsymbol{\Sigma}^{\frac{1}{2}}\boldsymbol{\Sigma}^{\frac{1}{2}} = \boldsymbol{\Sigma}$. It is also true that $\boldsymbol{\Sigma}^{-\frac{1}{2}} := (\boldsymbol{\Sigma}^{\frac{1}{2}})^{-1}$ satisfies $\boldsymbol{\Sigma}^{-\frac{1}{2}}\boldsymbol{\Sigma}^{-\frac{1}{2}} = \boldsymbol{\Sigma}^{-1}$.
 
+::: {.callout-note icon=false}
+
+## Question 3
+
 3. Using these facts, and the material in [Appendix E](https://ciaran-evans.quarto.pub/sta-711-notes/multivariate_normal.html) on multivariate normal distributions, show that if $\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ then $\boldsymbol{\Sigma}^{-\frac{1}{2}}(\mathbf{x} - \boldsymbol{\mu}) \sim N(\boldsymbol{0}, \mathbf{I})$.
 
+:::
+
+::: {.callout-note icon=false}
+
+## Question 4
+
 4. Suppose $\mathbf{x} \in \mathbb{R}^k$, and $\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})$. Show that $(\mathbf{x} - \boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x} - \boldsymbol{\mu}) \sim \chi^2_k$.
+
+:::
 
 ## Method of moments vs. MLE: Gamma distribution
 
@@ -35,6 +59,10 @@ Suppose that $Y_1,...,Y_n \overset{iid}{\sim} Gamma(\alpha, 1)$, with pdf
 
 $$f(y) = \frac{1}{\Gamma(\alpha)} y^{\alpha - 1} e^{-y}, \hspace{0.5cm} y > 0,$$
 where $\alpha > 0$. We also know that $\mathbb{E}[Y_1] = \alpha$ and $Var(Y_1) = \alpha$.
+
+::: {.callout-note icon=false}
+
+## Question 5
 
 5. Let's compare the method of moments and maximum likelihood estimators for $\alpha$.
     (a) Find the method of moments estimator $\widehat{\alpha}_{\text{MoM}}$.
@@ -49,6 +77,8 @@ where $\alpha > 0$. We also know that $\mathbb{E}[Y_1] = \alpha$ and $Var(Y_1) =
     (h) Make a plot in R showing $ARE(\widehat{\alpha}_{\text{MLE}}, \widehat{\alpha}_{\text{MoM}})$ as a function of $\alpha$ (the `trigamma` function in R will be useful!). What do you notice as $\alpha$ increases?
     (i) Plot the distribution of the $Gamma(0.5, 1)$ and $Gamma(100, 1)$ distributions. What do you notice? How might this be related to your results in part (h)?
     
+:::
+    
 ## Method of moments vs. MLE: Normal distribution
 
 Suppose that $Y_1,...,Y_n \overset{iid}{\sim} N(\mu, c^2\mu^2)$, with $\mu$ unknown and $c^2$ a *known* constant. The method of moments and maximum likelihood estimators for $\mu$ are:
@@ -57,10 +87,16 @@ $$
 \widehat{\mu}_{\text{MoM}} = \overline{Y} \hspace{2cm} \widehat{\mu}_{\text{MLE}} = \dfrac{\left((\overline{Y})^2 + 4c^2 \frac{1}{n} \sum \limits_{i=1}^n Y_i^2 \right)^{1/2} - \overline{Y}}{2c^2}
 $${#eq-mom_mle}
 
+::: {.callout-note icon=false}
+
+## Question 6
+
 6. We wish to compare the asymptotic relative efficiency of these two estimators.
     (a) Find a limiting distribution for $\sqrt{n}(\widehat{\mu}_{\text{MoM}} - \mu)$, and justify.
     (b) Find a limiting distribution for $\sqrt{n}(\widehat{\mu}_{\text{MLE}} - \mu)$, and justify. (Desired regularity conditions hold for the Normal!)
     (c) Find the asymptotic relative efficiency $ARE(\widehat{\mu}_{\text{MLE}}, \widehat{\mu}_{\text{MoM}})$. Which estimator is more efficient?
+    
+:::
     
 ## Method of moments vs. MLE: unknown distribution
 
@@ -68,9 +104,15 @@ Suppose now that $Y_1,...,Y_n$ are iid samples from some unknown distribution, w
 
 We wish to compare the method of moments and maximum likelihood estimators from @eq-mom_mle. It is important to note that, while the method of moments estimator is still correct (the sample mean estimates the population mean), the "MLE" from @eq-mom_mle is no longer the true MLE for the unknown distribution. In other words, we are asking how this estimator behaves when the distribution is misspecified (we compute the MLE assuming a $N(\mu, c^2\mu^2)$ distribution -- what happens if we're wrong?).
 
+::: {.callout-note icon=false}
+
+## Question 7
+
 7. Let's begin by considering consistency.
     (a) Explain why $\widehat{\mu}_{\text{MoM}}$ from @eq-mom_mle is still a consistent estimator of $\mu$.
     (b) Show that $\widehat{\mu}_{\text{MLE}}$ from @eq-mom_mle is a consistent estimator for $\mu$ **if and only if** $Var(Y_1) = c^2 \mu^2$. (We don't need the distribution to be truly normal, but we *do* need the assumed mean-variance relationship to be correct).
+    
+:::
 
 Now let's consider asymptotic relative efficiency. Suppose that $Var(Y_1) = c^2\mu^2$, so $\widehat{\mu}_{\text{MLE}}$ from @eq-mom_mle is a consistent estimator of $\mu$. It can then be shown that
 
@@ -80,10 +122,16 @@ where
 
 $$\text{Skew} = \dfrac{\mathbb{E}[(Y_1 - \mu)^3]}{\mathbb{E}[(Y_1 - \mu)^2]^{3/2}} \hspace{1cm} \text{Kurt} = \dfrac{\mathbb{E}[(Y_1 - \mu)^4]}{\mathbb{E}[(Y_1 - \mu)^2]^2}$$
 
+::: {.callout-note icon=false}
+
+## Question 8
+
 8. Suppose that $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\theta)$, with pdf $\theta e^{-\theta y}$ for $y > 0$. Then, $\mu = 1/\theta$ and $Var(Y_i) = 1/\theta^2 = \mu^2$, so the assumed mean-variance relationship holds with $c=1$.
     (a) Show that, for this exponential distribution, $\text{Skew} = 2$ and $\text{Kurt} = 9$. You may use the mean and variance of the exponential distribution, and the moment generating function, without deriving them. The mgf is
     $$M_Y(t) = \theta(\theta - t)^{-1}, \hspace{1cm} t < \theta$$
     (b) Calculate the asymptotic relative efficiency $ARE(\widehat{\mu}_{\text{MLE}}, \widehat{\mu}_{\text{MoM}})$. Which estimator is more efficient?
+    
+:::
     
 ## The moral of the story...
 

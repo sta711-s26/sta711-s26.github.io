@@ -99,24 +99,84 @@ window.Quarto = {
 <section id="normal-and-chi2-random-variables" class="level2">
 <h2 class="anchored" data-anchor-id="normal-and-chi2-random-variables">Normal and <span class="math inline">\(\chi^2\)</span> random variables</h2>
 <p>In this class, normal and <span class="math inline">\(\chi^2\)</span> distributions appear frequently when looking at test statistics and limiting distributions. These two distributions are closely connected, and we will often move between them. The purpose of these questions is to reinforce that connection.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li>Suppose that <span class="math inline">\(Z \sim N(0, 1)\)</span> is a standard normal random variable. Show that the pdf of <span class="math inline">\(Y = Z^2\)</span> is given by <span class="math display">\[f_Y(y) = \frac{1}{\sqrt{2 \pi}} \frac{1}{\sqrt{y}} e^{-y/2}, \hspace{0.5cm} y &gt; 0.\]</span> That is, <span class="math inline">\(Z^2 \sim \chi^2_1\)</span>.</li>
 </ol>
+</div>
+</div>
 <p>Suppose that <span class="math inline">\(Y \sim \chi^2_{\nu}\)</span>. Then, the moment generating function of <span class="math inline">\(Y\)</span> is given by <span class="math inline">\(M_Y(t) = (1 - 2t)^{-\nu/2}\)</span> for <span class="math inline">\(t &lt; \frac{1}{2}\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="2" type="1">
 <li>Suppose that <span class="math inline">\(Z_1,...,Z_k \overset{iid}{\sim} N(0, 1)\)</span>. Using mgfs, show that <span class="math inline">\(\sum \limits_{i=1}^k Z_i^2 \sim \chi^2_k\)</span>.</li>
 </ol>
+</div>
+</div>
 <p>We can extend the connection between the normal and <span class="math inline">\(\chi^2\)</span> distributions to multivariate normal random vectors.</p>
 <p>Suppose that <span class="math inline">\(\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span> is a multivariate normal random vector. We know that the covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is positive semi-definite, and a useful fact about positive semi-definite matrices is that there exists a unique positive semi-definite matrix, which we will denote <span class="math inline">\(\boldsymbol{\Sigma}^{\frac{1}{2}}\)</span>, such that <span class="math inline">\(\boldsymbol{\Sigma}^{\frac{1}{2}}\boldsymbol{\Sigma}^{\frac{1}{2}} = \boldsymbol{\Sigma}\)</span>. It is also true that <span class="math inline">\(\boldsymbol{\Sigma}^{-\frac{1}{2}} := (\boldsymbol{\Sigma}^{\frac{1}{2}})^{-1}\)</span> satisfies <span class="math inline">\(\boldsymbol{\Sigma}^{-\frac{1}{2}}\boldsymbol{\Sigma}^{-\frac{1}{2}} = \boldsymbol{\Sigma}^{-1}\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="3" type="1">
-<li><p>Using these facts, and the material in <a href="https://ciaran-evans.quarto.pub/sta-711-notes/multivariate_normal.html">Appendix E</a> on multivariate normal distributions, show that if <span class="math inline">\(\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span> then <span class="math inline">\(\boldsymbol{\Sigma}^{-\frac{1}{2}}(\mathbf{x} - \boldsymbol{\mu}) \sim N(\boldsymbol{0}, \mathbf{I})\)</span>.</p></li>
-<li><p>Suppose <span class="math inline">\(\mathbf{x} \in \mathbb{R}^k\)</span>, and <span class="math inline">\(\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span>. Show that <span class="math inline">\((\mathbf{x} - \boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x} - \boldsymbol{\mu}) \sim \chi^2_k\)</span>.</p></li>
+<li>Using these facts, and the material in <a href="https://ciaran-evans.quarto.pub/sta-711-notes/multivariate_normal.html">Appendix E</a> on multivariate normal distributions, show that if <span class="math inline">\(\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span> then <span class="math inline">\(\boldsymbol{\Sigma}^{-\frac{1}{2}}(\mathbf{x} - \boldsymbol{\mu}) \sim N(\boldsymbol{0}, \mathbf{I})\)</span>.</li>
 </ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="4" type="1">
+<li>Suppose <span class="math inline">\(\mathbf{x} \in \mathbb{R}^k\)</span>, and <span class="math inline">\(\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span>. Show that <span class="math inline">\((\mathbf{x} - \boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x} - \boldsymbol{\mu}) \sim \chi^2_k\)</span>.</li>
+</ol>
+</div>
+</div>
 </section>
 <section id="method-of-moments-vs.-mle-gamma-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="method-of-moments-vs.-mle-gamma-distribution">Method of moments vs.&nbsp;MLE: Gamma distribution</h2>
 <p>Suppose that <span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} Gamma(\alpha, 1)\)</span>, with pdf</p>
 <p><span class="math display">\[f(y) = \frac{1}{\Gamma(\alpha)} y^{\alpha - 1} e^{-y}, \hspace{0.5cm} y &gt; 0,\]</span> where <span class="math inline">\(\alpha &gt; 0\)</span>. We also know that <span class="math inline">\(\mathbb{E}[Y_1] = \alpha\)</span> and <span class="math inline">\(Var(Y_1) = \alpha\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="5" type="1">
 <li>Let’s compare the method of moments and maximum likelihood estimators for <span class="math inline">\(\alpha\)</span>.
 <ol type="a">
@@ -131,6 +191,8 @@ window.Quarto = {
 <li>Plot the distribution of the <span class="math inline">\(Gamma(0.5, 1)\)</span> and <span class="math inline">\(Gamma(100, 1)\)</span> distributions. What do you notice? How might this be related to your results in part (h)?</li>
 </ol></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="method-of-moments-vs.-mle-normal-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="method-of-moments-vs.-mle-normal-distribution">Method of moments vs.&nbsp;MLE: Normal distribution</h2>
@@ -138,6 +200,16 @@ window.Quarto = {
 <p><span id="eq-mom_mle"><span class="math display">\[
 \widehat{\mu}_{\text{MoM}} = \overline{Y} \hspace{2cm} \widehat{\mu}_{\text{MLE}} = \dfrac{\left((\overline{Y})^2 + 4c^2 \frac{1}{n} \sum \limits_{i=1}^n Y_i^2 \right)^{1/2} - \overline{Y}}{2c^2}
 \tag{1}\]</span></span></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="6" type="1">
 <li>We wish to compare the asymptotic relative efficiency of these two estimators.
 <ol type="a">
@@ -146,11 +218,23 @@ window.Quarto = {
 <li>Find the asymptotic relative efficiency <span class="math inline">\(ARE(\widehat{\mu}_{\text{MLE}}, \widehat{\mu}_{\text{MoM}})\)</span>. Which estimator is more efficient?</li>
 </ol></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="method-of-moments-vs.-mle-unknown-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="method-of-moments-vs.-mle-unknown-distribution">Method of moments vs.&nbsp;MLE: unknown distribution</h2>
 <p>Suppose now that <span class="math inline">\(Y_1,...,Y_n\)</span> are iid samples from some unknown distribution, with <span class="math inline">\(\mathbb{E}[Y_1] = \mu\)</span> and <span class="math inline">\(\mathbb{E}[|Y_1|^4] &lt; \infty\)</span>. This distribution is <em>not</em> necessarily normal, and there does <em>not</em> have to be any particular mean variance relationship.</p>
 <p>We wish to compare the method of moments and maximum likelihood estimators from <a href="#eq-mom_mle" class="quarto-xref">Equation&nbsp;1</a>. It is important to note that, while the method of moments estimator is still correct (the sample mean estimates the population mean), the “MLE” from <a href="#eq-mom_mle" class="quarto-xref">Equation&nbsp;1</a> is no longer the true MLE for the unknown distribution. In other words, we are asking how this estimator behaves when the distribution is misspecified (we compute the MLE assuming a <span class="math inline">\(N(\mu, c^2\mu^2)\)</span> distribution – what happens if we’re wrong?).</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="7" type="1">
 <li>Let’s begin by considering consistency.
 <ol type="a">
@@ -158,10 +242,22 @@ window.Quarto = {
 <li>Show that <span class="math inline">\(\widehat{\mu}_{\text{MLE}}\)</span> from <a href="#eq-mom_mle" class="quarto-xref">Equation&nbsp;1</a> is a consistent estimator for <span class="math inline">\(\mu\)</span> <strong>if and only if</strong> <span class="math inline">\(Var(Y_1) = c^2 \mu^2\)</span>. (We don’t need the distribution to be truly normal, but we <em>do</em> need the assumed mean-variance relationship to be correct).</li>
 </ol></li>
 </ol>
+</div>
+</div>
 <p>Now let’s consider asymptotic relative efficiency. Suppose that <span class="math inline">\(Var(Y_1) = c^2\mu^2\)</span>, so <span class="math inline">\(\widehat{\mu}_{\text{MLE}}\)</span> from <a href="#eq-mom_mle" class="quarto-xref">Equation&nbsp;1</a> is a consistent estimator of <span class="math inline">\(\mu\)</span>. It can then be shown that</p>
 <p><span class="math display">\[ARE(\widehat{\mu}_{\text{MLE}}, \widehat{\mu}_{\text{MoM}}) = \dfrac{(1 + 2c^2)^2}{1 + 2c^2 + 2c(\text{Skew}) + c^2(\text{Kurt} - 3)}\]</span></p>
 <p>where</p>
 <p><span class="math display">\[\text{Skew} = \dfrac{\mathbb{E}[(Y_1 - \mu)^3]}{\mathbb{E}[(Y_1 - \mu)^2]^{3/2}} \hspace{1cm} \text{Kurt} = \dfrac{\mathbb{E}[(Y_1 - \mu)^4]}{\mathbb{E}[(Y_1 - \mu)^2]^2}\]</span></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="8" type="1">
 <li>Suppose that <span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} Exponential(\theta)\)</span>, with pdf <span class="math inline">\(\theta e^{-\theta y}\)</span> for <span class="math inline">\(y &gt; 0\)</span>. Then, <span class="math inline">\(\mu = 1/\theta\)</span> and <span class="math inline">\(Var(Y_i) = 1/\theta^2 = \mu^2\)</span>, so the assumed mean-variance relationship holds with <span class="math inline">\(c=1\)</span>.
 <ol type="a">
@@ -169,6 +265,8 @@ window.Quarto = {
 <li>Calculate the asymptotic relative efficiency <span class="math inline">\(ARE(\widehat{\mu}_{\text{MLE}}, \widehat{\mu}_{\text{MoM}})\)</span>. Which estimator is more efficient?</li>
 </ol></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="the-moral-of-the-story" class="level2">
 <h2 class="anchored" data-anchor-id="the-moral-of-the-story">The moral of the story…</h2>
