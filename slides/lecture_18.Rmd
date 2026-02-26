@@ -1,0 +1,112 @@
+---
+title: "Asymptotic relative efficiency, delta method"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Last time
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. Three estimators of $\sigma^2$:
+$$\widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \hspace{0.5cm} s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \hspace{0.5cm} \widetilde{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (X_i - \mu)^2$$
+\vspace{5cm}
+
+## Last time
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. Three estimators of $\sigma^2$:
+$$\widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \hspace{0.5cm} s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \hspace{0.5cm} \widetilde{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (X_i - \mu)^2$$
+
+$$Var(\widehat{\sigma}^2) = \frac{2\sigma^4(n-1)}{n^2} < \frac{2\sigma^4}{n-1} = Var(s^2)$$
+But asymptotically,
+
+\vspace{4cm}
+
+## Asymptotic relative efficiency
+
+Let $\theta \in \mathbb{R}$ be a parameter of interest, and let $\widehat{\theta}_{1,n}$ and $\widehat{\theta}_{2,n}$ be two estimators of $\theta$ such that
+$$\sqrt{n}(\widehat{\theta}_{1,n} - \theta) \overset{d}{\to} N(0, \sigma_1^2) \hspace{1cm} \sqrt{n}(\widehat{\theta}_{2,n} - \theta) \overset{d}{\to} N(0, \sigma_2^2)$$
+The **asymptotic relative efficiency** (ARE) of $\widehat{\theta}_{1,n}$ compared to $\widehat{\theta}_{2,n}$ is:
+
+\vspace{5cm}
+
+## Example: Normal variance estimators
+
+Let $\theta \in \mathbb{R}$ be a parameter of interest, and let $\widehat{\theta}_{1,n}$ and $\widehat{\theta}_{2,n}$ be two estimators of $\theta$ such that
+$$\sqrt{n}(\widehat{\theta}_{1,n} - \theta) \overset{d}{\to} N(0, \sigma_1^2) \hspace{1cm} \sqrt{n}(\widehat{\theta}_{2,n} - \theta) \overset{d}{\to} N(0, \sigma_2^2)$$
+$$ARE(\widehat{\theta}_{1,n}, \widehat{\theta}_{2,n}) = \dfrac{\sigma_2^2}{\sigma_1^2}$$
+
+\vspace{5cm}
+
+## Example: sample mean vs. sample median
+
+Let $\theta \in \mathbb{R}$ be a parameter of interest, and let $\widehat{\theta}_{1,n}$ and $\widehat{\theta}_{2,n}$ be two estimators of $\theta$ such that
+$$\sqrt{n}(\widehat{\theta}_{1,n} - \theta) \overset{d}{\to} N(0, \sigma_1^2) \hspace{1cm} \sqrt{n}(\widehat{\theta}_{2,n} - \theta) \overset{d}{\to} N(0, \sigma_2^2)$$
+$$ARE(\widehat{\theta}_{1,n}, \widehat{\theta}_{2,n}) = \dfrac{\sigma_2^2}{\sigma_1^2}$$
+
+\vspace{5cm}
+
+## Limiting distributions of functions of estimators?
+
+Suppose $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\lambda)$, with pdf $f(y) = \lambda e^{-\lambda y}$ for $y > 0$. 
+
+\vspace{6cm}
+
+## Delta method
+
+## Example: exponential
+
+Suppose $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\lambda)$, with pdf $f(y) = \lambda e^{-\lambda y}$ for $y > 0$. 
+
+**CLT:** 
+$$\sqrt{n}\left( \overline{Y} - \frac{1}{\lambda} \right) \overset{d}{\to} N\left(0, \frac{1}{\lambda^2} \right)$$
+
+\vspace{5cm}
+
+## Example: exponential
+
+Suppose $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\lambda)$, with pdf $f(y) = \lambda e^{-\lambda y}$ for $y > 0$. 
+$$\widehat{\lambda} = 1/\overline{Y} \hspace{0.5cm} \sqrt{n}(\widehat{\lambda} - \lambda) \overset{d}{\to} N(0, \lambda^2)$$
+Notice: asymptotic variance depends on the parameter $\lambda$ that we are trying to estimate!
+
+\vspace{5cm}
+
+## Example: Poisson
+
+Suppose $Y_1,...,Y_n \overset{iid}{\sim} Poisson(\lambda)$.
+$$\widehat{\lambda} = \overline{Y} \hspace{1cm} \sqrt{n}(\widehat{\lambda} - \lambda) \overset{d}{\to} N(0, \lambda)$$
+**Want:** variance-stabilizing transformation $g$ such that asymptotic variance of $\sqrt{n}(g(\widehat{\lambda}) - g(\lambda))$ does not depend on $\lambda$
+
+\vspace{5cm}
+
+## Example: non-constant variance
+
+**Example:** Data on the number of hospitals and number of doctors (MDs) in US counties
+
+```{r echo=F, message=F, warning=F, fig.width=3.5, fig.height=2.5}
+library(tidyverse)
+library(Stat2Data)
+data("CountyHealth")
+
+CountyHealth |>
+  ggplot(aes(x = Hospitals, y = MDs)) +
+  geom_point(size=1) +
+  theme_bw()
+```
+
+**Question:** How do we adjust for non-constant variance in a linear model?
+
+## Example: non-constant variance
+
+**Example:** Data on the number of hospitals and number of doctors (MDs) in US counties
+
+```{r echo=F, message=F, warning=F, fig.width=3.5, fig.height=2.5}
+CountyHealth |>
+  ggplot(aes(x = Hospitals, y = sqrt(MDs))) +
+  geom_point(size=1) +
+  theme_bw()
+```
+
+
+
+
+
+
