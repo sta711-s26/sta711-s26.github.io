@@ -1,0 +1,160 @@
+---
+title: "MLE with mis-specified model"
+author: "Ciaran Evans"
+output: beamer_presentation
+editor_options: 
+  chunk_output_type: console
+---
+
+## Warmup
+
+## Warmup: Poisson
+
+Suppose $Y_1,...,Y_n \overset{iid}{\sim} Poisson(\lambda)$.
+$$\widehat{\lambda} = \overline{Y} \hspace{1cm} \sqrt{n}(\widehat{\lambda} - \lambda) \overset{d}{\to} N(0, \lambda)$$
+**Want:** variance-stabilizing transformation $g$ such that asymptotic variance of $\sqrt{n}(g(\widehat{\lambda}) - g(\lambda))$ does not depend on $\lambda$
+
+\vspace{5cm}
+
+## Example: non-constant variance
+
+**Example:** Data on the number of hospitals and number of doctors (MDs) in US counties
+
+```{r echo=F, message=F, warning=F, fig.width=3.5, fig.height=2.5}
+library(tidyverse)
+library(Stat2Data)
+data("CountyHealth")
+
+CountyHealth |>
+  ggplot(aes(x = Hospitals, y = MDs)) +
+  geom_point(size=1) +
+  theme_bw()
+```
+
+**Question:** How do we adjust for non-constant variance in a linear model?
+
+## Example: non-constant variance
+
+**Example:** Data on the number of hospitals and number of doctors (MDs) in US counties
+
+```{r echo=F, message=F, warning=F, fig.width=3.5, fig.height=2.5}
+CountyHealth |>
+  ggplot(aes(x = Hospitals, y = sqrt(MDs))) +
+  geom_point(size=1) +
+  theme_bw()
+```
+
+## Variance stablizing transformations
+
+Variance stabilizing transformations are often used when there is a relationship between the *mean* and the *variance* -- for example, transforming the response in a linear regression model. Different transformations address different mean-variance relationships. Some examples:
+
+* If $\mathbb{E}[Y] = \mu$ and $Var(Y) = \mu$, then **square root** is a variance stabilizing transformation
+* If $\mathbb{E}[Y] = \mu$ and $Var(Y) = \mu^2$, then **log** is a variance stablizing transformation
+
+\vspace{4cm}
+
+## Why maximum likelihood estimators are nice
+
+Let $\boldsymbol{\theta} \in \mathbb{R}^d$ be a parameter of interest for a distribution with probability function $f(y | \boldsymbol{\theta})$, and $\widehat{\boldsymbol{\theta}}$ the maximum likelihood estimator. Under regularity conditions, the MLE has some very nice properties:
+
+* $\widehat{\boldsymbol{\theta}} \overset{p}{\to} \boldsymbol{\theta}$ (consistency)
+* $\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}) \overset{d}{\to} N(\boldsymbol{0}, \mathcal{I}_1^{-1}(\boldsymbol{\theta}))$ (asymptotic normality)
+
+\vspace{3cm}
+
+**However:** These results assume that we have correctly specified the data distribution $f(y|\boldsymbol{\theta})$! What happens if we were *wrong*?
+
+## Revisiting the asymptotic normality proof
+
+**Theorem:** Let $Y_1,...,Y_n \overset{iid}{\sim} f(y|\boldsymbol{\theta})$, and let $\widehat{\boldsymbol{\theta}}$ be the MLE of $\boldsymbol{\theta}$. Under regularity conditions,
+$$\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}) \overset{d}{\to} N(\boldsymbol{0}, \mathcal{I}_1^{-1}(\boldsymbol{\theta}))$$
+**Proof sketch:**
+
+\vspace{5cm}
+
+## Asymptotics when the distribution is mis-specified?
+
+**Setup:** Suppose that $Y_1,...,Y_n \overset{iid}{\sim} g$ for some (unknown) distribution with probability function $g$. *However*, we instead assume that $Y_i \overset{iid}{\sim} f(y|\boldsymbol{\theta})$ for some specified distribution $f$ with parameter $\boldsymbol{\theta}$.
+
+\vspace{6cm}
+
+## Example from regression
+
+**Truth:** $(X_i, Y_i)$ with $Y_i | X_i \sim N(\gamma_0 + \gamma_1 X_i + \gamma_2 X_i^2 + \gamma_3 X_i^3, \sigma^2)$
+
+**Assumption:** $(X_i, Y_i)$ with $Y_i | X_i \sim N(\beta_0 + \beta_1 X_i, \sigma^2)$
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=3, fig.height=2.5}
+library(tidyverse)
+
+set.seed(5)
+x <- runif(100, -5, 5)
+y <- 2 - 3*x + 0.5*x^3 + rnorm(100, sd=7)
+
+data.frame(x = x, y = y, z = 2 - 3*x + 0.5*x^3) |>
+  ggplot(aes(x = x)) +
+  geom_point(aes(y = y), size=0.5) +
+  geom_line(aes(y = z), color="blue", lwd=0.5) +
+  geom_smooth(aes(x = x, y = y), method = "lm", se=F, color="red", lwd=0.5, lty=2) +
+  theme_bw()
+```
+
+## Asymptotics when the distribution is mis-specified?
+
+**Setup:** Suppose that $Y_1,...,Y_n \overset{iid}{\sim} g$ for some (unknown) distribution with probability function $g$. *However*, we instead assume that $Y_i \overset{iid}{\sim} f(y|\boldsymbol{\theta})$ for some specified distribution $f$ with parameter $\boldsymbol{\theta}$.
+
+\vspace{6cm}
+
+## Asymptotics when the distribution is mis-specified?
+
+**Setup:** Suppose that $Y_1,...,Y_n \overset{iid}{\sim} g$ for some (unknown) distribution with probability function $g$. *However*, we instead assume that $Y_i \overset{iid}{\sim} f(y|\boldsymbol{\theta})$ for some specified distribution $f$ with parameter $\boldsymbol{\theta}$.
+
+* Let $\boldsymbol{\theta}_0$ solve $\mathbb{E}_g\left[ \frac{\partial}{\partial \boldsymbol{\theta}} \log f(Y|\boldsymbol{\theta}) \right] = \boldsymbol{0}$.
+* Let $\widehat{\boldsymbol{\theta}}$ solve $\sum \limits_{i=1}^n \frac{\partial}{\partial \boldsymbol{\theta}} \log f(Y_i | \boldsymbol{\theta}) = \boldsymbol{0}$
+
+**Key results:** Under regularity conditions,
+
+* $\widehat{\boldsymbol{\theta}} \overset{p}{\to} \boldsymbol{\theta}_0$
+* $\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\theta}_0))$ where
+$$\mathbf{S}(\boldsymbol{\theta}_0) = \mathbf{A}^{-1} \mathbf{B} \mathbf{A}^{-1}$$
+$$
+\mathbf{A} = -\mathbb{E}_g\left[\frac{\partial^2}{\partial \boldsymbol{\theta}^2_0} \log f(Y_i | \boldsymbol{\theta}_0)  \right] \hspace{1cm} \mathbf{B} = Var_g \left( \frac{\partial}{\partial \boldsymbol{\theta}_0} \log f(Y_i | \boldsymbol{\theta}_0) \right)
+$$
+
+## Example: linear regression
+
+*Assumed* model: $Y_i | \mathbf{x}_i \sim N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma^2)$
+
+\vspace{6cm}
+
+
+```{r, include=F}
+nsim <- 1000
+n <- 100
+
+beta1_ests <- rep(NA, nsim)
+beta1_var_naive <- rep(NA, nsim)
+beta1_var_robust <- rep(NA, nsim)
+
+for(i in 1:nsim){
+  x <- runif(n, -5, 5)
+  y <- 2 - 3*x + 0.5*x^3 + rnorm(n, sd=7)
+  
+  m1 <- lm(y ~ x)
+  beta1_ests[i] <- coef(m1)[2]
+  beta1_var_naive[i] <- vcov(m1)[2,2]
+  
+  X <- cbind(1, x)
+  W <- diag((y - m1$fitted.values)^2)
+  S_hat <- solve(t(X) %*% X) %*% t(X) %*% W %*% X %*% solve(t(X) %*% X)
+  beta1_var_robust[i] <- S_hat[2,2]
+}
+
+var(beta1_ests)
+mean(beta1_var_naive)
+mean(beta1_var_robust)
+```
+
+
+
+

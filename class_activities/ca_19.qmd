@@ -1,0 +1,63 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+## Robust variance estimation for linear regression models
+
+Suppose we have iid data $(\mathbf{x}_i, Y_i)$ from some distribution. We make the linear regression assumption (which may not be correct!) that
+
+$$Y_i|\mathbf{x}_i \sim N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma^2)$$
+
+We fit the linear regression model, producing the estimated coefficients $\widehat{\boldsymbol{\beta}}$. The asymptotic distribution of $\widehat{\boldsymbol{\beta}}$ is
+
+$$\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}_0) \overset{d}{\to} N(\mathbf{0}, \mathbf{S}(\boldsymbol{\beta}_0))$$
+
+where the robust (sandwich) variance
+
+$$\mathbf{S}(\boldsymbol{\beta}_0) = (\mathbb{E}_g[\mathbf{x}_i \mathbf{x}_i^T])^{-1} \ \mathbb{E}_g[(Y_i - \mathbf{x}_i^T \boldsymbol{\beta}_0)^2 \mathbf{x}_i \mathbf{x}_i^T] \ (\mathbb{E}_g[\mathbf{x}_i \mathbf{x}_i^T])^{-1}$$
+
+The plug-in estimator is 
+
+$$\widehat{\mathbf{S}} = n (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W} \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1}$$
+
+where $\mathbf{W} = \text{diag}((Y_i - \widehat{Y}_i)^2)$. That is, the approximate variance of $\widehat{\boldsymbol{\beta}}$ is
+
+$$Var_g(\widehat{\boldsymbol{\beta}}) \approx (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W} \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1}$$
+
+## Questions
+
+The code below simulates data from the model
+
+$$X_i \overset{iid}{\sim} Uniform(-5, 5) \hspace{1cm} \varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$$
+
+$$Y_i = 2 - 3 X_i + 0.5 X_i^3 + \varepsilon_i$$
+We then **incorrectly** assume that
+
+$$Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$$
+and fit the (wrong) linear model.
+
+```{r, eval=F}
+n <- 100
+
+# generate x and y
+x <- runif(n, -5, 5)
+y <- 2 - 3*x + 0.5*x^3 + rnorm(n, sd=7)
+
+# fit the (wrong) linear model
+m1 <- lm(y ~ x)
+```
+
+1. Compute the estimated robust sandwich variance estimator for $\widehat{\boldsymbol{\beta}}$.
+
+2. The naive variance estimator for $\widehat{\boldsymbol{\beta}}$ is $\widehat{\sigma}^2 (\mathbf{X}^T \mathbf{X})^{-1}$, and can be computed in R with `vcov(m1)`. Compare the naive estimator with the robust estimator from question 1.
+
+3. Repeat the simulation many times. For each iteration:
+    * Fit the linear model
+    * Store $\widehat{\beta}_1$
+    * Compute and store the robust and naive estimators of $Var(\widehat{\beta}_1)$
+
+4. Using your simulation results, approximate the variance of $\widehat{\beta}_1$, and the average variance estimates from the naive and robust estimators. Which of the two variance estimators does a better job?
+
+
