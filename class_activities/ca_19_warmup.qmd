@@ -1,0 +1,28 @@
+---
+title: "Activity: Variance stabilizing transformations"
+format: pdf
+editor: source
+---
+
+\vspace{-3cm}
+
+## Delta method and variance stabilizing transformations
+
+Suppose that $\theta \in \mathbb{R}$ is a parameter of interest, and $\widehat{\theta}$ an estimator such that
+
+$$\sqrt{n}(\widehat{\theta} - \theta) \overset{d}{\to} N(0, \sigma^2)$$
+
+for some variance $\sigma^2$ (which could depend on $\theta$). The **delta method** allows us to determine the asymptotic distribution of $g(\widehat{\theta})$ for a suitably nice function $g$: if $g$ is a continuously differentiable function such that $g'(\theta) \neq 0$, then
+
+$$\sqrt{n}(g(\widehat{\theta}) - g(\theta)) \overset{d}{\to} N(0, \sigma^2 [g'(\theta)]^2)$$
+
+If $\sigma^2$ depends on $\theta$, but $\sigma^2 [g'(\theta)]^2$ does not, then we say that $g$ is a **variance stabilizing transformation**.
+
+### Question
+
+Suppose that $Y_1,...,Y_n \overset{iid}{\sim} Poisson(\lambda)$. Then, the MLE (and MoM) is $\widehat{\lambda} = \overline{Y}$, and 
+
+$$\sqrt{n}(\widehat{\lambda} - \lambda) \overset{d}{\to} N(0, \lambda)$$
+
+Find a variance stablizing transformation $g$, so that the asymptotic variance of $g(\lambda)$ does not depend on $\lambda$.
+
