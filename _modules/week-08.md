@@ -4,7 +4,7 @@ title: Robustness and model mis-specification
 
 March 2
 : MLE under mis-specification, sandwich variance
-  : [Slides](https://sta711-s26.github.io/slides/lecture_19.pdf), [warmup](https://sta711-s26.github.io/class_activities/ca_19_warmup.pdf), [Activity](https://sta711-s26.github.io/class_activities/ca_19.html)
+  : [Slides](https://sta711-s26.github.io/slides/lecture_19.pdf), [warmup](https://sta711-s26.github.io/class_activities/ca_19_warmup.pdf)
 
 March 4
 : MLE under mis-specification, sandwich variance
