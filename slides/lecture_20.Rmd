@@ -1,0 +1,61 @@
+---
+title: "MLE with mis-specified model"
+author: "Ciaran Evans"
+output: beamer_presentation
+editor_options: 
+  chunk_output_type: console
+---
+
+## Asymptotics when the distribution is mis-specified?
+
+**Setup:** Suppose that $Y_1,...,Y_n \overset{iid}{\sim} g$ for some (unknown) distribution with probability function $g$. *However*, we instead assume that $Y_i \overset{iid}{\sim} f(y|\boldsymbol{\theta})$ for some specified distribution $f$ with parameter $\boldsymbol{\theta}$.
+
+* Let $\boldsymbol{\theta}_0$ solve $\mathbb{E}_g\left[ \frac{\partial}{\partial \boldsymbol{\theta}} \log f(Y|\boldsymbol{\theta}) \right] = \boldsymbol{0}$.
+* Let $\widehat{\boldsymbol{\theta}}$ solve $\sum \limits_{i=1}^n \frac{\partial}{\partial \boldsymbol{\theta}} \log f(Y_i | \boldsymbol{\theta}) = \boldsymbol{0}$
+
+**Key results:** Under regularity conditions,
+
+* $\widehat{\boldsymbol{\theta}} \overset{p}{\to} \boldsymbol{\theta}_0$
+* $\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\theta}_0))$ where
+$$\mathbf{S}(\boldsymbol{\theta}_0) = \mathbf{A}^{-1} \mathbf{B} \mathbf{A}^{-1}$$
+$$
+\mathbf{A} = -\mathbb{E}_g\left[\frac{\partial^2}{\partial \boldsymbol{\theta}^2_0} \log f(Y_i | \boldsymbol{\theta}_0)  \right] \hspace{1cm} \mathbf{B} = Var_g \left( \frac{\partial}{\partial \boldsymbol{\theta}_0} \log f(Y_i | \boldsymbol{\theta}_0) \right)
+$$
+
+## Example: linear regression
+
+*Assumed* model: $Y_i | \mathbf{x}_i \sim N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma^2)$
+
+\vspace{6cm}
+
+
+```{r, include=F}
+nsim <- 1000
+n <- 100
+
+beta1_ests <- rep(NA, nsim)
+beta1_var_naive <- rep(NA, nsim)
+beta1_var_robust <- rep(NA, nsim)
+
+for(i in 1:nsim){
+  x <- runif(n, -5, 5)
+  y <- 2 - 3*x + 0.5*x^3 + rnorm(n, sd=7)
+  
+  m1 <- lm(y ~ x)
+  beta1_ests[i] <- coef(m1)[2]
+  beta1_var_naive[i] <- vcov(m1)[2,2]
+  
+  X <- cbind(1, x)
+  W <- diag((y - m1$fitted.values)^2)
+  S_hat <- solve(t(X) %*% X) %*% t(X) %*% W %*% X %*% solve(t(X) %*% X)
+  beta1_var_robust[i] <- S_hat[2,2]
+}
+
+var(beta1_ests)
+mean(beta1_var_naive)
+mean(beta1_var_robust)
+```
+
+
+
+

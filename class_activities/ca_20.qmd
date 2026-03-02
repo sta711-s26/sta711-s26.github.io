@@ -1,0 +1,139 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+## Robust variance estimation for linear regression models
+
+Suppose we have iid data $(\mathbf{x}_i, Y_i)$ from some distribution. We make the linear regression assumption (which may not be correct!) that
+
+$$Y_i|\mathbf{x}_i \sim N(\mathbf{x}_i^T \boldsymbol{\beta}, \sigma^2)$$
+
+We fit the linear regression model, producing the estimated coefficients $\widehat{\boldsymbol{\beta}}$. The asymptotic distribution of $\widehat{\boldsymbol{\beta}}$ is
+
+$$\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}_0) \overset{d}{\to} N(\mathbf{0}, \mathbf{S}(\boldsymbol{\beta}_0))$$
+
+where the robust (sandwich) variance
+
+$$\mathbf{S}(\boldsymbol{\beta}_0) = (\mathbb{E}_g[\mathbf{x}_i \mathbf{x}_i^T])^{-1} \ \mathbb{E}_g[(Y_i - \mathbf{x}_i^T \boldsymbol{\beta}_0)^2 \mathbf{x}_i \mathbf{x}_i^T] \ (\mathbb{E}_g[\mathbf{x}_i \mathbf{x}_i^T])^{-1}$$
+
+The plug-in estimator is 
+
+$$\widehat{\mathbf{S}} = n (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W} \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1}$$
+
+where $\mathbf{W} = \text{diag}((Y_i - \widehat{Y}_i)^2)$. That is, the approximate variance of $\widehat{\boldsymbol{\beta}}$ is
+
+$$Var_g(\widehat{\boldsymbol{\beta}}) \approx (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W} \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1}$$
+
+### "Naive" variance
+
+The robust (sandwich) estimator does not assume that our linear model is correctly specified. If we were to instead assume that our model is correct, then our estimator for the variance of the regression coefficients would be
+
+$$\widehat{Var}(\widehat{\boldsymbol{\beta}}) = \widehat{\sigma}^2 (\mathbf{X}^T \mathbf{X})^{-1}$$
+
+We sometimes call this estimator the **"naive"** variance estimator. 
+
+## Questions
+
+The code below simulates data from the model
+
+$$X_i \overset{iid}{\sim} Uniform(-5, 5) \hspace{1cm} \varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$$
+
+$$Y_i = 2 - 3 X_i + 0.5 X_i^3 + \varepsilon_i$$
+We then **incorrectly** assume that
+
+$$Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$$
+and fit the (wrong) linear model.
+
+```{r, eval=F}
+n <- 100
+
+# generate x and y
+x <- runif(n, -5, 5)
+y <- 2 - 3*x + 0.5*x^3 + rnorm(n, sd=7)
+
+# fit the (wrong) linear model
+m1 <- lm(y ~ x)
+```
+
+1. Compute the estimated robust sandwich variance estimator for $\widehat{\boldsymbol{\beta}}$.
+
+2. The naive variance estimator for $\widehat{\boldsymbol{\beta}}$ is $\widehat{\sigma}^2 (\mathbf{X}^T \mathbf{X})^{-1}$, and can be computed in R with `vcov(m1)`. Compare the naive estimator with the robust estimator from question 1.
+
+3. Repeat the simulation many times. For each iteration:
+    * Fit the linear model
+    * Store $\widehat{\beta}_1$
+    * Compute and store the robust and naive estimators of $Var(\widehat{\beta}_1)$
+
+4. Using your simulation results, approximate the variance of $\widehat{\beta}_1$, and the average variance estimates from the naive and robust estimators. Which of the two variance estimators does a better job?
+
+### Another example
+
+In the example above, the regression function is mis-specified -- we have assumed a linear relationship, when actually the true relationship is nonlinear. Another way our model can be mis-specified is if we assume constant variance for the residuals, but in fact the variance $Var(\varepsilon_i)$ depends on the explanatory variables $\mathbf{x}_i$. While weighted least squares can be used to handle non-constant variance, weighted least squares assumes we have a good way of obtaining the weights. If not, then using the robust (sandwich) variance is a good choice.
+
+The code below simulates data from the model
+
+$$X_i \overset{iid}{\sim} Uniform(0, 5) \hspace{1cm} \varepsilon_i \overset{\text{independent}}{\sim} N(0, X_i^4)$$
+
+$$Y_i = 2 - 3 X_i + \varepsilon_i$$
+We then **incorrectly** assume that $\varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$ and fit the linear model.
+
+```{r, eval=F}
+n <- 300
+
+# generate x and y
+x <- runif(n, 0, 5)
+y <- 2 - 3*x + rnorm(n, sd=x^2)
+  
+# fit the model
+m1 <- lm(y ~ x)
+```
+
+5. Repeat the steps from the previous example with this new situation. How do the naive and robust variance estimators compare?
+
+6. How does your answer to question 5 change as you change $Var(\varepsilon_i)$? E.g., you could examine other functions of $X_i$, such as $X_i^2$, $\sqrt{X}_i$, etc.
+
+
+
+```{r, include=F}
+nsim <- 1000
+n <- 300
+
+beta1_ests <- rep(NA, nsim)
+beta1_var_naive <- rep(NA, nsim)
+beta1_var_robust <- rep(NA, nsim)
+
+beta1_captures_naive <- rep(NA, nsim)
+beta1_captures_robust <- rep(NA, nsim)
+
+for(i in 1:nsim){
+  x <- runif(n, 0, 5)
+  y <- 2 - 3*x + rnorm(n, sd=x^2)
+  
+  m1 <- lm(y ~ x)
+  beta1_ests[i] <- coef(m1)[2]
+  beta1_var_naive[i] <- vcov(m1)[2,2]
+  
+  X <- cbind(1, x)
+  W <- diag((y - m1$fitted.values)^2)
+  S_hat <- solve(t(X) %*% X) %*% t(X) %*% W %*% X %*% solve(t(X) %*% X)
+  beta1_var_robust[i] <- S_hat[2,2]
+  
+  beta1_captures_naive[i] <- (beta1_ests[i] - 1.96*sqrt(beta1_var_naive[i]) < -3 & 
+                                beta1_ests[i] + 1.96*sqrt(beta1_var_naive[i]) > -3)
+  beta1_captures_robust[i] <- (beta1_ests[i] - 1.96*sqrt(beta1_var_robust[i]) < -3 & 
+                                beta1_ests[i] + 1.96*sqrt(beta1_var_robust[i]) > -3)
+}
+
+var(beta1_ests)
+mean(beta1_var_naive)
+mean(beta1_var_robust)
+
+mean(beta1_captures_naive)
+mean(beta1_captures_robust)
+```
+
+
+
+

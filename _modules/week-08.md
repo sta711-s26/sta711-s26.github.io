@@ -8,6 +8,7 @@ March 2
 
 March 4
 : MLE under mis-specification, sandwich variance
+  : [Slides](https://sta711-s26.github.io/slides/lecture_20.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_20.html)
 
 March 6
 : Robust estimation
