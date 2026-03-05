@@ -325,17 +325,7 @@ Now let's use the result of question 9 to examine the performance of the sample 
     
 :::
 
-::: {.callout-note icon=false}
 
-## Question 11
-
-11. Now suppose that we have $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\lambda)$, with pdf $f(y) = \lambda e^{-\lambda y}$ and cdf $F(y) = 1 - e^{-\lambda y}$.
-    (a) Find the median of the $Exponential(\lambda)$ distribution, as a function of $\lambda$.
-    (b) Using your result from part (a), propose an estimator $\widehat{\lambda}_{\text{med}}$ for $\lambda$ that is an appropriate function of the sample median $M_n$.
-    (c) Find the asymptotic distribution of $\sqrt{n}(\widehat{\lambda}_{\text{med}} - \lambda)$ for your estimator from part (b).
-    (d) We have previously shown that the MLE is $\widehat{\lambda}_{MLE} = 1/\overline{Y}$, and $\sqrt{n}(\widehat{\lambda}_{MLE} - \lambda) \overset{d}{\to} N(0, \lambda^2)$. Using this information, find the asymptotic relative efficiency $ARE(\widehat{\lambda}_{MLE}, \widehat{\lambda}_{\text{med}})$.
-
-:::
 
 
 
