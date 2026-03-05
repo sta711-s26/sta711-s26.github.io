@@ -1,0 +1,286 @@
+---
+title: "Homework 7"
+format: html
+---
+
+**Due:** Friday, March 20, 11:59pm on Canvas
+
+**Instructions:** For mathematical work, you may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.
+
+See the course website for a [homework template](https://sta711-s26.github.io/homework/hw_template.tex) file and [instructions](https://sta711-s26.github.io/homework/latex_instructions/) on getting started with LaTeX and Overleaf.
+
+## Variance stabilizing transformation
+
+Let $Y_1,...,Y_n \overset{iid}{\sim} IG(\mu, 1)$ be an iid sample from the *inverse Gaussian* distribution, with moment generating function
+
+$$M_Y(t) = \exp \left\lbrace \frac{1}{\mu} \left(1 - \sqrt{1 - 2 \mu^2 t}\right) \right\rbrace$$
+
+1. In this question we will look at the distribution of $\overline{Y}$.
+    (a) Find the limiting distribution of $\sqrt{n}(\overline{Y} - \mu)$.
+    (b) Find a variance stabilizing transformation $g$, so that the asymptotic variance of $\sqrt{n}(g(\overline{Y}) - g(\mu))$ does not depend on $\mu$.
+    
+    
+## Sandwich variance -- Poisson regression
+
+Suppose that we have iid observations $(\mathbf{x}_i, Y_i)$ from some distribution $g$. We *assume* that the data come from the Poisson regression model:
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i &\sim Poisson(\mu_i) \\
+\log(\mu_i) &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{aligned}
+$$
+However, our assumption could be wrong! We therefore decide to use the sandwich variance estimator. Let $\widehat{\boldsymbol{\beta}}$ be our estimator obtained by maximizing the Poisson likelihood (which may or may not be the true likelihood). Then, recall that we have shown that
+
+$$
+\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}^0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\beta}^0))
+$$
+
+where $\mathbf{S}(\boldsymbol{\beta}^0)$ is the sandwich variance.
+
+2. In this question, we will explore the asymptotic distribution of $\widehat{\boldsymbol{\beta}}$.
+    (a) Explain what $\boldsymbol{\beta}^0$ represents in this setting, in terms of some expectation with respect to the true distribution $g$.
+    (b) Analogous to the class example with linear regression, find an expression for $\mathbf{S}(\boldsymbol{\beta}^0)$ in terms of expectations (with respect to $g$) involving $\mathbf{x}_i$, $Y_i$, and $\mu_i$.
+    (c) Give the plug-in estimator for $\mathbf{S}(\boldsymbol{\beta}^0)$ in terms of the observed $\mathbf{x}_i$, $Y_i$, and $\widehat{\boldsymbol{\beta}}$.
+    
+### Simulation: the effect of model mis-specification
+
+Now let's use some simulations to explore the behavior of $\widehat{\boldsymbol{\beta}}$ when the model is mis-specified. For these simulations, suppose that we observe iid data $(\mathbf{x}_i, Y_i)$ where
+
+$$
+\begin{aligned}
+Y_i | \mathbf{x}_i &\sim NB(\mu_i, \theta) \\
+\log(\mu_i) &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{aligned}
+$$
+
+where $NB(\mu_i, \theta)$ is the *negative binomial* distribution with mean $\mathbb{E}[Y_i|\mathbf{x}_i] = \mu_i$ and variance $Var(Y_i | \mathbf{x}_i) = \mu_i + \frac{\mu_i^2}{\theta}$.
+
+In this model, we can see that we have correctly specified the **systematic** component of the model (the log mean is a linear function of the explanatory variables). However, we have incorrectly specified the random component. As we saw in HW 1, there is a close connection between the negative binomial and the Poisson. For large $\theta$, $NB(\mu_i, \theta) \approx Poisson(\mu_i)$. But for small $\theta$, the negative binomial has much more variability than the Poisson. So, for small $\theta$, our Poisson model will substantially underestimate the true variability in the data.
+
+The code below simulates $n = 200$ observations from the model
+
+$$X_i \overset{iid}{\sim} N(0, 1) \hspace{1cm} Y_i|X_i \sim NB(\mu_i = \exp\{1 + 0.5X_i \}, \theta = 0.5)$$
+We then fit a Poisson regression model to estimate the coefficients $\beta_0 = 1$ and $\beta_1 = 0.5$. Again note that, by construction, our *systematic* component of the model is correctly specified (the mean function), but our *random* component (the Poisson distribution) is *not* correct.
+
+```{r, eval=F}
+set.seed(523494)
+
+n <- 200
+theta <- 0.5
+x <- rnorm(n)
+mu <- exp(1 + 0.5*x)
+y <- rnbinom(n, size = theta, mu = mu)
+
+m1 <- glm(y ~ x, family = poisson)
+```
+
+3. Let $\widehat{\beta}_{1, \text{Pois}}$ be the estimate of $\beta_1$ from the Poisson fit. In this question, we will use simulations to explore the behavior of $\widehat{\beta}_{1, \text{Pois}}$.
+    (a) Using the expressions found in question 2, compute the robust (sandwich) variance estimator on the simulated data: $\widehat{Var}(\widehat{\boldsymbol{\beta}}_{\text{Pois}}) = \frac{1}{n}\widehat{\mathbf{S}}$
+    (b) The *naive* variance estimator assumes that the Poisson regression model is *correct*, and can be calculated with `vcov(m1)`. Compare the naive and robust variance estimators for the simulated data.
+    (c) Repeat the simulation many times. At each iteration, store $\widehat{\beta}_{1, \text{Pois}}$, and both the robust and naive estimators of $Var(\widehat{\beta}_{1, \text{Pois}})$.
+    (d) Using your results from part (c), verify that $Bias(\widehat{\beta}_{1, \text{Pois}}) \approx 0$. (This is because the systematic component of the model is correctly specified).
+    (e) Using your results from part (c), empirically estimate $Var(\widehat{\beta}_{1, \text{Pois}})$, and compare to the average estimates from the naive and robust approaches. Which method does better at estimating $Var(\widehat{\beta}_{1, \text{Pois}})$?
+    (f) Repeat parts (c) and (e) with different values of $\theta$ in the Negative Binomial. How does the relative performance of the naive and robust variance estimators change as $\theta$ increases?
+
+```{r, include=F, eval=F}
+poisson_sandwich <- function(mod){
+  X <- model.matrix(mod)
+  W1 <- diag(mod$fitted.values)
+  W2 <- diag((mod$y - mod$fitted.values)^2)
+  
+  solve(t(X) %*% W1 %*% X) %*% t(X) %*% W2 %*% X %*% solve(t(X) %*% W1 %*% X)
+}
+
+n <- 200
+#theta <- 0.5
+theta <- 10
+
+nsim <- 5000
+beta1_hat <- rep(NA, nsim)
+beta1_var_naive <- rep(NA, nsim)
+beta1_var_robust <- rep(NA, nsim)
+
+for(i in 1:nsim){
+  x <- rnorm(n)
+  mu <- exp(1 + 0.5*x)
+  y <- rnbinom(n, size = theta, mu = mu)
+  
+  m1 <- glm(y ~ x, family = poisson)
+  beta1_hat[i] <- coef(m1)[2]
+  beta1_var_naive[i] <- vcov(m1)[2,2]
+  beta1_var_robust[i] <- poisson_sandwich(m1)[2,2]
+}
+
+hist(beta1_hat)
+mean(beta1_hat)
+var(beta1_hat)
+mean(beta1_var_naive)
+mean(beta1_var_robust)
+```
+
+### Comparison with the MLE
+
+Though the Poisson model was mis-specified, $\widehat{\boldsymbol{\beta}}_{\text{Pois}}$ is still consistent for the true mean function because the systematic component was correct. Furthermore, using the sandwich variance allowed us to correctly estimate $Var(\widehat{\boldsymbol{\beta}}_{\text{Pois}})$.
+
+The next question to ask is: how does the Poisson estimator compare to the *true* MLE (i.e., the MLE obtained by correctly assuming a Negative Binomial)?
+
+The estimator $\widehat{\boldsymbol{\beta}}_{\text{NB}}$ obtained by maximum likelihood estimation with the Negative Binomial distribution can be calculated in R using the `glm.nb` function from the `MASS` package. Here is an example:
+
+```{r, eval=F}
+set.seed(523494)
+
+n <- 200
+theta <- 0.5
+x <- rnorm(n)
+mu <- exp(1 + 0.5*x)
+y <- rnbinom(n, size = theta, mu = mu)
+
+m1 <- glm(y ~ x, family = poisson)
+m2 <- MASS::glm.nb(y ~ x)
+```
+
+
+4. Let's compare $\widehat{\boldsymbol{\beta}}_{\text{Pois}}$ to $\widehat{\boldsymbol{\beta}}_{\text{NB}}$ in simulations.
+    (a) Repeat the provided simulation code many times. For each iteration, store the slope estimates $\widehat{\beta}_{1, \text{Pois}}$ and $\widehat{\beta}_{1, \text{NB}}$ from the Poisson and Negative Binomial models, respectively.
+    (b) Using the results from part (a), compare the variances of $\widehat{\beta}_{1, \text{Pois}}$ and $\widehat{\beta}_{1, \text{NB}}$. Which estimator should we prefer?
+    (c) With reference to asymptotic properties of MLEs, explain why the results in part (b) should be expected.
+    (d) Repeat (a) and (b) with different values of $\theta$. How does the relative performance of $\widehat{\beta}_{1, \text{Pois}}$ and $\widehat{\beta}_{1, \text{NB}}$ change as $\theta$ increases? Why?
+
+
+```{r, include=F, eval=F}
+n <- 200
+#theta <- 0.5
+theta <- 10
+
+nsim <- 1000
+beta1_hat_pois <- rep(NA, nsim)
+beta1_hat_nb <- rep(NA, nsim)
+
+for(i in 1:nsim){
+  x <- rnorm(n)
+  mu <- exp(1 + 0.5*x)
+  y <- rnbinom(n, size = theta, mu = mu)
+  
+  m1 <- glm(y ~ x, family = poisson)
+  m2 <- MASS::glm.nb(y ~ x)
+  
+  beta1_hat_pois[i] <- coef(m1)[2]
+  beta1_hat_nb[i] <- coef(m2)[2]
+}
+
+var(beta1_hat_pois)
+var(beta1_hat_nb)
+```
+
+### Moral
+
+The point here is that, if parts of our model are correct (or close enough to correct), then maximum likelihood estimation with a mis-specified model can still be useful for parameter estimation. Furthermore, the sandwich variance can approximate the true variance of our parameter estimates even though the model is mis-specified.
+
+However, we also know that maximum likelihood estimation is asymptotically efficient -- maximum likelihood estimation with a correctly-specified model will beat incorrect model + sandwich variance.
+
+## M-estimation: sample mean and variance
+
+Suppose we have iid data $Y_1,...,Y_n$ from some distribution $g$ with finite mean and variance $\mathbb{E}_g[Y_i] = \mu$ and $Var_g(Y_i) = \sigma^2$. The estimated mean and variance from the sample moments are
+
+$$\widehat{\mu} = \frac{1}{n} \sum \limits_{i=1}^n Y_i = \overline{Y} \hspace{1cm} \widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2$$
+Let $\boldsymbol{\theta}_0 = (\mu, \sigma^2)^T$ be the true mean and variance, and $\widehat{\boldsymbol{\theta}} = (\widehat{\mu}, \widehat{\sigma}^2)^T$.
+
+5. The purpose of this question is to use our M-estimation results to analyze the asymptotic behavior of $\widehat{\boldsymbol{\theta}}$.
+    (a) Find a function $\psi(Y_i, \boldsymbol{\theta})$ such that $\widehat{\boldsymbol{\theta}}$ is the solution to
+    $$\sum \limits_{i=1}^n \psi(Y_i, \boldsymbol{\theta}) = \boldsymbol{0}$$
+    (*Hint*: $\psi$ will be a vector-valued function, since $\widehat{\boldsymbol{\theta}}$ needs to solve a system of two equations with two unknowns!)
+    (b) Show that the sandwich variance is given by
+    $$\mathbf{S}(\boldsymbol{\theta}_0) = \begin{pmatrix} \sigma^2 & \mathbb{E}_g[(Y_i - \mu)^3] \\ \mathbb{E}_g[(Y_i - \mu)^3] & \mathbb{E}_g[(Y_i - \mu)^4] - \sigma^2 \end{pmatrix}$$
+    
+6. **If** $Y_i \overset{iid}{\sim} N(\mu, \sigma^2)$, then $\widehat{\boldsymbol{\theta}}$ is also the maximum likelihood estimator, and previously you have shown that the Fisher information is 
+$$\mathcal{I}_1(\boldsymbol{\theta}_0) = \begin{pmatrix} \frac{1}{\sigma^2} & 0 \\ 0 & \frac{1}{2\sigma^4} \end{pmatrix}$$
+Show that, if $Y_i \overset{iid}{\sim} N(\mu, \sigma^2)$, then your sandwich variance from question 5 is equal to
+$$\mathbf{S}(\boldsymbol{\theta}_0) = \begin{pmatrix} \sigma^2 & 0 \\ 0 & 2 \sigma^4 \end{pmatrix} = \mathcal{I}_1^{-1}(\boldsymbol{\theta}_0)$$
+(This is what we should expect, since we can't have two different asymptotic variances for the same estimator!) You may use, without proof, the fact that if $Y_i \sim N(\mu, \sigma^2)$, then for any $q \in \mathbb{N}$,
+$$
+\begin{aligned}
+\mathbb{E}[(Y_i - \mu)^{2q + 1}] &= 0 \\
+\mathbb{E}[(Y_i - \mu)^{2q}] &= \sigma^{2q}(2q - 1)!! = \sigma^{2q}(2q - 1)(2q - 3) \cdots 3 \cdot 1 \\
+\end{aligned}
+$$
+
+## Empirical cdfs, quantiles, and M-estimation
+
+So far, our class has focused mostly on *parametric* estimation: we write down a parametric model for the data, and fit the model using techniques like maximum likelihood estimation. However, estimation need not be parametric -- there are a wide variety of *nonparametric* approaches to estimating distributions and statistical functionals. Here we will explore estimation of the cdf and quantiles for an arbitrary distribution, without requiring any parametric assumptions on the distribution.
+
+### Empirical cdf
+
+Let $Y_1,...,Y_n$ be an iid sample from some distribution with cdf $F$. No assumptions are made about the form of $F$. The natural estimator of $F$ is called the **empirical cdf**, $F_n$, and is defined as:
+
+$$F_n(t) = \frac{1}{n} \sum \limits_{i=1}^n \mathbb{I}\{ Y_i \leq t \}$$
+
+7. Show that, for all $t$, $F_n(t) \overset{p}{\to} F(t)$. (In fact, this result can be strengthened to *uniform* convergence, a result of the *Glivenko-Cantelli* theorem, but we will not prove that here).
+
+8. For a fixed $t$, find the limiting distribution of $\sqrt{n}(F_n(t) - F(t))$.
+
+
+### Quantiles and M-estimation
+
+For $p \in (0, 1)$, the $p$th quantile of $F$ is the value $\theta = F^{-1}(p)$. That is, $F(\theta) = p$. For example, the **median** is the quantile with $p = 0.5$. 
+
+We estimate quantiles of $F$ with the quantiles of the empirical cdf $F_n$. In particular, the sample $p$th quantile is $\widehat{\theta} = F_n^{-1}(p)$. Written another way, $F_n(\widehat{\theta}) \approx p$. And to be a bit more formal:
+$$|F_n(\widehat{\theta}) - p| \leq \frac{1}{n}$$
+Now, we can write this like an M-estimator! The sample quantile $\widehat{\theta}$ satisfies
+
+$$
+\sum \limits_{i=1}^n \psi(Y_i, \widehat{\theta}) = c_n
+$${#eq-quantile_m}
+where
+$$\psi(Y_i, \widehat{\theta}) = \mathbb{I}\{Y_i \leq \widehat{\theta}\} - p$$
+and 
+$$|c_n| = n|F_n(\widehat{\theta}) - p| \leq 1$$
+
+@eq-quantile_m looks **very similar** to our definition of an M-estimator. However, we have two small problems to deal with before we can apply M-estimator results. First, the right-hand side of @eq-quantile_m is not 0; it is $c_n$. Second, the function $\psi$ has a jump discontinuity at $Y_i$, which causes problems for differentiation. Fortunately, both of these issues can be accounted for in our theory of M-estimation, as described in the following small extension of the results from class.
+
+**Extension:** Suppose $Y_1,...,Y_n$ are iid from some distribution $F$, and $\widehat{\boldsymbol{\theta}}$ is an estimator which satisfies
+$$\sum \limits_{i=1}^n \psi(Y_i, \widehat{\boldsymbol{\theta}}) = \boldsymbol{c}_n$$
+where $\boldsymbol{c}_n/\sqrt{n} \overset{p}{\to} \boldsymbol{0}$ as $n \to \infty$. Furthermore, suppose that $\psi$ is not necessarily continuous. Then,
+$$\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\theta}_0))$$
+where
+$$\mathbf{S}(\boldsymbol{\theta}_0) = \mathbf{A}^{-1} \mathbf{B} \mathbf{A}^{-1}$$
+and
+$$\mathbf{A} = -\frac{\partial}{\partial \boldsymbol{\theta}} \mathbb{E}_F[\psi(Y_i, \boldsymbol{\theta})] \ \Biggr\lvert_{\boldsymbol{\theta} = \boldsymbol{\theta}_0}$$
+$$\mathbf{B} = \mathbb{E}_F[\psi(Y_i, \boldsymbol{\theta}_0)\psi(Y_i, \boldsymbol{\theta}_0)^T]$$
+That is, our matrix $\mathbf{B}$ stays the same as before, but our matrix $\mathbf{A}$ is slightly different: we have switched the order of integration and differentiation. In other words, $\mathbf{A}$ is calculated by taking the derivative of $\mathbb{E}_F[\psi(Y_i, \boldsymbol{\theta})]$ with respect to $\boldsymbol{\theta}$, and evaluating the derivative at $\boldsymbol{\theta}_0$.
+
+Let's apply these results to get an asymptotic distribution for sample quantiles.
+
+9. Let $Y_1,...,Y_n \overset{iid}{\sim} F$, for some continuous $F$ with pdf $f$, and let $\theta_0$ be the $p$th quantile of $F$, and $\widehat{\theta}$ the sample $p$th quantile. Using the M-estimation framework and extension above, show that
+$$\sqrt{n}(\widehat{\theta} - \theta_0) \overset{d}{\to} N\left(0, \frac{p(1-p)}{f^2(\theta_0)} \right)$$
+
+### Example: sample median
+
+Now let's use the result of question 9 to examine the performance of the sample median for estimating the center of several symmetric distributions, and calculate the asymptotic relative efficiency of the sample mean and median.
+
+10. For each of the following distributions, let $Y_1,...,Y_n$ be an iid sample from the specified distribution. Each distribution is symmetric, and has both mean and median $\mu$. Let $\overline{Y}$ be the sample mean, and $M_n$ the sample median. For each distribution, calculate $ARE(\overline{Y}, M_n)$ for estimating $\mu$. You may use the provided mean, median, and variance of each distribution without proof.
+    (a) $Y_1,...,Y_n \overset{iid}{\sim} N(\mu, \sigma^2)$
+    (b) $Y_1,...,Y_n \overset{iid}{\sim} Logistic(\mu, s)$, with pdf
+    $$f(y) = \dfrac{e^{-(y-\mu)/s}}{s(1 + e^{-(y-\mu)/s})^2}$$
+    The mean and median are both $\mu$, and the variance is $\frac{s^2 \pi^2}{3}$
+    (c) $Y_1,...,Y_n \overset{iid}{\sim} Laplace(\mu, b)$, with pdf
+    $$f(y) = \frac{1}{2b} \exp\left\lbrace -\frac{1}{b}|y - u| \right\rbrace$$
+    The mean and median are both $\mu$, and the variance is $2b^2$.
+
+11. Now suppose that we have $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\lambda)$, with pdf $f(y) = \lambda e^{-\lambda y}$ and cdf $F(y) = 1 - e^{-\lambda y}$.
+    (a) Find the median of the $Exponential(\lambda)$ distribution, as a function of $\lambda$.
+    (b) Using your result from part (a), propose an estimator $\widehat{\lambda}_{\text{med}}$ for $\lambda$ that is an appropriate function of the sample median $M_n$.
+    (c) Find the asymptotic distribution of $\sqrt{n}(\widehat{\lambda}_{\text{med}} - \lambda)$ for your estimator from part (b).
+    (d) We have previously shown that the MLE is $\widehat{\lambda}_{MLE} = 1/\overline{Y}$, and $\sqrt{n}(\widehat{\lambda}_{MLE} - \lambda) \overset{d}{\to} N(0, \lambda^2)$. Using this information, find the asymptotic relative efficiency $ARE(\widehat{\lambda}_{MLE}, \widehat{\lambda}_{\text{med}})$.
+
+
+
+
+
+
+
+
+
+
+    
+    
