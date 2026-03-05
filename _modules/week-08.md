@@ -11,6 +11,8 @@ March 4
   : [Slides](https://sta711-s26.github.io/slides/lecture_20.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_20.html)
 
 March 6
-: Robust estimation
+: M-estimation
+  : [Slides](https://sta711-s26.github.io/slides/lecture_21.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_21.html)
 
 : **HW 7 released**{: .label .label-yellow }
+  : [HW 7](https://sta711-s26.github.io/homework/hw_07.html)

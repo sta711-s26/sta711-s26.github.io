@@ -15,9 +15,15 @@ Let $Y_1,...,Y_n \overset{iid}{\sim} IG(\mu, 1)$ be an iid sample from the *inve
 
 $$M_Y(t) = \exp \left\lbrace \frac{1}{\mu} \left(1 - \sqrt{1 - 2 \mu^2 t}\right) \right\rbrace$$
 
+::: {.callout-note icon=false}
+
+## Question 1
+
 1. In this question we will look at the distribution of $\overline{Y}$.
     (a) Find the limiting distribution of $\sqrt{n}(\overline{Y} - \mu)$.
     (b) Find a variance stabilizing transformation $g$, so that the asymptotic variance of $\sqrt{n}(g(\overline{Y}) - g(\mu))$ does not depend on $\mu$.
+
+:::
     
     
 ## Sandwich variance -- Poisson regression
@@ -38,11 +44,17 @@ $$
 
 where $\mathbf{S}(\boldsymbol{\beta}^0)$ is the sandwich variance.
 
+::: {.callout-note icon=false}
+
+## Question 2
+
 2. In this question, we will explore the asymptotic distribution of $\widehat{\boldsymbol{\beta}}$.
     (a) Explain what $\boldsymbol{\beta}^0$ represents in this setting, in terms of some expectation with respect to the true distribution $g$.
     (b) Analogous to the class example with linear regression, find an expression for $\mathbf{S}(\boldsymbol{\beta}^0)$ in terms of expectations (with respect to $g$) involving $\mathbf{x}_i$, $Y_i$, and $\mu_i$.
     (c) Give the plug-in estimator for $\mathbf{S}(\boldsymbol{\beta}^0)$ in terms of the observed $\mathbf{x}_i$, $Y_i$, and $\widehat{\boldsymbol{\beta}}$.
-    
+
+:::
+
 ### Simulation: the effect of model mis-specification
 
 Now let's use some simulations to explore the behavior of $\widehat{\boldsymbol{\beta}}$ when the model is mis-specified. For these simulations, suppose that we observe iid data $(\mathbf{x}_i, Y_i)$ where
@@ -75,6 +87,10 @@ y <- rnbinom(n, size = theta, mu = mu)
 m1 <- glm(y ~ x, family = poisson)
 ```
 
+::: {.callout-note icon=false}
+
+## Question 3
+
 3. Let $\widehat{\beta}_{1, \text{Pois}}$ be the estimate of $\beta_1$ from the Poisson fit. In this question, we will use simulations to explore the behavior of $\widehat{\beta}_{1, \text{Pois}}$.
     (a) Using the expressions found in question 2, compute the robust (sandwich) variance estimator on the simulated data: $\widehat{Var}(\widehat{\boldsymbol{\beta}}_{\text{Pois}}) = \frac{1}{n}\widehat{\mathbf{S}}$
     (b) The *naive* variance estimator assumes that the Poisson regression model is *correct*, and can be calculated with `vcov(m1)`. Compare the naive and robust variance estimators for the simulated data.
@@ -82,6 +98,8 @@ m1 <- glm(y ~ x, family = poisson)
     (d) Using your results from part (c), verify that $Bias(\widehat{\beta}_{1, \text{Pois}}) \approx 0$. (This is because the systematic component of the model is correctly specified).
     (e) Using your results from part (c), empirically estimate $Var(\widehat{\beta}_{1, \text{Pois}})$, and compare to the average estimates from the naive and robust approaches. Which method does better at estimating $Var(\widehat{\beta}_{1, \text{Pois}})$?
     (f) Repeat parts (c) and (e) with different values of $\theta$ in the Negative Binomial. How does the relative performance of the naive and robust variance estimators change as $\theta$ increases?
+    
+:::
 
 ```{r, include=F, eval=F}
 poisson_sandwich <- function(mod){
@@ -140,12 +158,17 @@ m1 <- glm(y ~ x, family = poisson)
 m2 <- MASS::glm.nb(y ~ x)
 ```
 
+::: {.callout-note icon=false}
+
+## Question 4
 
 4. Let's compare $\widehat{\boldsymbol{\beta}}_{\text{Pois}}$ to $\widehat{\boldsymbol{\beta}}_{\text{NB}}$ in simulations.
     (a) Repeat the provided simulation code many times. For each iteration, store the slope estimates $\widehat{\beta}_{1, \text{Pois}}$ and $\widehat{\beta}_{1, \text{NB}}$ from the Poisson and Negative Binomial models, respectively.
     (b) Using the results from part (a), compare the variances of $\widehat{\beta}_{1, \text{Pois}}$ and $\widehat{\beta}_{1, \text{NB}}$. Which estimator should we prefer?
     (c) With reference to asymptotic properties of MLEs, explain why the results in part (b) should be expected.
     (d) Repeat (a) and (b) with different values of $\theta$. How does the relative performance of $\widehat{\beta}_{1, \text{Pois}}$ and $\widehat{\beta}_{1, \text{NB}}$ change as $\theta$ increases? Why?
+
+:::
 
 
 ```{r, include=F, eval=F}
@@ -186,12 +209,22 @@ Suppose we have iid data $Y_1,...,Y_n$ from some distribution $g$ with finite me
 $$\widehat{\mu} = \frac{1}{n} \sum \limits_{i=1}^n Y_i = \overline{Y} \hspace{1cm} \widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2$$
 Let $\boldsymbol{\theta}_0 = (\mu, \sigma^2)^T$ be the true mean and variance, and $\widehat{\boldsymbol{\theta}} = (\widehat{\mu}, \widehat{\sigma}^2)^T$.
 
+::: {.callout-note icon=false}
+
+## Question 5
+
 5. The purpose of this question is to use our M-estimation results to analyze the asymptotic behavior of $\widehat{\boldsymbol{\theta}}$.
     (a) Find a function $\psi(Y_i, \boldsymbol{\theta})$ such that $\widehat{\boldsymbol{\theta}}$ is the solution to
     $$\sum \limits_{i=1}^n \psi(Y_i, \boldsymbol{\theta}) = \boldsymbol{0}$$
     (*Hint*: $\psi$ will be a vector-valued function, since $\widehat{\boldsymbol{\theta}}$ needs to solve a system of two equations with two unknowns!)
     (b) Show that the sandwich variance is given by
     $$\mathbf{S}(\boldsymbol{\theta}_0) = \begin{pmatrix} \sigma^2 & \mathbb{E}_g[(Y_i - \mu)^3] \\ \mathbb{E}_g[(Y_i - \mu)^3] & \mathbb{E}_g[(Y_i - \mu)^4] - \sigma^2 \end{pmatrix}$$
+    
+:::
+
+::: {.callout-note icon=false}
+
+## Question 6
     
 6. **If** $Y_i \overset{iid}{\sim} N(\mu, \sigma^2)$, then $\widehat{\boldsymbol{\theta}}$ is also the maximum likelihood estimator, and previously you have shown that the Fisher information is 
 $$\mathcal{I}_1(\boldsymbol{\theta}_0) = \begin{pmatrix} \frac{1}{\sigma^2} & 0 \\ 0 & \frac{1}{2\sigma^4} \end{pmatrix}$$
@@ -204,6 +237,7 @@ $$
 \mathbb{E}[(Y_i - \mu)^{2q}] &= \sigma^{2q}(2q - 1)!! = \sigma^{2q}(2q - 1)(2q - 3) \cdots 3 \cdot 1 \\
 \end{aligned}
 $$
+:::
 
 ## Empirical cdfs, quantiles, and M-estimation
 
@@ -215,9 +249,21 @@ Let $Y_1,...,Y_n$ be an iid sample from some distribution with cdf $F$. No assum
 
 $$F_n(t) = \frac{1}{n} \sum \limits_{i=1}^n \mathbb{I}\{ Y_i \leq t \}$$
 
+::: {.callout-note icon=false}
+
+## Question 7
+
 7. Show that, for all $t$, $F_n(t) \overset{p}{\to} F(t)$. (In fact, this result can be strengthened to *uniform* convergence, a result of the *Glivenko-Cantelli* theorem, but we will not prove that here).
 
+:::
+
+::: {.callout-note icon=false}
+
+## Question 8
+
 8. For a fixed $t$, find the limiting distribution of $\sqrt{n}(F_n(t) - F(t))$.
+
+:::
 
 
 ### Quantiles and M-estimation
@@ -251,12 +297,22 @@ That is, our matrix $\mathbf{B}$ stays the same as before, but our matrix $\math
 
 Let's apply these results to get an asymptotic distribution for sample quantiles.
 
+::: {.callout-note icon=false}
+
+## Question 9
+
 9. Let $Y_1,...,Y_n \overset{iid}{\sim} F$, for some continuous $F$ with pdf $f$, and let $\theta_0$ be the $p$th quantile of $F$, and $\widehat{\theta}$ the sample $p$th quantile. Using the M-estimation framework and extension above, show that
 $$\sqrt{n}(\widehat{\theta} - \theta_0) \overset{d}{\to} N\left(0, \frac{p(1-p)}{f^2(\theta_0)} \right)$$
+
+:::
 
 ### Example: sample median
 
 Now let's use the result of question 9 to examine the performance of the sample median for estimating the center of several symmetric distributions, and calculate the asymptotic relative efficiency of the sample mean and median.
+
+::: {.callout-note icon=false}
+
+## Question 10
 
 10. For each of the following distributions, let $Y_1,...,Y_n$ be an iid sample from the specified distribution. Each distribution is symmetric, and has both mean and median $\mu$. Let $\overline{Y}$ be the sample mean, and $M_n$ the sample median. For each distribution, calculate $ARE(\overline{Y}, M_n)$ for estimating $\mu$. You may use the provided mean, median, and variance of each distribution without proof.
     (a) $Y_1,...,Y_n \overset{iid}{\sim} N(\mu, \sigma^2)$
@@ -266,6 +322,12 @@ Now let's use the result of question 9 to examine the performance of the sample 
     (c) $Y_1,...,Y_n \overset{iid}{\sim} Laplace(\mu, b)$, with pdf
     $$f(y) = \frac{1}{2b} \exp\left\lbrace -\frac{1}{b}|y - u| \right\rbrace$$
     The mean and median are both $\mu$, and the variance is $2b^2$.
+    
+:::
+
+::: {.callout-note icon=false}
+
+## Question 11
 
 11. Now suppose that we have $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\lambda)$, with pdf $f(y) = \lambda e^{-\lambda y}$ and cdf $F(y) = 1 - e^{-\lambda y}$.
     (a) Find the median of the $Exponential(\lambda)$ distribution, as a function of $\lambda$.
@@ -273,7 +335,7 @@ Now let's use the result of question 9 to examine the performance of the sample 
     (c) Find the asymptotic distribution of $\sqrt{n}(\widehat{\lambda}_{\text{med}} - \lambda)$ for your estimator from part (b).
     (d) We have previously shown that the MLE is $\widehat{\lambda}_{MLE} = 1/\overline{Y}$, and $\sqrt{n}(\widehat{\lambda}_{MLE} - \lambda) \overset{d}{\to} N(0, \lambda^2)$. Using this information, find the asymptotic relative efficiency $ARE(\widehat{\lambda}_{MLE}, \widehat{\lambda}_{\text{med}})$.
 
-
+:::
 
 
 

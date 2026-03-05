@@ -135,6 +135,16 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="variance-stabilizing-transformation">Variance stabilizing transformation</h2>
 <p>Let <span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} IG(\mu, 1)\)</span> be an iid sample from the <em>inverse Gaussian</em> distribution, with moment generating function</p>
 <p><span class="math display">\[M_Y(t) = \exp \left\lbrace \frac{1}{\mu} \left(1 - \sqrt{1 - 2 \mu^2 t}\right) \right\rbrace\]</span></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li>In this question we will look at the distribution of <span class="math inline">\(\overline{Y}\)</span>.
 <ol type="a">
@@ -142,6 +152,8 @@ window.Quarto = {
 <li>Find a variance stabilizing transformation <span class="math inline">\(g\)</span>, so that the asymptotic variance of <span class="math inline">\(\sqrt{n}(g(\overline{Y}) - g(\mu))\)</span> does not depend on <span class="math inline">\(\mu\)</span>.</li>
 </ol></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="sandwich-variance-poisson-regression" class="level2">
 <h2 class="anchored" data-anchor-id="sandwich-variance-poisson-regression">Sandwich variance – Poisson regression</h2>
@@ -156,6 +168,16 @@ Y_i | \mathbf{x}_i &amp;\sim Poisson(\mu_i) \\
 \sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}^0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\beta}^0))
 \]</span></p>
 <p>where <span class="math inline">\(\mathbf{S}(\boldsymbol{\beta}^0)\)</span> is the sandwich variance.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="2" type="1">
 <li>In this question, we will explore the asymptotic distribution of <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.
 <ol type="a">
@@ -164,6 +186,8 @@ Y_i | \mathbf{x}_i &amp;\sim Poisson(\mu_i) \\
 <li>Give the plug-in estimator for <span class="math inline">\(\mathbf{S}(\boldsymbol{\beta}^0)\)</span> in terms of the observed <span class="math inline">\(\mathbf{x}_i\)</span>, <span class="math inline">\(Y_i\)</span>, and <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</li>
 </ol></li>
 </ol>
+</div>
+</div>
 <section id="simulation-the-effect-of-model-mis-specification" class="level3">
 <h3 class="anchored" data-anchor-id="simulation-the-effect-of-model-mis-specification">Simulation: the effect of model mis-specification</h3>
 <p>Now let’s use some simulations to explore the behavior of <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> when the model is mis-specified. For these simulations, suppose that we observe iid data <span class="math inline">\((\mathbf{x}_i, Y_i)\)</span> where</p>
@@ -188,6 +212,16 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> poisson)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="3" type="1">
 <li>Let <span class="math inline">\(\widehat{\beta}_{1, \text{Pois}}\)</span> be the estimate of <span class="math inline">\(\beta_1\)</span> from the Poisson fit. In this question, we will use simulations to explore the behavior of <span class="math inline">\(\widehat{\beta}_{1, \text{Pois}}\)</span>.
 <ol type="a">
@@ -199,6 +233,8 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <li>Repeat parts (c) and (e) with different values of <span class="math inline">\(\theta\)</span> in the Negative Binomial. How does the relative performance of the naive and robust variance estimators change as <span class="math inline">\(\theta\)</span> increases?</li>
 </ol></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="comparison-with-the-mle" class="level3">
 <h3 class="anchored" data-anchor-id="comparison-with-the-mle">Comparison with the MLE</h3>
@@ -217,6 +253,16 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> poisson)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">glm.nb</span>(y <span class="sc">~</span> x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="4" type="1">
 <li>Let’s compare <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{\text{Pois}}\)</span> to <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{\text{NB}}\)</span> in simulations.
 <ol type="a">
@@ -226,6 +272,8 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <li>Repeat (a) and (b) with different values of <span class="math inline">\(\theta\)</span>. How does the relative performance of <span class="math inline">\(\widehat{\beta}_{1, \text{Pois}}\)</span> and <span class="math inline">\(\widehat{\beta}_{1, \text{NB}}\)</span> change as <span class="math inline">\(\theta\)</span> increases? Why?</li>
 </ol></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="moral" class="level3">
 <h3 class="anchored" data-anchor-id="moral">Moral</h3>
@@ -237,12 +285,36 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <h2 class="anchored" data-anchor-id="m-estimation-sample-mean-and-variance">M-estimation: sample mean and variance</h2>
 <p>Suppose we have iid data <span class="math inline">\(Y_1,...,Y_n\)</span> from some distribution <span class="math inline">\(g\)</span> with finite mean and variance <span class="math inline">\(\mathbb{E}_g[Y_i] = \mu\)</span> and <span class="math inline">\(Var_g(Y_i) = \sigma^2\)</span>. The estimated mean and variance from the sample moments are</p>
 <p><span class="math display">\[\widehat{\mu} = \frac{1}{n} \sum \limits_{i=1}^n Y_i = \overline{Y} \hspace{1cm} \widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2\]</span> Let <span class="math inline">\(\boldsymbol{\theta}_0 = (\mu, \sigma^2)^T\)</span> be the true mean and variance, and <span class="math inline">\(\widehat{\boldsymbol{\theta}} = (\widehat{\mu}, \widehat{\sigma}^2)^T\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="5" type="1">
 <li>The purpose of this question is to use our M-estimation results to analyze the asymptotic behavior of <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span>.
 <ol type="a">
 <li>Find a function <span class="math inline">\(\psi(Y_i, \boldsymbol{\theta})\)</span> such that <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is the solution to <span class="math display">\[\sum \limits_{i=1}^n \psi(Y_i, \boldsymbol{\theta}) = \boldsymbol{0}\]</span> (<em>Hint</em>: <span class="math inline">\(\psi\)</span> will be a vector-valued function, since <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> needs to solve a system of two equations with two unknowns!)</li>
 <li>Show that the sandwich variance is given by <span class="math display">\[\mathbf{S}(\boldsymbol{\theta}_0) = \begin{pmatrix} \sigma^2 &amp; \mathbb{E}_g[(Y_i - \mu)^3] \\ \mathbb{E}_g[(Y_i - \mu)^3] &amp; \mathbb{E}_g[(Y_i - \mu)^4] - \sigma^2 \end{pmatrix}\]</span></li>
 </ol></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="6" type="1">
 <li><strong>If</strong> <span class="math inline">\(Y_i \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>, then <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is also the maximum likelihood estimator, and previously you have shown that the Fisher information is <span class="math display">\[\mathcal{I}_1(\boldsymbol{\theta}_0) = \begin{pmatrix} \frac{1}{\sigma^2} &amp; 0 \\ 0 &amp; \frac{1}{2\sigma^4} \end{pmatrix}\]</span> Show that, if <span class="math inline">\(Y_i \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>, then your sandwich variance from question 5 is equal to <span class="math display">\[\mathbf{S}(\boldsymbol{\theta}_0) = \begin{pmatrix} \sigma^2 &amp; 0 \\ 0 &amp; 2 \sigma^4 \end{pmatrix} = \mathcal{I}_1^{-1}(\boldsymbol{\theta}_0)\]</span> (This is what we should expect, since we can’t have two different asymptotic variances for the same estimator!) You may use, without proof, the fact that if <span class="math inline">\(Y_i \sim N(\mu, \sigma^2)\)</span>, then for any <span class="math inline">\(q \in \mathbb{N}\)</span>, <span class="math display">\[
 \begin{aligned}
 \mathbb{E}[(Y_i - \mu)^{2q + 1}] &amp;= 0 \\
@@ -250,6 +322,8 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 \end{aligned}
 \]</span></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="empirical-cdfs-quantiles-and-m-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="empirical-cdfs-quantiles-and-m-estimation">Empirical cdfs, quantiles, and M-estimation</h2>
@@ -258,10 +332,36 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <h3 class="anchored" data-anchor-id="empirical-cdf">Empirical cdf</h3>
 <p>Let <span class="math inline">\(Y_1,...,Y_n\)</span> be an iid sample from some distribution with cdf <span class="math inline">\(F\)</span>. No assumptions are made about the form of <span class="math inline">\(F\)</span>. The natural estimator of <span class="math inline">\(F\)</span> is called the <strong>empirical cdf</strong>, <span class="math inline">\(F_n\)</span>, and is defined as:</p>
 <p><span class="math display">\[F_n(t) = \frac{1}{n} \sum \limits_{i=1}^n \mathbb{I}\{ Y_i \leq t \}\]</span></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="7" type="1">
-<li><p>Show that, for all <span class="math inline">\(t\)</span>, <span class="math inline">\(F_n(t) \overset{p}{\to} F(t)\)</span>. (In fact, this result can be strengthened to <em>uniform</em> convergence, a result of the <em>Glivenko-Cantelli</em> theorem, but we will not prove that here).</p></li>
-<li><p>For a fixed <span class="math inline">\(t\)</span>, find the limiting distribution of <span class="math inline">\(\sqrt{n}(F_n(t) - F(t))\)</span>.</p></li>
+<li>Show that, for all <span class="math inline">\(t\)</span>, <span class="math inline">\(F_n(t) \overset{p}{\to} F(t)\)</span>. (In fact, this result can be strengthened to <em>uniform</em> convergence, a result of the <em>Glivenko-Cantelli</em> theorem, but we will not prove that here).</li>
 </ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="8" type="1">
+<li>For a fixed <span class="math inline">\(t\)</span>, find the limiting distribution of <span class="math inline">\(\sqrt{n}(F_n(t) - F(t))\)</span>.</li>
+</ol>
+</div>
+</div>
 </section>
 <section id="quantiles-and-m-estimation" class="level3">
 <h3 class="anchored" data-anchor-id="quantiles-and-m-estimation">Quantiles and M-estimation</h3>
@@ -273,13 +373,35 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <p><a href="#eq-quantile_m" class="quarto-xref">Equation&nbsp;1</a> looks <strong>very similar</strong> to our definition of an M-estimator. However, we have two small problems to deal with before we can apply M-estimator results. First, the right-hand side of <a href="#eq-quantile_m" class="quarto-xref">Equation&nbsp;1</a> is not 0; it is <span class="math inline">\(c_n\)</span>. Second, the function <span class="math inline">\(\psi\)</span> has a jump discontinuity at <span class="math inline">\(Y_i\)</span>, which causes problems for differentiation. Fortunately, both of these issues can be accounted for in our theory of M-estimation, as described in the following small extension of the results from class.</p>
 <p><strong>Extension:</strong> Suppose <span class="math inline">\(Y_1,...,Y_n\)</span> are iid from some distribution <span class="math inline">\(F\)</span>, and <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is an estimator which satisfies <span class="math display">\[\sum \limits_{i=1}^n \psi(Y_i, \widehat{\boldsymbol{\theta}}) = \boldsymbol{c}_n\]</span> where <span class="math inline">\(\boldsymbol{c}_n/\sqrt{n} \overset{p}{\to} \boldsymbol{0}\)</span> as <span class="math inline">\(n \to \infty\)</span>. Furthermore, suppose that <span class="math inline">\(\psi\)</span> is not necessarily continuous. Then, <span class="math display">\[\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\theta}_0))\]</span> where <span class="math display">\[\mathbf{S}(\boldsymbol{\theta}_0) = \mathbf{A}^{-1} \mathbf{B} \mathbf{A}^{-1}\]</span> and <span class="math display">\[\mathbf{A} = -\frac{\partial}{\partial \boldsymbol{\theta}} \mathbb{E}_F[\psi(Y_i, \boldsymbol{\theta})] \ \Biggr\lvert_{\boldsymbol{\theta} = \boldsymbol{\theta}_0}\]</span> <span class="math display">\[\mathbf{B} = \mathbb{E}_F[\psi(Y_i, \boldsymbol{\theta}_0)\psi(Y_i, \boldsymbol{\theta}_0)^T]\]</span> That is, our matrix <span class="math inline">\(\mathbf{B}\)</span> stays the same as before, but our matrix <span class="math inline">\(\mathbf{A}\)</span> is slightly different: we have switched the order of integration and differentiation. In other words, <span class="math inline">\(\mathbf{A}\)</span> is calculated by taking the derivative of <span class="math inline">\(\mathbb{E}_F[\psi(Y_i, \boldsymbol{\theta})]\)</span> with respect to <span class="math inline">\(\boldsymbol{\theta}\)</span>, and evaluating the derivative at <span class="math inline">\(\boldsymbol{\theta}_0\)</span>.</p>
 <p>Let’s apply these results to get an asymptotic distribution for sample quantiles.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 9
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="9" type="1">
 <li>Let <span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} F\)</span>, for some continuous <span class="math inline">\(F\)</span> with pdf <span class="math inline">\(f\)</span>, and let <span class="math inline">\(\theta_0\)</span> be the <span class="math inline">\(p\)</span>th quantile of <span class="math inline">\(F\)</span>, and <span class="math inline">\(\widehat{\theta}\)</span> the sample <span class="math inline">\(p\)</span>th quantile. Using the M-estimation framework and extension above, show that <span class="math display">\[\sqrt{n}(\widehat{\theta} - \theta_0) \overset{d}{\to} N\left(0, \frac{p(1-p)}{f^2(\theta_0)} \right)\]</span></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="example-sample-median" class="level3">
 <h3 class="anchored" data-anchor-id="example-sample-median">Example: sample median</h3>
 <p>Now let’s use the result of question 9 to examine the performance of the sample median for estimating the center of several symmetric distributions, and calculate the asymptotic relative efficiency of the sample mean and median.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 10
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="10" type="1">
 <li>For each of the following distributions, let <span class="math inline">\(Y_1,...,Y_n\)</span> be an iid sample from the specified distribution. Each distribution is symmetric, and has both mean and median <span class="math inline">\(\mu\)</span>. Let <span class="math inline">\(\overline{Y}\)</span> be the sample mean, and <span class="math inline">\(M_n\)</span> the sample median. For each distribution, calculate <span class="math inline">\(ARE(\overline{Y}, M_n)\)</span> for estimating <span class="math inline">\(\mu\)</span>. You may use the provided mean, median, and variance of each distribution without proof.
 <ol type="a">
@@ -287,6 +409,20 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <li><span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} Logistic(\mu, s)\)</span>, with pdf <span class="math display">\[f(y) = \dfrac{e^{-(y-\mu)/s}}{s(1 + e^{-(y-\mu)/s})^2}\]</span> The mean and median are both <span class="math inline">\(\mu\)</span>, and the variance is <span class="math inline">\(\frac{s^2 \pi^2}{3}\)</span></li>
 <li><span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} Laplace(\mu, b)\)</span>, with pdf <span class="math display">\[f(y) = \frac{1}{2b} \exp\left\lbrace -\frac{1}{b}|y - u| \right\rbrace\]</span> The mean and median are both <span class="math inline">\(\mu\)</span>, and the variance is <span class="math inline">\(2b^2\)</span>.</li>
 </ol></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 11
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="11" type="1">
 <li>Now suppose that we have <span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} Exponential(\lambda)\)</span>, with pdf <span class="math inline">\(f(y) = \lambda e^{-\lambda y}\)</span> and cdf <span class="math inline">\(F(y) = 1 - e^{-\lambda y}\)</span>.
 <ol type="a">
 <li>Find the median of the <span class="math inline">\(Exponential(\lambda)\)</span> distribution, as a function of <span class="math inline">\(\lambda\)</span>.</li>
@@ -295,6 +431,8 @@ Y_i | \mathbf{x}_i &amp;\sim NB(\mu_i, \theta) \\
 <li>We have previously shown that the MLE is <span class="math inline">\(\widehat{\lambda}_{MLE} = 1/\overline{Y}\)</span>, and <span class="math inline">\(\sqrt{n}(\widehat{\lambda}_{MLE} - \lambda) \overset{d}{\to} N(0, \lambda^2)\)</span>. Using this information, find the asymptotic relative efficiency <span class="math inline">\(ARE(\widehat{\lambda}_{MLE}, \widehat{\lambda}_{\text{med}})\)</span>.</li>
 </ol></li>
 </ol>
+</div>
+</div>
 </section>
 </section>
 
