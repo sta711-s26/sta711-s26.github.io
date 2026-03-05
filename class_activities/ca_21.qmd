@@ -1,0 +1,84 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+## Robust linear regression
+
+Suppose we observe iid data $(\mathbf{x}_i, Y_i)$ from some distribution $g$, and wish to fit the linear model
+
+$$Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \varepsilon_i$$
+
+However, we are concerned about large residuals that could influence our estimated coefficients. Instead of estimating $\boldsymbol{\beta}$ using ordinary least squares, we can instead use *robust regression*, and estimate $\boldsymbol{\beta}$ by minimizing
+
+$$\sum \limits_{i=1}^n \rho_k(Y_i - \mathbf{x}_i^T \boldsymbol{\beta}),$$
+or equivalently by solving
+
+$$\sum \limits_{i=1}^n \rho'_k(Y_i - \mathbf{x}_i^T \boldsymbol{\beta}) \mathbf{x}_i = \boldsymbol{0}$$
+where
+
+$$\rho_k(u) = \begin{cases} \frac{1}{2}u^2 & |u| \leq k \\ k|u| - \frac{1}{2}k^2 & \text{else} \end{cases} \hspace{0.5cm} \rho'_k(u) = \begin{cases} u & |u| \leq k \\ k \ \text{sign}(u) & \text{else} \end{cases}$$
+
+Then, $\widehat{\boldsymbol{\beta}}$ is an **M-estimator**, and we have that
+
+$$\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}^0) \overset{d}{\to} N(\mathbf{0}, \mathbf{S}(\boldsymbol{\beta}^0))$$
+where $\boldsymbol{\beta}^0$ solves $\mathbb{E}_g[\rho'_k(Y_i - \mathbf{x}_i^T \boldsymbol{\beta}) \mathbf{x}_i] = \boldsymbol{0}$, and
+
+$$\mathbf{S}(\boldsymbol{\beta}^0) = \mathbf{A}^{-1} \mathbf{B} \mathbf{A}^{-1},$$
+
+with plug-in estimators
+
+$$\widehat{\mathbf{A}} = \frac{1}{n} \sum \limits_{i=1}^n \rho_k''(Y_i - \mathbf{x}_i^T \widehat{\boldsymbol{\beta}}) \mathbf{x}_i \mathbf{x}_i^T = \frac{1}{n} \sum \limits_{i=1}^n \mathbb{I}\{ |Y_i - \mathbf{x}_i^T \widehat{\boldsymbol{\beta}}| \leq k \} \mathbf{x}_i \mathbf{x}_i^T$$
+
+$$\widehat{\mathbf{B}} = \frac{1}{n} \sum \limits_{i=1}^n (\rho_k'(Y_i - \mathbf{x}_i^T \widehat{\boldsymbol{\beta}}))^2 \mathbf{x}_i \mathbf{x}_i^T$$
+
+## Simulation
+
+The following code generates data from the model
+
+$$X_i \overset{iid}{\sim} N(0, 1) \hspace{1cm} \varepsilon_i \overset{iid}{\sim} t_2$$
+$$Y_i = X_i + \varepsilon_i$$
+We then fit the model using both OLS and robust regression, and construct the robust regression sandwich variance.
+
+```{r, eval=F}
+# Huber psi function (derivative of Huber loss)
+psi_huber <- function(u, k){
+  ifelse(abs(u) <= k, u, k*sign(u))
+}
+
+# function to create robust regression sandwich variance
+# inputs: 
+#   rlm_mod: fitted robust model using MASS::rlm
+#   k: number of std devs to use for switch between quadratic and linear
+rlm_vcov <- function(rlm_mod, k=1.345){
+  k <- k * median(abs(rlm_mod$residuals))/0.6745
+  W1 <- diag(abs(rlm_mod$residuals) <= k)
+  W2 <- diag(psi_huber(rlm_mod$residuals, k)^2)
+  
+  X <- rlm_mod$x
+  solve(t(X) %*% W1 %*% X) %*% t(X) %*% W2 %*% X %*% solve(t(X) %*% W1 %*% X)
+}
+
+
+# simulate data
+n <- 100
+x <- rnorm(n)
+y <- x + rt(n, df=2)
+  
+m1 <- lm(y ~ x)
+m2 <- MASS::rlm(y ~ x)
+rlm_vcov(m2)
+```
+
+## Questions
+
+1. Repeat the simulation many times. For each iteration, store the estimates of $\widehat{\beta}_{1, \text{ols}}$ and $\widehat{\beta}_{1, \text{robust}}$ from both OLS and robust regression. Also store the robust variance estimate of $Var(\widehat{\beta}_{1, \text{robust}})$ from the sandwich variance matrix. 
+
+2. Using your simulation results, confirm that the sandwich variance estimator is estimating the correct variance for the robust regression model.
+
+3. Compare the variance of your estimates of $\beta_1$ from both OLS and robust regression. Are they both unbiased? Which estimator has smaller variance?
+
+4. In this simulation, $\varepsilon_i \overset{iid}{\sim} t_{\nu}$. How does the relative performance of the two estimators change as you increase the degrees of freedom $\nu$? Why?
+
+

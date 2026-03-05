@@ -1,0 +1,156 @@
+---
+title: "M-estimation"
+author: "Ciaran Evans"
+output: beamer_presentation
+editor_options: 
+  chunk_output_type: console
+---
+
+## Motivating example
+
+Votes for Pat Buchanan vs. votes for George Bush in Florida counties, 2000 election:
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=3, fig.height=2}
+library(Stat2Data)
+library(tidyverse)
+data("PalmBeach")
+
+PalmBeach |>
+  ggplot(aes(x = Bush)) +
+  geom_point(aes(y = Buchanan), size=0.5) +
+  geom_smooth(aes(y = Buchanan), se=F, method="lm", lwd=0.5) +
+  labs(x = "Votes for Bush",
+       y = "Votes for Buchanan") +
+  theme_bw()
+```
+
+**Question:** What do you notice about this relationship? Anything concerning?
+
+## Motivating example
+
+Comparing model with and without Palm Beach:
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=3.5, fig.height=3}
+lm_1 <- lm(Buchanan ~ Bush, data = PalmBeach)
+lm_2 <- lm(Buchanan ~ Bush, 
+           data = PalmBeach %>%
+             filter(County != "PALM BEACH"))
+
+PalmBeach |>
+  mutate(pred_1 = predict(lm_1),
+         pred_2 = predict(lm_2, 
+                          newdata = PalmBeach)) |>
+  ggplot(aes(x = Bush)) +
+  geom_point(aes(y = Buchanan), size=0.5) +
+  geom_line(aes(y = pred_1), color = "blue", lwd=0.5) +
+  geom_line(aes(y = pred_2), color = "red", lty=2, lwd=0.5) +
+  labs(x = "Votes for Bush",
+       y = "Votes for Buchanan") +
+  theme_bw()
+```
+
+## Robust linear regression
+
+**Model:** $Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \varepsilon_i$
+
+**OLS:** $\widehat{\boldsymbol{\beta}}$ minimizes 
+$$\sum \limits_{i=1}^n (Y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2$$
+
+**Robust regression:** $\widehat{\boldsymbol{\beta}}$ minimizes 
+$$\sum \limits_{i=1}^n \rho(Y_i - \mathbf{x}_i^T \boldsymbol{\beta})$$
+
+One choice of $\rho$ is the **Huber loss function**:
+
+\vspace{3cm}
+
+## Huber loss function
+
+$$\rho_k(u) = \begin{cases} \frac{1}{2}u^2 & |u| \leq k \\ k|u| - \frac{1}{2}k^2 & \text{else} \end{cases}$$
+
+```{r, echo=F, message=F, warning=F, fig.width=4, fig.height=3.5}
+huber <- function(u, gamma){
+  ifelse(abs(u) <= gamma, 0.5*u^2, gamma*abs(u) - 0.5*gamma^2)
+}
+
+x <- seq(-2, 2, 0.01)
+plot(x, huber(x, 1), type="l", ylab = "Huber loss", 
+     xaxt = "n", xlab = "", yaxt="n")
+abline(v = c(-1, 1), lty=2)
+```
+
+\vspace{3cm}
+
+## Robust linear regression
+
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=3.5, fig.height=3}
+library(MASS)
+
+lm_1 <- lm(Buchanan ~ Bush, data = PalmBeach)
+lm_2 <- lm(Buchanan ~ Bush, 
+           data = PalmBeach %>%
+             filter(County != "PALM BEACH"))
+mod3 <- rlm(Buchanan ~ Bush, data = PalmBeach)
+
+PalmBeach |>
+  mutate(pred_1 = predict(lm_1),
+         pred_2 = predict(lm_2, 
+                          newdata = PalmBeach),
+         pred_3 = predict(mod3)) |>
+  ggplot(aes(x = Bush)) +
+  geom_point(aes(y = Buchanan), size=0.5) +
+  geom_line(aes(y = pred_1), color = "blue", lwd=0.5) +
+  geom_line(aes(y = pred_2), color = "red", lty=2, lwd=0.5) +
+  geom_line(aes(y = pred_3), color = "orange", lty=4, lwd=0.6) +
+  labs(x = "Votes for Bush",
+       y = "Votes for Buchanan") +
+  theme_bw()
+```
+
+## Robust linear regression
+
+**Model:** $Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \varepsilon_i$
+
+$\widehat{\boldsymbol{\beta}}$ minimizes $\sum \limits_{i=1}^n \rho_k(Y_i - \mathbf{x}_i^T \boldsymbol{\beta})$
+
+\vspace{6cm}
+
+## M-estimation
+
+So far, a lot of our estimators look something like this: $\widehat{\boldsymbol{\theta}}$ solves
+$$\sum \limits_{i=1}^n \psi(Y_i, \boldsymbol{\theta}) = \boldsymbol{0}$$
+**Sample mean:**
+
+\bigskip
+
+**MLE:**
+
+\bigskip
+
+**Linear regression:**
+
+\bigskip
+
+**Logistic regression:**
+
+\bigskip
+
+**Robust regression:**
+
+\bigskip
+
+Can we say something **in general** about estimators of this type?
+
+## M-estimation
+
+Let $Y_1,...,Y_n$ be iid samples from some distribution $g$. ($Y_i$ could be a scalar or vector random variable). Let $\psi(Y, \boldsymbol{\theta})$ be some suitably smooth function, which depends on a parameter $\boldsymbol{\theta} \in \mathbb{R}^d$.
+
+\vspace{6cm}
+
+## Example: robust linear regression
+
+$\psi(Y_i, \mathbf{x}_i, \boldsymbol{\beta}) = \rho'_k(Y_i - \mathbf{x}_i^T \boldsymbol{\beta}) \mathbf{x}_i$
+$$\rho_k(u) = \begin{cases} \frac{1}{2}u^2 & |u| \leq k \\ k|u| - \frac{1}{2}k^2 & \text{else} \end{cases} \hspace{0.5cm} \rho'_k(u) = \begin{cases} u & |u| \leq k \\ k \ \text{sign}(u) & \text{else} \end{cases}$$
+\vspace{5cm}
+
+
