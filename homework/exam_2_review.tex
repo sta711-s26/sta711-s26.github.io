@@ -1,0 +1,259 @@
+\documentclass[11pt]{article}
+\usepackage{url}
+\usepackage{alltt}
+\usepackage{bm}
+\usepackage{bbm}
+\linespread{1}
+\textwidth 6.5in
+\oddsidemargin 0.in
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2in}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\begin{document}
+
+
+\begin{center}
+\Large
+STA 711 Exam 2 Review\\
+\normalsize
+\vspace{5mm}
+\end{center} 
+
+\noindent \textbf{Information:} The second exam will focus on the material from homeworks 5 - 7, though some material from earlier assignments (such as maximum likelihood estimation and convergence results) may also appear. Here is a rough list of topics for the second exam, though I do not claim it is exhaustive:
+
+\begin{itemize}
+\item Asymptotic results, including: applications of the WLLN and CLT, the asymptotic normality of the MLE, asymptotic behavior of the MLE under mis-specification, delta method, asymptotic relative efficiency, and M-estimation and the sandwich variance
+\item Estimation and comparing estimators: MLE, method of moments, comparing estimators with their MSE, unbiased estimators, and the Cramer-Rao lower bound and best unbiased estimators
+\item Multivariate normal distributions
+\end{itemize}
+
+\noindent The practice questions below are not completely comprehensive, but will give you a sense of the kinds of questions I could ask on the exam.\\
+
+\noindent \textbf{Resources and rules:} 
+
+\begin{itemize}
+\item You will be provided with a sheet of common distributions, including their probability function, mean, and variance. You may use any of the facts on this sheet without proof, unless specifically asked to derive them
+
+\item You will also be provided with a partial list of results from class and homework assignments (see the next page); you may use these results without proof, unless asked to specifically to derive one of these results or otherwise stated.
+
+\item Finally, any other results from class or homework may also be used without proof, unless asked to specifically to derive one of these results or otherwise stated.
+\end{itemize}
+
+\newpage
+
+\section*{Provided results}
+
+\subsection*{Quantile estimation}
+
+Let $Y_1,...,Y_n \overset{iid}{\sim} F$, for some continuous $F$ with pdf $f$, and let $\theta_0$ be the $p$th quantile of $F$, and $\widehat{\theta}$ the sample $p$th quantile. Then,
+$$\sqrt{n}(\widehat{\theta} - \theta_0) \overset{d}{\to} N\left(0, \frac{p(1-p)}{f^2(\theta_0)} \right)$$
+(provided that $f(\theta_0) > 0$).
+
+\subsection*{M-estimation (including extension)}
+
+Let $Y_1,...,Y_n$ be iid samples from some distribution $g$. ($Y_i$ could be a scalar or vector random variable; and in the regression setting, we typically have $Y_i = (\mathbf{x}_i, Y_i)$). Let $\psi(Y, \boldsymbol{\theta})$ be a function which depends on a parameter $\boldsymbol{\theta} \in \mathbb{R}^d$.\\
+
+\noindent Let $\widehat{\boldsymbol{\theta}}$ solve
+$$\sum \limits_{i=1}^n \psi(Y_i, \boldsymbol{\theta}) = \boldsymbol{c}_n$$
+where $\boldsymbol{c}_n/\sqrt{n} \overset{p}{\to} \boldsymbol{0}$ as $n \to \infty$ (in the simplest case, we just have $\boldsymbol{c}_n \equiv \boldsymbol{0}$). And let $\boldsymbol{\theta}_0$ solve
+$$\mathbb{E}_g[\psi(Y_i, \boldsymbol{\theta})] = \boldsymbol{0}$$
+Then, under regularity conditions (which you may assume hold unless otherwise specified), $\widehat{\boldsymbol{\theta}} \overset{p}{\to} \boldsymbol{\theta}_0$, and
+$$\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\theta}_0)) \hspace{1cm} \mathbf{S}(\boldsymbol{\theta}_0) = \mathbf{A}^{-1} \mathbf{B} \mathbf{A}^{-1}$$
+where $\mathbf{B} = \mathbb{E}_g[\psi(Y_i, \boldsymbol{\theta}_0) \psi(Y_i, \boldsymbol{\theta}_0)^T]$. The definition of $\mathbf{A}$ depends on whether $\psi$ is differentiable. If $\psi$ is differentiable, then
+$$\mathbf{A} = -\mathbb{E}_g\left[ \psi'(Y_i, \boldsymbol{\theta}_0) \right]$$
+with $\psi'(Y_i, \boldsymbol{\theta}) = \frac{\partial}{\partial \boldsymbol{\theta}} \psi(Y_i, \boldsymbol{\theta})$. Otherwise,
+$$\mathbf{A} = -\frac{\partial}{\partial \boldsymbol{\theta}} \mathbb{E}_g[\psi(Y_i, \boldsymbol{\theta})] \ \Biggr\lvert_{\boldsymbol{\theta} = \boldsymbol{\theta}_0}$$
+
+\subsection*{PSD matrices}
+
+Suppose that $\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ is a multivariate normal random vector. We know that the covariance matrix $\boldsymbol{\Sigma}$ is positive semi-definite, and a useful fact about positive semi-definite matrices is that there exists a unique positive semi-definite matrix, which we will denote $\boldsymbol{\Sigma}^{\frac{1}{2}}$, such that $\boldsymbol{\Sigma}^{\frac{1}{2}}\boldsymbol{\Sigma}^{\frac{1}{2}} = \boldsymbol{\Sigma}$. It is also true that $\boldsymbol{\Sigma}^{-\frac{1}{2}} := (\boldsymbol{\Sigma}^{\frac{1}{2}})^{-1}$ satisfies $\boldsymbol{\Sigma}^{-\frac{1}{2}}\boldsymbol{\Sigma}^{-\frac{1}{2}} = \boldsymbol{\Sigma}^{-1}$.
+
+\newpage
+
+\section*{Questions}
+
+\begin{enumerate}
+
+\item Let $\{Y_n^{(1)}\}, \{Y_n^{(2)}\}, ..., \{Y_n^{(k)}\}$ be $k$ sequences of random variables, such that each $Y_n^{(i)} \overset{p}{\to} Y^{(i)}$ (here the superscript $(i)$ is used to distinguish the $i$th sequence; it does not denote an exponent, derivative, or order statistic). Show that
+$$\max \limits_{i=1,...,k} |Y_n^{(i)} - Y^{(i)}| \overset{p}{\to} 0.$$
+
+\bigskip
+
+\item Let $X_1,...,X_n$ be iid from some distribution with cdf $F$. The \textit{empirical distribution function} $F_n$ is a \textit{nonparametric} estimate of $F$ defined by
+$$F_n(t) = \frac{1}{n} \sum \limits_{i=1}^n \mathbbm{1}\{X_i \leq t \}.$$
+On homework, you showed that for any $t$, $F_n(t) \overset{p}{\to} F(t)$. It turns out that we can make this result stronger. 
+
+If $F$ is continuous, show that
+$$\sup \limits_{t \in \mathbb{R}} |F_n(t) - F(t)| \overset{p}{\to} 0$$
+(in other words, $F_n$ converges \textit{uniformly} to $F$ in probability; a slightly weaker version of the Glivenko-Cantelli theorem). \textit{Hint:} Begin by choosing $a_0, a_1,...,a_k$ such that 
+$$-\infty = a_0 < a_1 < \cdots < a_k = \infty$$
+and $F(a_i) - F(a_{i-1}) = \frac{1}{k}$ for $i = 1,...,k$ (your proof should explain why you can do this). You will also want to use the result of the previous problem, and you can use the homework result that $F_n(t) \overset{p}{\to} F(t)$ for each $t$ without proof.
+
+
+\item Suppose that $(X_1, Y_1),...(X_n, Y_n)$ are iid observations from the \textbf{bivariate normal} distribution:
+
+$$\begin{pmatrix}
+X_i \\ Y_i
+\end{pmatrix} \sim N\left( \begin{pmatrix}
+\mu_1 \\ \mu_2
+\end{pmatrix}, \ \begin{pmatrix}
+\sigma_1^2 & \rho \sigma_1 \sigma_2 \\ 
+\rho \sigma_1 \sigma_2 & \sigma_2^2
+\end{pmatrix} \right)
+$$
+
+with $\mu_1, \mu_2 \in \mathbb{R}$, $\rho \in (-1, 1)$, and $\sigma_1, \sigma_2 > 0$. Find the method of moments estimators for $\mu_1, \mu_2, \sigma_1, \sigma_2$, and $\rho$.
+
+\bigskip
+
+\item Let $Y_1,...,Y_n$ be iid from some distribution with finite mean and variance $\mathbb{E}[Y_i] = \mu$ and $Var(Y_i) = \mu^4$. Find a variance stabilizing transformation $g$ such that the asymptotic variance of $\sqrt{n}(g(\overline{Y}) - g(\mu))$ does not depend on $\mu$.
+
+\bigskip
+
+\item Let $Y_1,...,Y_n \overset{iid}{\sim} Beta(\alpha, \beta)$, with pdf
+
+$$f(y) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)}y^{\alpha - 1} (1 - y)^{\beta - 1}$$
+
+for $y \in (0, 1)$, and $\alpha, \beta > 0$. 
+
+The mean is $\mathbb{E}[Y_i] = \dfrac{\alpha}{\alpha + \beta}$, and the variance is $Var(Y_i) = \dfrac{\alpha \beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}$.
+
+For this problem, it will help to define the \textit{digamma} function $\psi(u) = \frac{d}{du} \log \Gamma(u)$ and the \textit{trigamma} function $\psi^{(1)}(u) = \frac{d}{du} \psi(u)$. You may leave your answers in terms of these functions, unless otherwise specified. You may also use the following facts without proof:
+
+$$\psi(u + 1) = \psi(u) + \frac{1}{u} \hspace{1cm} \psi^{(1)}(u + 1) = \psi^{(1)}(u) - \frac{1}{u^2}$$
+
+\begin{enumerate}
+\item Find the Fisher information matrix $\mathcal{I}_1(\alpha, \beta)$ for a single observation. You may assume that desired regularity conditions hold for the Beta distribution.
+
+\item Now suppose that we \textit{know} the value of $\alpha$, and wish to estimate $\beta$. Find the method of moments estimator $\widehat{\beta}_{\text{MoM}}$.
+
+\item Suppose that we furthermore \textit{know} that $\alpha = 1$. Find the MLE $\widehat{\beta}_{\text{MLE}}$. Your answer should be in closed form, and should not involve the digamma or trigamma functions when simplified.
+
+\item Still supposing that we know $\alpha = 1$, find the asymptotic relative efficiency $ARE(\widehat{\beta}_{\text{MLE}}, \ \widehat{\beta}_{\text{MoM}})$. Your answer should be in closed form, and should not involve the digamma or trigamma functions when simplified.
+
+\item How does the $ARE(\widehat{\beta}_{\text{MLE}}, \ \widehat{\beta}_{\text{MoM}})$ change as $\beta \to \infty$?
+
+\item Explain the result from part (e) by discussing the behavior of the $Beta(1, \beta)$ distribution for large values of $\beta$, and the first-order Taylor expansion of the function $\log(1 - y)$ around 0.
+\end{enumerate}
+
+
+
+
+\bigskip
+
+\item Let $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\theta)$, with pdf 
+
+$$f(y) = \theta e^{-\theta y} \hspace{1cm} y > 0$$
+
+and cdf
+
+$$F(y) = \begin{cases} 0 & y \leq 0 \\ 1 - e^{-\theta y} & y > 0 \end{cases}$$
+
+The mean is $\mathbb{E}[Y] = 1/\theta$, and the variance is $Var(Y) = 1/\theta^2$.
+
+\begin{enumerate}
+\item Find the median of the $Exponential(\theta)$ distribution, as a function of $\theta$. (The population median, \textit{not} the sample median).
+
+\item Let $M_n$ be the sample median computed from $Y_1,...,Y_n$. Using part (a), propose an estimator $\widehat{\theta}_{\text{med}}$ for $\theta$ that is a function of the sample median.
+
+\item We have previously shown that the MLE for $\theta$ is $\widehat{\theta}_{\text{MLE}} = 1/\overline{Y}$. Calculate the asymptotic relative efficiency $ARE(\widehat{\theta}_{\text{MLE}}, \widehat{\theta}_{\text{med}})$.
+\end{enumerate}
+
+\item Suppose $X_1,...,X_n \overset{iid}{\sim} t_{\nu}$, with pdf
+
+$$f(x) = \dfrac{\Gamma\left( \frac{\nu + 1}{2} \right)}{\sqrt{\pi \nu} \Gamma\left( \frac{\nu}{2} \right)} \left(1 + \frac{x^2}{\nu} \right)^{-\frac{(\nu + 1)}{2}}$$
+
+The mean and median of the $t_\nu$ distribution are both 0, and the variance is $\dfrac{\nu}{\nu - 2}$ provided that $\nu > 2$.
+
+Let 
+$$Y_i = \mu + X_i$$
+for some unknown $\mu \in \mathbb{R}$, and consider two estimators of $\mu$: the sample mean $\overline{Y}$, and the sample median $M_n$ calculated from $Y_1,...,Y_n$. Assuming $\nu > 2$, find the asymptotic relative efficiency $ARE(\overline{Y}, M_n)$. 
+
+\bigskip
+
+\item Let $Y_1,...,Y_n \overset{iid}{\sim} Poisson(\lambda)$, and let $\tau = P(Y_i = 0)$. We have previously shown that the MLE for $\lambda$ is $\widehat{\lambda}_{\text{MLE}} = \overline{Y}$.
+
+\begin{enumerate}
+\item Find the MLE $\widehat{\tau}_{\text{MLE}}$ for $\tau$.
+\item Now consider another estimator: $\widetilde{\tau} = \frac{1}{n} \sum \limits_{i=1}^n \mathbbm{1}\{Y_i = 0 \}$. Find the asymptotic relative efficiency $ARE(\widehat{\tau}_{\text{MLE}}, \widetilde{\tau})$.
+\end{enumerate}
+
+\bigskip
+
+\item Let $Y_1,...,Y_n \overset{iid}{\sim} N(\mu, \sigma^2)$. The median of the normal distribution is also $\mu$. The goal of this question is to compare two different estimators for the standard deviation $\sigma$:
+
+$$\widehat{\sigma}_1 = \sqrt{\frac{1}{n} \sum \limits_{i=1}^n (Y_i - \overline{Y})^2} \hspace{2cm} \widehat{\sigma}_2 = \frac{\frac{1}{n} \sum \limits_{i=1}^n |Y_i - M_n|}{\sqrt{2/\pi}},$$
+
+where $\overline{Y}$ is the sample mean and $M_n$ the sample median.
+
+By itself, $\widehat{\sigma}_2$ is not an M-estimator, but it \textit{can} be made part of an M-estimator. Let $\boldsymbol{\theta} = (\theta_1, \theta_2)^T$ and let 
+$$\widehat{\theta}_1 = M_n \hspace{1cm} \widehat{\theta}_2 = \widehat{\sigma}_2$$
+Then, $\widehat{\boldsymbol{\theta}}$ solves
+$$\sum \limits_{i=1}^n \psi(Y_i, \boldsymbol{\theta}) = \boldsymbol{c}_n \hspace{1cm} \text{where } \ \psi(Y_i, \boldsymbol{\theta}) = \begin{pmatrix}
+\mathbbm{1}\{Y_i \leq \theta_1\} - \frac{1}{2} \\
+\dfrac{|Y_i - \theta_1|}{\sqrt{2/\pi}} - \theta_2
+\end{pmatrix}$$
+and $\boldsymbol{c}_n/\sqrt{n} \overset{p}{\to} \boldsymbol{0}$. Let $\boldsymbol{\theta}_0$ solve $\mathbb{E}[\psi(Y_i, \boldsymbol{\theta})] = \boldsymbol{0}$.
+
+\begin{enumerate}
+\item Show that $\mathbb{E}\left(|Y_i - \mu|\right) = \sigma \sqrt{2/\pi}$, so $\widehat{\sigma}_2$ is a reasonable estimator for $\sigma$.
+
+\item  Show that $\boldsymbol{\theta}_0 = (\mu, \sigma)^T$.
+
+\item We have previously shown that $\sqrt{n}(\widehat{\sigma}_1^2 - \sigma^2) \overset{d}{\to} N(0, 2 \sigma^4)$. Using this information, find the asymptotic distribution of $\sqrt{n}(\widehat{\sigma}_1 - \sigma)$.
+
+\item Using results for M-estimators, find the asymptotic distribution of $\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0)$. For this part of the problem you may use, without proof, the following fact: 
+
+$$\mathbb{E}(|Y_i - \theta_1|) = \sigma \sqrt{\frac{2}{\pi}} \ \exp \left\lbrace -\frac{1}{2\sigma^2} (\theta_1 - \mu)^2 \right\rbrace + (\mu - \theta_1)(1 - F(\theta_1)) + (\theta_1 - \mu)F(\theta_1)$$
+
+where $F$ is the cdf of the $N(\mu, \sigma^2)$ distribution.
+
+\item Find the asymptotic relative efficiency $ARE(\widehat{\sigma}_1, \widehat{\sigma}_2)$.
+
+\end{enumerate}
+
+\bigskip
+
+\item Let $(\mathbf{x}_i, Y_i)$ be iid observations from some distribution $g$, and suppose that
+$$Y_i = \exp\{\mathbf{x}_i^T \boldsymbol{\beta}\} + \varepsilon_i,$$
+where $\mathbb{E}[\varepsilon_i] = 0$ and $Var(\varepsilon_i) = \sigma^2$. Our estimator $\widehat{\boldsymbol{\beta}}$ of the regression coefficients $\boldsymbol{\beta}$ minimizes
+
+$$\sum \limits_{i=1}^n (Y_i - \exp\{\mathbf{x}_i^T \boldsymbol{\beta}\})^2$$
+
+\begin{enumerate}
+\item Find a function $\psi(Y_i, \mathbf{x}_i, \boldsymbol{\beta})$ such that $\widehat{\boldsymbol{\beta}}$ solves
+
+$$\sum \limits_{i=1}^n \psi(Y_i, \mathbf{x}_i, \boldsymbol{\beta}) = \boldsymbol{0}$$
+
+\item Let $\boldsymbol{\beta}^0$ be the value that solves $\mathbb{E}_g[\psi(Y_i, \mathbf{x}_i, \boldsymbol{\beta})] = \boldsymbol{0}$. Find the asymptotic distribution of $\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}^0)$. The asymptotic variance should be in terms of $\boldsymbol{\beta}^0$, $\mathbf{x}_i$, and $Y_i$.
+
+\item Give a plug-in estimator for $Var(\widehat{\boldsymbol{\beta}})$.
+\end{enumerate}
+
+\item The exponential distribution with parameter $\lambda$ has pdf
+$$f(y | \lambda) = \frac{1}{\lambda} \exp\left\lbrace - \frac{y}{\lambda} \right\rbrace, \hspace{1cm} y > 0.$$
+Let $Y_i > 0$ be a continuous, positive response variable of interest, and let $\mathbf{x}_i \in \mathbb{R}^{k+1}$ be a vector of covariates. Suppose we observe independent samples $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ from some distribution $g$, and we fit the following model (which may or may not be correct!):
+
+\begin{align*}
+Y_i|\mathbf{x}_i &\sim Exponential(\lambda_i) \\
+-\frac{1}{\lambda_i} &= \mathbf{x}_i^T \boldsymbol{\beta}
+\end{align*}
+where the distribution of $\mathbf{x}_i$ does not depend on $\boldsymbol{\beta}$. 
+
+\begin{enumerate}
+\item \textbf{If our model is correct}, find the asymptotic distribution of $\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta})$, where $\boldsymbol{\beta}$ are the true regression coefficients in the population. Your answer for the asymptotic variance should be in terms of an expectation involving $\mathbf{x}_i$, $Y_i$, and $\boldsymbol{\beta}$. You may assume that desired regularity conditions hold for the Exponential.
+
+\item Now suppose that our model is \textbf{mistaken}. Then, 
+$$\sqrt{n}(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}^0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\beta}^0))$$
+Explain what $\boldsymbol{\beta}^0$ represents in this setting, in terms of some expectation with respect to the true distribution $g$. Then, find an expression for $\mathbf{S}(\boldsymbol{\beta}^0)$ in terms of expectations (with respect to $g$) involving $\mathbf{x}_i$, $Y_i$, and $\boldsymbol{\beta}^0$.
+
+\item Give the plug-in estimator for $\mathbf{S}(\boldsymbol{\beta}^0)$ in terms of the observed $\mathbf{x}_i$, $Y_i$, and $\widehat{\boldsymbol{\beta}}$.
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
