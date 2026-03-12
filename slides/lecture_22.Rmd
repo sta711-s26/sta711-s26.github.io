@@ -1,0 +1,217 @@
+---
+title: "Beginning hypothesis testing"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+
+## Course status so far
+
+So far:
+
+* How can we estimate parameters / fit a model?
+    * MLE, method of moments, M-estimation, and applications to regression
+* What makes a good estimator?
+    * MSE, unbiased estimators, CRLB, consistency, asymptotic relative efficiency
+* What is the large-sample behavior of our estimators?
+    * WLLN, CLT, delta method, asymptotic normality of the MLE, asymptotic normality of M-estimators
+    
+\bigskip
+    
+Next: how can we use our estimates for inference?
+
+* Hypothesis tests using Normal distributions
+* General hypothesis testing framework
+* Other methods for testing hypotheses (Neyman-Pearson, LRT)
+* Confidence intervals
+
+## Hypothesis tests for a population mean
+
+Let $X_1, X_2,...,X_n$ be an iid sample from a population with unknown mean $\mu$, and known variance $\sigma^2$. We want to test
+
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0$$
+
+**Test statistic:**
+
+\vspace{5cm}
+
+## Hypothesis tests for a population mean
+
+Let $X_1, X_2,..., X_n$ be an iid sample from a population with mean $\mu$ and variance $\sigma^2$. We want to test
+
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0$$
+
+**Test statistic:** $Z_n = \dfrac{\overline{X}_n -\mu_0}{\sigma/\sqrt{n}}$
+
+What if $\sigma$ is unknown?
+
+\vspace{5cm}
+
+
+## Hypothesis tests for a population mean
+
+Let $X_1, X_2,..., X_n$ be an iid sample from a population with mean $\mu$ and variance $\sigma^2$. We want to test
+
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0$$
+
+**Test statistic:** $Z_n = \dfrac{\overline{X}_n -\mu_0}{\sigma/\sqrt{n}}$
+
+**Rejecting:** Should we reject $H_0$ when $Z_n$ is close to 0, or when $Z_n$ is far away from 0?
+
+\vspace{5cm}
+
+
+## Hypothesis tests for a population mean
+
+Let $X_1, X_2,...$ be an iid sample from a population with mean $\mu$ and variance $\sigma^2$. We want to test
+
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0$$
+
+**Test statistic:** $Z_n = \dfrac{\overline{X}_n -\mu_0}{\sigma/\sqrt{n}}$
+
+**Rejecting:** Reject $H_0$ when $|Z_n| > z_{\alpha/2}$
+
+**p-value:** How do we calculate a p-value?
+
+\vspace{5cm}
+
+## Wald test for one parameter
+
+## Wald test for one parameter: examples
+
+* Population mean: $H_0: \mu = \mu_0$
+
+\vspace{1.5cm}
+
+* Population proportion: $H_0: p= p_0$
+
+\vspace{1.5cm}
+
+* Regression coefficient: $H_0: \beta_j = 0$
+
+\vspace{2cm}
+
+## Testing multiple parameters
+
+Logistic regression model for the dengue data:
+
+$$Y_i \sim Bernoulli(p_i)$$
+
+$$\log \left( \dfrac{p_i}{1 - p_i} \right) = \beta_0 + \beta_1 WBC_i + \beta_2 PLT_i$$
+
+Researchers want to know if there is any relationship between white blood cell count or platelet count, and the probability a patient has dengue. 
+
+**Question:** What hypotheses should they test?
+
+\vspace{2cm}
+
+## Testing multiple parameters
+
+```{r include=F}
+library(knitr)
+
+
+dengue <- read.csv("https://sta712-f22.github.io/homework/dengue.csv")
+```
+
+```{r, echo=F}
+m1 <- glm(Dengue ~ WBC + PLT, data = dengue, 
+          family = binomial)
+summary(m1)$coefficients |> round(digits=3)
+```
+
+$H_0: \beta_1 = \beta_2 =0$
+
+Can the researchers test their hypotheses using this output?
+
+\vspace{4cm}
+
+## Wald tests for multiple parameters
+
+For the dengue example:
+
+$$\widehat{\boldsymbol{\beta}} = \begin{pmatrix} \widehat{\beta}_0 \\ \widehat{\beta}_1 \\ \widehat{\beta}_2 \end{pmatrix} \hspace{3cm}$$
+
+```{r}
+m1 <- glm(Dengue ~ WBC + PLT, data = dengue, family = binomial)
+coef(m1)
+vcov(m1)
+```
+
+
+## Wald tests for multiple parameters
+
+For the dengue example: $\widehat{\boldsymbol{\beta}} = \begin{pmatrix} \widehat{\beta}_0 \\ \widehat{\beta}_1 \\ \widehat{\beta}_2 \end{pmatrix}$
+
+We want to test: $\begin{pmatrix} \beta_1 \\ \beta_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}$
+
+\vspace{5cm}
+
+## Wald tests for multiple parameters
+
+$$H_0: \mathbf{C} \boldsymbol{\beta} = \gamma_0$$
+For the dengue example:
+
+```{r}
+C <- matrix(c(0, 1, 0,
+              0, 0, 1), nrow=2, byrow=T)
+
+C
+C %*% coef(m1)
+```
+
+## Wald tests for multiple parameters
+
+For the dengue example:
+
+```{r}
+C
+vcov(m1)
+C %*% vcov(m1) %*% t(C)
+```
+
+
+
+## Wald tests for multiple parameters
+
+* $H_0: \mathbf{C} \boldsymbol{\beta} = \boldsymbol{\gamma}_0$
+
+* Look at $\mathbf{C} \widehat{\boldsymbol{\beta}}$
+
+\vspace{5cm}
+
+## Test statistic and p-value
+
+* $H_0: {\bf C} \boldsymbol{\beta} = \boldsymbol{\gamma}_0$
+
+* ${\bf C} \widehat{\boldsymbol{\beta}} \approx N({\bf C} \boldsymbol{\beta}, \ {\bf C} \mathcal{I}^{-1}(\boldsymbol{\beta}){\bf C}^T)$
+
+* Want to turn ${\bf C} \widehat{\boldsymbol{\beta}}$ into a scalar test statistic
+
+\vspace{5cm}
+
+## Example
+
+$H_0: {\bf C} \boldsymbol{\beta} = \boldsymbol{\gamma}_0$
+
+\vspace{-0.5cm}
+
+$$({\bf C} \widehat{\boldsymbol{\beta}} - \boldsymbol{\gamma}_0)^T ({\bf C} \mathcal{I}^{-1}(\boldsymbol{\beta}) {\bf C}^T)^{-1} ({\bf C} \widehat{\boldsymbol{\beta}} - \boldsymbol{\gamma}_0) \approx \chi^2_q \hspace{1cm} \text{under } H_0$$
+
+```{r, eval=F}
+C %*% coef(m1)
+```
+
+```{r, echo=F}
+c(C %*% coef(m1))
+```
+
+
+
+```{r}
+test_stat <- t(C %*% coef(m1)) %*% 
+  solve(C %*% vcov(m1) %*% t(C)) %*%
+  (C %*% coef(m1))
+test_stat
+pchisq(test_stat, 2, lower.tail=F)
+```
