@@ -146,6 +146,20 @@ window.Quarto = {
 <p><span class="math display">\[H_0: \beta_3 = \beta_4 = 0 \hspace{1cm} H_A: \text{at least one of } \beta_3, \beta_4 \neq 0\]</span></p>
 <p>Recall that the variance-covariance matrix can be extracted with the <code>vcov(...)</code> function.</p>
 </section>
+<section id="questions-wald-test-for-a-contrast" class="level2">
+<h2 class="anchored" data-anchor-id="questions-wald-test-for-a-contrast">Questions: Wald test for a contrast</h2>
+<p>The null hypothesis <span class="math inline">\(H_0: \beta_3 = \beta_4 = 0\)</span> asks whether there is any relationship between passenger class and survival, after accounting for Sex and Age. But now suppose you want to ask a different question: is there a difference in survival between second and third class passengers?</p>
+<p>Neither <span class="math inline">\(\beta_3\)</span> nor <span class="math inline">\(\beta_4\)</span> directly addresses this question. Instead, we want to compare <span class="math inline">\(\beta_3\)</span> and <span class="math inline">\(\beta_4\)</span> to <em>each other</em>; our hypotheses are</p>
+<p><span class="math display">\[H_0: \beta_3 - \beta_4 = 0 \hspace{1cm} H_A: \beta_3 - \beta_4 \neq 0\]</span></p>
+<p>How should we test these hypotheses? Once again, we can use a Wald test!</p>
+<ol start="3" type="1">
+<li>Find a matrix <span class="math inline">\({\bf C}\)</span> such that <span class="math inline">\({\bf C}\beta = \beta_3 - \beta_4\)</span>.</li>
+</ol>
+<p>The difference <span class="math inline">\(\beta_3 - \beta_4\)</span> is called a <em>contrast</em>, and is another example of a linear transformation of <span class="math inline">\(\beta\)</span>.</p>
+<ol start="4" type="1">
+<li>Calculate the Wald test statistic and p-value for <span class="math inline">\(H_0: \beta_3 - \beta_4 = 0\)</span>.</li>
+</ol>
+</section>
 </section>
 
 </main>

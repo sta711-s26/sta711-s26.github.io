@@ -29,3 +29,21 @@ $$H_0: \beta_3 = \beta_4 = 0 \hspace{1cm} H_A: \text{at least one of } \beta_3, 
 
 Recall that the variance-covariance matrix can be extracted with the `vcov(...)` function.
 
+## Questions: Wald test for a contrast
+
+The null hypothesis $H_0: \beta_3 = \beta_4 = 0$ asks whether there is any relationship between passenger class and survival, after accounting for Sex and Age. But now suppose you want to ask a different question: is there a difference in survival between second and third class passengers? 
+
+Neither $\beta_3$ nor $\beta_4$ directly addresses this question. Instead, we want to compare $\beta_3$ and $\beta_4$ to *each other*; our hypotheses are
+
+$$H_0: \beta_3 - \beta_4 = 0 \hspace{1cm} H_A: \beta_3 - \beta_4 \neq 0$$
+
+How should we test these hypotheses? Once again, we can use a Wald test!
+
+
+3. Find a matrix ${\bf C}$ such that ${\bf C}\beta = \beta_3 - \beta_4$.
+
+The difference $\beta_3 - \beta_4$ is called a *contrast*, and is another example of a linear transformation of $\beta$.
+
+
+4. Calculate the Wald test statistic and p-value for $H_0: \beta_3 - \beta_4 = 0$.
+
