@@ -1,0 +1,107 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+# Hypothesis testing with the Titanic data
+
+In this class activity, we will test hypotheses about quantities of interest in the titanic data. Let $Y_i$ denote whether passenger $i$ survived. We will use the model
+
+$$Y_i|\mathbf{x}_i \sim Bernoulli(p_i)$$
+
+$$\log \left( \dfrac{p_i}{1 - p_i} \right) = \beta_0 + \beta_1 Sex_i + \beta_2 Age_i + \beta_3 SecondClass_i + \beta_4 ThirdClass_i$$
+
+The Titanic data can be imported into R with
+
+```{r, eval=F}
+titanic <- read.csv("https://sta711-s26.github.io/homework/Titanic.csv")
+```
+
+And we can fit the logistic regression model:
+
+```{r, eval=F}
+m1 <- glm(Survived ~ Sex + Age + as.factor(Pclass), data = titanic, family = binomial)
+```
+
+
+
+## Questions
+
+1. Use a Wald test to test 
+
+$$H_0: \beta_3 = \beta_4 = 0 \hspace{1cm} H_A: \text{at least one of } \beta_3, \beta_4 \neq 0$$
+
+Recall that the variance-covariance matrix can be extracted with the `vcov(...)` function.
+
+## Questions: Wald test for a contrast
+
+The null hypothesis $H_0: \beta_3 = \beta_4 = 0$ asks whether there is any relationship between passenger class and survival, after accounting for Sex and Age. But now suppose you want to ask a different question: is there a difference in survival between second and third class passengers? 
+
+Neither $\beta_3$ nor $\beta_4$ directly addresses this question. Instead, we want to compare $\beta_3$ and $\beta_4$ to *each other*; our hypotheses are
+
+$$H_0: \beta_3 - \beta_4 = 0 \hspace{1cm} H_A: \beta_3 - \beta_4 \neq 0$$
+
+How should we test these hypotheses? Once again, we can use a Wald test!
+
+
+2. Find a matrix ${\bf C}$ such that ${\bf C}\beta = \beta_3 - \beta_4$.
+
+The difference $\beta_3 - \beta_4$ is called a *contrast*, and is another example of a linear transformation of $\beta$.
+
+
+3. Calculate the Wald test statistic and p-value for $H_0: \beta_3 - \beta_4 = 0$.
+
+# Testing parameters jointly vs. separately
+
+Consider the logistic regression model
+
+$$Y_i|\mathbf{x}_i \sim Bernoulli(p_i)$$
+
+$$\log \left( \dfrac{p_i}{1 - p_i} \right) = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2}$$
+
+and suppose we wish to test the hypotheses
+
+$$H_0: \beta_1 = \beta_2 = 0 \hspace{1cm} H_A: \text{at least one of } \beta_1, \beta_2 \neq 0$$
+
+Or, written another way,
+
+$$H_0: \begin{pmatrix} \beta_1 \\ \beta_2 \end{pmatrix} = \boldsymbol{0} \hspace{1cm} H_A: \begin{pmatrix} \beta_1 \\ \beta_2 \end{pmatrix} \neq \boldsymbol{0}$$
+
+Our Wald test for the hypotheses
+
+$$H_0: {\bf C}\beta = \gamma_0 \hspace{1cm} H_A: {\bf C}\beta \neq \gamma_0$$
+
+uses the test statistic
+
+$$W = ({\bf C} \widehat{\beta} - \gamma_0)^T({\bf C} \widehat{\mathcal{I}}^{-1}(\beta) {\bf C}^T)^{-1} ({\bf C} \widehat{\beta} - \gamma_0)$$
+Under $H_0$, we have that $W \approx \chi^2_q$, where $q$ is the length of ${\bf C}\beta$. The p-value is
+
+$$p = P(\chi^2_q > W)$$
+
+and we reject $H_0$ if $p < \alpha$ for a given significance level $\alpha$.
+
+### Can we instead test the coefficients *separately*?
+
+This tests both $\beta_1$ and $\beta_2$ *jointly*. But suppose we decided to instead test the null hypothesis $H_0: \beta_1 = \beta_2 = 0$ by *separately* testing the two hypotheses $H_{0,1}: \beta_1 = 0$ and $H_{0,2}: \beta_2 = 0$. Our procedure would be:
+
+* Calculate $Z_1 = \dfrac{\widehat{\beta}_1 - 0}{SE_{\widehat{\beta}_1}}$ and $Z_2 = \dfrac{\widehat{\beta}_2 - 0}{SE_{\widehat{\beta}_2}}$
+* Calculate a p-value for each test statistic: $p_1 = 2\Phi(-|Z_1|)$ and $p_2 = 2\Phi(-|Z_2|)$
+* Reject $H_{0}: \beta_1 = \beta_2 = 0$ if $\text{min}\{p_1, p_2\} < \alpha$
+
+Is this a good idea? The purpose of the following questions is to explore this question.
+
+### Power and type I error
+
+To help answer whether it is a good idea to test our coefficients separately, we need a definition of "good". Recall from earlier stats courses the concepts of *type I error* and *power*.
+
+Broadly (we will formalize this a bit later):
+
+$$\text{type I error rate} = P(\text{reject } H_0 | H_0 \text{ true})$$
+
+$$\text{power} = P(\text{reject } H_0 | H_0 \text{ false})$$
+
+The usual approach to hypothesis testing in statistics is to try to *maximize* power, subject to control of the type I error rate. That is, we want $\text{type I error rate} < \alpha$ for some 
+
+
+

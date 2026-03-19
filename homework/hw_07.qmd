@@ -218,7 +218,7 @@ Let $\boldsymbol{\theta}_0 = (\mu, \sigma^2)^T$ be the true mean and variance, a
     $$\sum \limits_{i=1}^n \psi(Y_i, \boldsymbol{\theta}) = \boldsymbol{0}$$
     (*Hint*: $\psi$ will be a vector-valued function, since $\widehat{\boldsymbol{\theta}}$ needs to solve a system of two equations with two unknowns!)
     (b) Show that the sandwich variance is given by
-    $$\mathbf{S}(\boldsymbol{\theta}_0) = \begin{pmatrix} \sigma^2 & \mathbb{E}_g[(Y_i - \mu)^3] \\ \mathbb{E}_g[(Y_i - \mu)^3] & \mathbb{E}_g[(Y_i - \mu)^4] - \sigma^2 \end{pmatrix}$$
+    $$\mathbf{S}(\boldsymbol{\theta}_0) = \begin{pmatrix} \sigma^2 & \mathbb{E}_g[(Y_i - \mu)^3] \\ \mathbb{E}_g[(Y_i - \mu)^3] & \mathbb{E}_g[(Y_i - \mu)^4] - \sigma^4 \end{pmatrix}$$
     
 :::
 
