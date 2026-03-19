@@ -13,4 +13,5 @@ March 18
   : [Slides](https://sta711-s26.github.io/slides/lecture_22.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_22.html)
   
 March 20
-: Wald tests
+: Wald test activity
+  : [activity](https://sta711-s26.github.io/class_activities/ca_23.html)

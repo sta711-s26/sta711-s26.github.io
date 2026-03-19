@@ -4,7 +4,7 @@ format: html
 editor: source
 ---
 
-# Hypothesis testing with the Titanic data
+# Part I: Hypothesis testing with the Titanic data
 
 In this class activity, we will test hypotheses about quantities of interest in the titanic data. Let $Y_i$ denote whether passenger $i$ survived. We will use the model
 
@@ -52,7 +52,7 @@ The difference $\beta_3 - \beta_4$ is called a *contrast*, and is another exampl
 
 3. Calculate the Wald test statistic and p-value for $H_0: \beta_3 - \beta_4 = 0$.
 
-# Testing parameters jointly vs. separately
+# Part II: Testing parameters jointly vs. separately
 
 Consider the logistic regression model
 
@@ -101,7 +101,103 @@ $$\text{type I error rate} = P(\text{reject } H_0 | H_0 \text{ true})$$
 
 $$\text{power} = P(\text{reject } H_0 | H_0 \text{ false})$$
 
-The usual approach to hypothesis testing in statistics is to try to *maximize* power, subject to control of the type I error rate. That is, we want $\text{type I error rate} < \alpha$ for some 
+The usual approach to hypothesis testing in statistics is to try to *maximize* power, subject to control of the type I error rate. That is, we want $\text{type I error rate} < \alpha$ for some chosen value $\alpha$. If we reject when $p < \alpha$, then we are trying to control our type I error at level $\alpha$.
+
+### Simulation
+
+The following code simulates $n = 100$ observations from the logistic regression model
+
+$$\begin{pmatrix} X_{i1} \\ X_{i2} \end{pmatrix} \overset{iid}{\sim} N\left(\boldsymbol{0}, \begin{pmatrix}1 & 0 \\ 0 & 1 \end{pmatrix} \right)$$
+
+$$Y_i|\mathbf{x}_i \sim Bernoulli(p_i)$$
+
+$$\log \left( \dfrac{p_i}{1 - p_i} \right) = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2}$$
+
+In this code, $\beta_1 = 0$ and $\beta_2 = 0$ (so $H_0$ is true!). The code then calculates a p-value for the *separate* tests $H_{0,1}: \beta_1 = 0$ and $H_{0,2}: \beta_2 = 0$. Finally, we calculate the Wald test statistic for the joint test of $H_0: \beta_1 = \beta_2 = 0$.
+
+
+```{r, eval=F}
+set.seed(82932)
+
+beta <- c(1, 0, 0)
+n <- 100
+
+X <- MASS::mvrnorm(n, mu=c(0, 0), Sigma = matrix(c(1, 0, 0, 1), ncol=2))
+X <- cbind(1, X)
+p <- exp(as.numeric(X %*% beta))/(1 + exp(as.numeric(X %*% beta)))
+y <- rbinom(n, 1, p)
+  
+m1 <- glm(y ~ X[,2] + X[,3], family = binomial)
+summary(m1)$coefficients[2,4] # p-value for testing beta1 = 0
+summary(m1)$coefficients[3,4] # p-value for testing beta2 = 0
+
+# joint test
+c_mat <- matrix(c(0, 1, 0, 0, 0, 1), nrow = 2, byrow = T)
+test_stat <- t(c_mat %*% m1$coefficients) %*% solve(c_mat %*% vcov(m1) %*% t(c_mat)) %*% 
+  (c_mat %*% m1$coefficients)
+
+# p-value for Wald test:
+pchisq(test_stat, 2, lower.tail=F)
+```
+
+### Questions: type I error rate
+
+4. Run the code many times, generating many simulated datasets, and store the three different p-values for each repetition.
+
+5. If we reject $H_0: \beta_1 = \beta_2 = 0$ when the p-value for the joint Wald test is $< 0.05$, verify (with the simulation output) that the type I error rate is approximately 0.05.
+
+6. If we reject $H_0: \beta_1 = \beta_2 = 0$ when $\min\{p_1, p_2\} < 0.05$ (the minimum of the two separate p-values is less than 0.05), verify that the type I error rate is **greater** than 0.05.
+
+7. If we reject $H_0: \beta_1 = \beta_2 = 0$ when $\min\{p_1, p_2\} < 0.025$ (the minimum of the two separate p-values is less than 0.025), verify that the type I error rate is approximately 0.05.
+
+**Moral so far:** If we want to simultaneously test multiple parameters ($\beta_1$ and $\beta_2$) by testing each parameter *separately*, we have to be careful about when we reject $H_0$ in order to control our type I error rate at the desired level!
+
+### Questions: power
+
+Now let's change the simulation so that $H_0$ is *false*. 
+
+8. Copy your code from the previous section, but this time change `beta` in the code so that `beta <- c(1, 0.5, 0.5)`. Leave everything else the same, and re-run the code (many times), storing the three different p-values for each repetition.
+
+9. If we reject $H_0: \beta_1 = \beta_2 = 0$ when the p-value for the joint Wald test is $< 0.05$, what fraction of the time do we (correctly) reject $H_0$?
+
+10. If we reject $H_0: \beta_1 = \beta_2 = 0$ when $\min\{p_1, p_2\} < 0.025$ (the minimum of the two separate p-values is less than 0.025), what fraction of the time do we (correctly) reject $H_0$?
+
+11. Which of the two approaches (testing jointly vs. separately) is more powerful?
+
+### Questions: power, part deux
+
+In questions 8 -- 11, we had $\beta_1 = 0.5$ and $\beta_2 = 0.5$. What if only one of the parameters is truly nonzero?
+
+12. Copy your code from the previous section, but this time change `beta` in the code so that `beta <- c(1, 0, 0.7)`. Leave everything else the same, and re-run the code (many times), storing the three different p-values for each repetition.
+
+13. If we reject $H_0: \beta_1 = \beta_2 = 0$ when the p-value for the joint Wald test is $< 0.05$, what fraction of the time do we (correctly) reject $H_0$?
+
+14. If we reject $H_0: \beta_1 = \beta_2 = 0$ when $\min\{p_1, p_2\} < 0.025$ (the minimum of the two separate p-values is less than 0.025), what fraction of the time do we (correctly) reject $H_0$?
+
+15. Which of the two approaches (testing jointly vs. separately) is more powerful?
+
+**Moral so far:** Testing the parameters $\beta_1, \beta_2$ simultaneously is **not** equivalent to testing them separately!
+
+### Questions: power part 3: return of the jedi
+
+So far, we have simulated our data so that the two explanatory variables $X_{i1}$ and $X_{i2}$ are *independent*. **However**, recall that the interpretation of $\beta_1$ and $\beta_2$ in the model are conditional on having the *other* variable in the model. E.g., the null hypothesis $H_{0,2}: \beta_2 = 0$ is the hypothesis that there is no relationship between $X_{i2}$ and $Y_i$, *after accounting for* $X_{i1}$.
+
+If $X_{i1}$ and $X_{i2}$ are correlated, we can imagine that this might change the results of our hypothesis tests!
+
+16. Copy your code from the previous section, but this time change `beta` in the code so that `beta <- c(1, 0.3, 0.3)` and `Sigma = matrix(c(1, 0.75, 0.75, 1), ncol=2)`. Leave everything else the same, and re-run the code (many times), storing the three different p-values for each repetition.
+
+17. If we reject $H_0: \beta_1 = \beta_2 = 0$ when the p-value for the joint Wald test is $< 0.05$, what fraction of the time do we (correctly) reject $H_0$?
+
+18. If we reject $H_0: \beta_1 = \beta_2 = 0$ when $\min\{p_1, p_2\} < 0.025$ (the minimum of the two separate p-values is less than 0.025), what fraction of the time do we (correctly) reject $H_0$?
+
+19. Which of the two approaches (testing jointly vs. separately) is more powerful?
+
+**Moral:** The **meaning** of the joint test is different than the meaning of combining the separate tests!
+
+## If you're done early...
+
+* How does the power of a test depend on the sample size $n$?
+* How does the power of a test depend on the true value of the parameter of interest?
 
 
 

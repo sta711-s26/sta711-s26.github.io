@@ -128,8 +128,8 @@ window.Quarto = {
 </header>
 
 
-<section id="hypothesis-testing-with-the-titanic-data" class="level1">
-<h1>Hypothesis testing with the Titanic data</h1>
+<section id="part-i-hypothesis-testing-with-the-titanic-data" class="level1">
+<h1>Part I: Hypothesis testing with the Titanic data</h1>
 <p>In this class activity, we will test hypotheses about quantities of interest in the titanic data. Let <span class="math inline">\(Y_i\)</span> denote whether passenger <span class="math inline">\(i\)</span> survived. We will use the model</p>
 <p><span class="math display">\[Y_i|\mathbf{x}_i \sim Bernoulli(p_i)\]</span></p>
 <p><span class="math display">\[\log \left( \dfrac{p_i}{1 - p_i} \right) = \beta_0 + \beta_1 Sex_i + \beta_2 Age_i + \beta_3 SecondClass_i + \beta_4 ThirdClass_i\]</span></p>
@@ -164,8 +164,8 @@ window.Quarto = {
 </ol>
 </section>
 </section>
-<section id="testing-parameters-jointly-vs.-separately" class="level1">
-<h1>Testing parameters jointly vs.&nbsp;separately</h1>
+<section id="part-ii-testing-parameters-jointly-vs.-separately" class="level1">
+<h1>Part II: Testing parameters jointly vs.&nbsp;separately</h1>
 <p>Consider the logistic regression model</p>
 <p><span class="math display">\[Y_i|\mathbf{x}_i \sim Bernoulli(p_i)\]</span></p>
 <p><span class="math display">\[\log \left( \dfrac{p_i}{1 - p_i} \right) = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2}\]</span></p>
@@ -179,12 +179,105 @@ window.Quarto = {
 <p><span class="math display">\[W = ({\bf C} \widehat{\beta} - \gamma_0)^T({\bf C} \widehat{\mathcal{I}}^{-1}(\beta) {\bf C}^T)^{-1} ({\bf C} \widehat{\beta} - \gamma_0)\]</span> Under <span class="math inline">\(H_0\)</span>, we have that <span class="math inline">\(W \approx \chi^2_q\)</span>, where <span class="math inline">\(q\)</span> is the length of <span class="math inline">\({\bf C}\beta\)</span>. The p-value is</p>
 <p><span class="math display">\[p = P(\chi^2_q &gt; W)\]</span></p>
 <p>and we reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(p &lt; \alpha\)</span> for a given significance level <span class="math inline">\(\alpha\)</span>.</p>
+<section id="can-we-instead-test-the-coefficients-separately" class="level3">
+<h3 class="anchored" data-anchor-id="can-we-instead-test-the-coefficients-separately">Can we instead test the coefficients <em>separately</em>?</h3>
 <p>This tests both <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> <em>jointly</em>. But suppose we decided to instead test the null hypothesis <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> by <em>separately</em> testing the two hypotheses <span class="math inline">\(H_{0,1}: \beta_1 = 0\)</span> and <span class="math inline">\(H_{0,2}: \beta_2 = 0\)</span>. Our procedure would be:</p>
 <ul>
 <li>Calculate <span class="math inline">\(Z_1 = \dfrac{\widehat{\beta}_1 - 0}{SE_{\widehat{\beta}_1}}\)</span> and <span class="math inline">\(Z_2 = \dfrac{\widehat{\beta}_2 - 0}{SE_{\widehat{\beta}_2}}\)</span></li>
 <li>Calculate a p-value for each test statistic: <span class="math inline">\(p_1 = 2\Phi(-|Z_1|)\)</span> and <span class="math inline">\(p_2 = 2\Phi(-|Z_2|)\)</span></li>
 <li>Reject <span class="math inline">\(H_{0}: \beta_1 = \beta_2 = 0\)</span> if <span class="math inline">\(\text{min}\{p_1, p_2\} &lt; \alpha\)</span></li>
 </ul>
+<p>Is this a good idea? The purpose of the following questions is to explore this question.</p>
+</section>
+<section id="power-and-type-i-error" class="level3">
+<h3 class="anchored" data-anchor-id="power-and-type-i-error">Power and type I error</h3>
+<p>To help answer whether it is a good idea to test our coefficients separately, we need a definition of “good”. Recall from earlier stats courses the concepts of <em>type I error</em> and <em>power</em>.</p>
+<p>Broadly (we will formalize this a bit later):</p>
+<p><span class="math display">\[\text{type I error rate} = P(\text{reject } H_0 | H_0 \text{ true})\]</span></p>
+<p><span class="math display">\[\text{power} = P(\text{reject } H_0 | H_0 \text{ false})\]</span></p>
+<p>The usual approach to hypothesis testing in statistics is to try to <em>maximize</em> power, subject to control of the type I error rate. That is, we want <span class="math inline">\(\text{type I error rate} &lt; \alpha\)</span> for some chosen value <span class="math inline">\(\alpha\)</span>. If we reject when <span class="math inline">\(p &lt; \alpha\)</span>, then we are trying to control our type I error at level <span class="math inline">\(\alpha\)</span>.</p>
+</section>
+<section id="simulation" class="level3">
+<h3 class="anchored" data-anchor-id="simulation">Simulation</h3>
+<p>The following code simulates <span class="math inline">\(n = 100\)</span> observations from the logistic regression model</p>
+<p><span class="math display">\[\begin{pmatrix} X_{i1} \\ X_{i2} \end{pmatrix} \overset{iid}{\sim} N\left(\boldsymbol{0}, \begin{pmatrix}1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} \right)\]</span></p>
+<p><span class="math display">\[Y_i|\mathbf{x}_i \sim Bernoulli(p_i)\]</span></p>
+<p><span class="math display">\[\log \left( \dfrac{p_i}{1 - p_i} \right) = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2}\]</span></p>
+<p>In this code, <span class="math inline">\(\beta_1 = 0\)</span> and <span class="math inline">\(\beta_2 = 0\)</span> (so <span class="math inline">\(H_0\)</span> is true!). The code then calculates a p-value for the <em>separate</em> tests <span class="math inline">\(H_{0,1}: \beta_1 = 0\)</span> and <span class="math inline">\(H_{0,2}: \beta_2 = 0\)</span>. Finally, we calculate the Wald test statistic for the joint test of <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">82932</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(n, <span class="at">mu=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">Sigma =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, X)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">as.numeric</span>(X <span class="sc">%*%</span> beta))<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="fu">as.numeric</span>(X <span class="sc">%*%</span> beta)))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> X[,<span class="dv">2</span>] <span class="sc">+</span> X[,<span class="dv">3</span>], <span class="at">family =</span> binomial)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)<span class="sc">$</span>coefficients[<span class="dv">2</span>,<span class="dv">4</span>] <span class="co"># p-value for testing beta1 = 0</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)<span class="sc">$</span>coefficients[<span class="dv">3</span>,<span class="dv">4</span>] <span class="co"># p-value for testing beta2 = 0</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># joint test</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>c_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> T)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>test_stat <span class="ot">&lt;-</span> <span class="fu">t</span>(c_mat <span class="sc">%*%</span> m1<span class="sc">$</span>coefficients) <span class="sc">%*%</span> <span class="fu">solve</span>(c_mat <span class="sc">%*%</span> <span class="fu">vcov</span>(m1) <span class="sc">%*%</span> <span class="fu">t</span>(c_mat)) <span class="sc">%*%</span> </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  (c_mat <span class="sc">%*%</span> m1<span class="sc">$</span>coefficients)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value for Wald test:</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(test_stat, <span class="dv">2</span>, <span class="at">lower.tail=</span>F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="questions-type-i-error-rate" class="level3">
+<h3 class="anchored" data-anchor-id="questions-type-i-error-rate">Questions: type I error rate</h3>
+<ol start="4" type="1">
+<li><p>Run the code many times, generating many simulated datasets, and store the three different p-values for each repetition.</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when the p-value for the joint Wald test is <span class="math inline">\(&lt; 0.05\)</span>, verify (with the simulation output) that the type I error rate is approximately 0.05.</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when <span class="math inline">\(\min\{p_1, p_2\} &lt; 0.05\)</span> (the minimum of the two separate p-values is less than 0.05), verify that the type I error rate is <strong>greater</strong> than 0.05.</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when <span class="math inline">\(\min\{p_1, p_2\} &lt; 0.025\)</span> (the minimum of the two separate p-values is less than 0.025), verify that the type I error rate is approximately 0.05.</p></li>
+</ol>
+<p><strong>Moral so far:</strong> If we want to simultaneously test multiple parameters (<span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>) by testing each parameter <em>separately</em>, we have to be careful about when we reject <span class="math inline">\(H_0\)</span> in order to control our type I error rate at the desired level!</p>
+</section>
+<section id="questions-power" class="level3">
+<h3 class="anchored" data-anchor-id="questions-power">Questions: power</h3>
+<p>Now let’s change the simulation so that <span class="math inline">\(H_0\)</span> is <em>false</em>.</p>
+<ol start="8" type="1">
+<li><p>Copy your code from the previous section, but this time change <code>beta</code> in the code so that <code>beta &lt;- c(1, 0.5, 0.5)</code>. Leave everything else the same, and re-run the code (many times), storing the three different p-values for each repetition.</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when the p-value for the joint Wald test is <span class="math inline">\(&lt; 0.05\)</span>, what fraction of the time do we (correctly) reject <span class="math inline">\(H_0\)</span>?</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when <span class="math inline">\(\min\{p_1, p_2\} &lt; 0.025\)</span> (the minimum of the two separate p-values is less than 0.025), what fraction of the time do we (correctly) reject <span class="math inline">\(H_0\)</span>?</p></li>
+<li><p>Which of the two approaches (testing jointly vs.&nbsp;separately) is more powerful?</p></li>
+</ol>
+</section>
+<section id="questions-power-part-deux" class="level3">
+<h3 class="anchored" data-anchor-id="questions-power-part-deux">Questions: power, part deux</h3>
+<p>In questions 8 – 11, we had <span class="math inline">\(\beta_1 = 0.5\)</span> and <span class="math inline">\(\beta_2 = 0.5\)</span>. What if only one of the parameters is truly nonzero?</p>
+<ol start="12" type="1">
+<li><p>Copy your code from the previous section, but this time change <code>beta</code> in the code so that <code>beta &lt;- c(1, 0, 0.7)</code>. Leave everything else the same, and re-run the code (many times), storing the three different p-values for each repetition.</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when the p-value for the joint Wald test is <span class="math inline">\(&lt; 0.05\)</span>, what fraction of the time do we (correctly) reject <span class="math inline">\(H_0\)</span>?</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when <span class="math inline">\(\min\{p_1, p_2\} &lt; 0.025\)</span> (the minimum of the two separate p-values is less than 0.025), what fraction of the time do we (correctly) reject <span class="math inline">\(H_0\)</span>?</p></li>
+<li><p>Which of the two approaches (testing jointly vs.&nbsp;separately) is more powerful?</p></li>
+</ol>
+<p><strong>Moral so far:</strong> Testing the parameters <span class="math inline">\(\beta_1, \beta_2\)</span> simultaneously is <strong>not</strong> equivalent to testing them separately!</p>
+</section>
+<section id="questions-power-part-3-return-of-the-jedi" class="level3">
+<h3 class="anchored" data-anchor-id="questions-power-part-3-return-of-the-jedi">Questions: power part 3: return of the jedi</h3>
+<p>So far, we have simulated our data so that the two explanatory variables <span class="math inline">\(X_{i1}\)</span> and <span class="math inline">\(X_{i2}\)</span> are <em>independent</em>. <strong>However</strong>, recall that the interpretation of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> in the model are conditional on having the <em>other</em> variable in the model. E.g., the null hypothesis <span class="math inline">\(H_{0,2}: \beta_2 = 0\)</span> is the hypothesis that there is no relationship between <span class="math inline">\(X_{i2}\)</span> and <span class="math inline">\(Y_i\)</span>, <em>after accounting for</em> <span class="math inline">\(X_{i1}\)</span>.</p>
+<p>If <span class="math inline">\(X_{i1}\)</span> and <span class="math inline">\(X_{i2}\)</span> are correlated, we can imagine that this might change the results of our hypothesis tests!</p>
+<ol start="16" type="1">
+<li><p>Copy your code from the previous section, but this time change <code>beta</code> in the code so that <code>beta &lt;- c(1, 0.3, 0.3)</code> and <code>Sigma = matrix(c(1, 0.75, 0.75, 1), ncol=2)</code>. Leave everything else the same, and re-run the code (many times), storing the three different p-values for each repetition.</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when the p-value for the joint Wald test is <span class="math inline">\(&lt; 0.05\)</span>, what fraction of the time do we (correctly) reject <span class="math inline">\(H_0\)</span>?</p></li>
+<li><p>If we reject <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span> when <span class="math inline">\(\min\{p_1, p_2\} &lt; 0.025\)</span> (the minimum of the two separate p-values is less than 0.025), what fraction of the time do we (correctly) reject <span class="math inline">\(H_0\)</span>?</p></li>
+<li><p>Which of the two approaches (testing jointly vs.&nbsp;separately) is more powerful?</p></li>
+</ol>
+<p><strong>Moral:</strong> The <strong>meaning</strong> of the joint test is different than the meaning of combining the separate tests!</p>
+</section>
+<section id="if-youre-done-early" class="level2">
+<h2 class="anchored" data-anchor-id="if-youre-done-early">If you’re done early…</h2>
+<ul>
+<li>How does the power of a test depend on the sample size <span class="math inline">\(n\)</span>?</li>
+<li>How does the power of a test depend on the true value of the parameter of interest?</li>
+</ul>
+</section>
 </section>
 
 </main>
