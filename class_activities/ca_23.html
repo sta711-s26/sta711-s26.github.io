@@ -271,12 +271,38 @@ window.Quarto = {
 </ol>
 <p><strong>Moral:</strong> The <strong>meaning</strong> of the joint test is different than the meaning of combining the separate tests!</p>
 </section>
-<section id="if-youre-done-early" class="level2">
-<h2 class="anchored" data-anchor-id="if-youre-done-early">If you’re done early…</h2>
-<ul>
-<li>How does the power of a test depend on the sample size <span class="math inline">\(n\)</span>?</li>
-<li>How does the power of a test depend on the true value of the parameter of interest?</li>
-</ul>
+</section>
+<section id="wald-tests-power" class="level1">
+<h1>Wald tests: power</h1>
+<p>Consider the Wald test for a population mean which we discussed in class. Suppose that <span class="math inline">\(X_1,...,X_n\)</span> are a sample from some population with mean <span class="math inline">\(\mu\)</span>, and we want to test</p>
+<p><span class="math display">\[H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0\]</span> Suppose we know the population variance <span class="math inline">\(\sigma^2\)</span>. Our test statistic is then</p>
+<p><span class="math display">\[Z_n = \frac{\sqrt{n}(\overline{X}_n - \mu_0)}{\sigma}\]</span></p>
+<p>and we reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(|Z_n| &gt; z_{\alpha/2}\)</span>, where <span class="math inline">\(z_{\alpha/2}\)</span> is the upper <span class="math inline">\(\alpha/2\)</span> quantile of a <span class="math inline">\(N(0, 1)\)</span> distribution, and <span class="math inline">\(\alpha\)</span> is our desired Type I error rate. E.g., if <span class="math inline">\(\alpha = 0.05\)</span>, then <span class="math inline">\(z_{\alpha/2} \approx 1.96\)</span>.</p>
+<section id="power-and-type-i-error-1" class="level2">
+<h2 class="anchored" data-anchor-id="power-and-type-i-error-1">Power and type I error</h2>
+<p><em>Power</em> and <em>type I error</em> tell us about the <em>probability</em> that we reject <span class="math inline">\(H_0\)</span>, under different circumstances. Formally, for the Wald test described above,</p>
+<p><span class="math display">\[Power(\mu^*) = P(\text{reject } H_0 | \mu = \mu^*)\]</span> Ideally, we want a <em>high</em> probability of rejecting <span class="math inline">\(H_0\)</span>, if <span class="math inline">\(H_A\)</span> is true. So, we want <span class="math inline">\(Power(\mu^*)\)</span> to be high for values of <span class="math inline">\(\mu^* \neq \mu_0\)</span>. But if <span class="math inline">\(H_0\)</span> is true, we want to control the probability of rejecting (because a rejection would be a false positive!). We call <span class="math inline">\(Power(\mu_0)\)</span> the <em>type I error rate</em>. Typically, we want <span class="math inline">\(Power(\mu_0) = \alpha\)</span> (where we get to choose <span class="math inline">\(\alpha\)</span>, and common values include <span class="math inline">\(\alpha = 0.01\)</span> or <span class="math inline">\(\alpha = 0.05\)</span>).</p>
+</section>
+<section id="simulations" class="level2">
+<h2 class="anchored" data-anchor-id="simulations">Simulations</h2>
+<p>For the purpose of this activity, suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\mu, 1)\)</span>. We wish to test</p>
+<p><span class="math display">\[H_0: \mu = 0 \hspace{1cm} H_A: \mu \neq 0\]</span></p>
+<p>The following code simulates data with <span class="math inline">\(n = 20\)</span> and <span class="math inline">\(\mu = 0\)</span>, calculates the test statistic, and checks whether we reject:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n)<span class="sc">*</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">0</span>)<span class="sc">/</span><span class="dv">1</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># check if reject</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(z) <span class="sc">&gt;</span> <span class="fu">qnorm</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="at">lower.tail=</span>F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="20" type="1">
+<li><p>Repeat the code above many times, and verify that the fraction of times you reject <span class="math inline">\(H_0\)</span> is approximately 0.05. (This is the <em>type I error</em>, i.e.&nbsp;<span class="math inline">\(Power(\mu_0)\)</span>)</p></li>
+<li><p>For fixed sample size <span class="math inline">\(n = 20\)</span>, estimate <span class="math inline">\(Power(\mu^*)\)</span> for different values of <span class="math inline">\(\mu^*\)</span>, and plot <span class="math inline">\(Power(\mu^*)\)</span> against <span class="math inline">\(\mu^*\)</span>. How does power (our probability of rejecting) change as we change <span class="math inline">\(\mu^*\)</span>?</p></li>
+<li><p>For fixed <span class="math inline">\(\mu^* = 0.2\)</span>, estimate <span class="math inline">\(Power(0.2)\)</span> for different values of <span class="math inline">\(n\)</span>, and plot <span class="math inline">\(Power(0.2)\)</span> against <span class="math inline">\(n\)</span>. How does power (our probability of rejecting) change as we change <span class="math inline">\(n\)</span>?</p></li>
+</ol>
 </section>
 </section>
 

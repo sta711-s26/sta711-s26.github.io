@@ -194,10 +194,47 @@ If $X_{i1}$ and $X_{i2}$ are correlated, we can imagine that this might change t
 
 **Moral:** The **meaning** of the joint test is different than the meaning of combining the separate tests!
 
-## If you're done early...
+# Wald tests: power
 
-* How does the power of a test depend on the sample size $n$?
-* How does the power of a test depend on the true value of the parameter of interest?
+Consider the Wald test for a population mean which we discussed in class. Suppose that $X_1,...,X_n$ are a sample from some population with mean $\mu$, and we want to test
+
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0$$
+Suppose we know the population variance $\sigma^2$. Our test statistic is then
+
+$$Z_n = \frac{\sqrt{n}(\overline{X}_n - \mu_0)}{\sigma}$$
+
+and we reject $H_0$ when $|Z_n| > z_{\alpha/2}$, where $z_{\alpha/2}$ is the upper $\alpha/2$ quantile of a $N(0, 1)$ distribution, and $\alpha$ is our desired Type I error rate. E.g., if $\alpha = 0.05$, then $z_{\alpha/2} \approx 1.96$.
+
+## Power and type I error
+
+*Power* and *type I error* tell us about the *probability* that we reject $H_0$, under different circumstances. Formally, for the Wald test described above,
+
+$$Power(\mu^*) = P(\text{reject } H_0 | \mu = \mu^*)$$
+Ideally, we want a *high* probability of rejecting $H_0$, if $H_A$ is true. So, we want $Power(\mu^*)$ to be high for values of $\mu^* \neq \mu_0$. But if $H_0$ is true, we want to control the probability of rejecting (because a rejection would be a false positive!). We call $Power(\mu_0)$ the *type I error rate*. Typically, we want $Power(\mu_0) = \alpha$ (where we get to choose $\alpha$, and common values include $\alpha = 0.01$ or $\alpha = 0.05$).
+
+## Simulations
+
+For the purpose of this activity, suppose that $X_1,...,X_n \overset{iid}{\sim} N(\mu, 1)$. We wish to test
+
+$$H_0: \mu = 0 \hspace{1cm} H_A: \mu \neq 0$$
+
+The following code simulates data with $n = 20$ and $\mu = 0$, calculates the test statistic, and checks whether we reject:
 
 
+```{r, eval=F}
+alpha <- 0.05
+n <- 20
+mu <- 0
+x <- rnorm(n, mu)
+z <- sqrt(n)*(mean(x) - 0)/1
+
+# check if reject
+abs(z) > qnorm(alpha/2, lower.tail=F)
+```
+
+20. Repeat the code above many times, and verify that the fraction of times you reject $H_0$ is approximately 0.05. (This is the *type I error*, i.e. $Power(\mu_0)$)
+
+21. For fixed sample size $n = 20$, estimate $Power(\mu^*)$ for different values of $\mu^*$, and plot $Power(\mu^*)$ against $\mu^*$. How does power (our probability of rejecting) change as we change $\mu^*$?
+
+22. For fixed $\mu^* = 0.2$, estimate $Power(0.2)$ for different values of $n$, and plot $Power(0.2)$ against $n$. How does power (our probability of rejecting) change as we change $n$?
 
