@@ -1,0 +1,101 @@
+---
+title: "Hypothesis testing framework"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## General framework for hypothesis tests
+
+**Definition:** Let $\theta \in \mathbb{R}^p$ be some parameter of interest. A **hypothesis** is a statement about $\theta$. The goal of a hypothesis test is to compare two competing hypotheses:
+
+$$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
+
+\vspace{5cm}
+
+
+## Outcomes
+
+$$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
+
+The test either **rejects** $H_0$ or **fails to reject** $H_0$. Possible outcomes:
+
+\vspace{5cm}
+
+## Goal
+
+| | $H_0$ is true | $H_0$ is false |
+| --- | --- | --- |
+| fail to reject | correct decision | type II error |
+| reject | type I error | correct decision |
+
+
+**Goal:** Minimize type II error rate, subject to control of type I error rate 
+
+## Constructing a test
+
+$$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
+
+\vspace{5cm}
+
+## Constructing a test
+
+Given observed data $X_1,...,X_n$:
+
+1. Calculate a test statistic $T_n = T(X_1,...,X_n)$
+2. Choose a rejection region $\mathcal{R} = \{(x_1,...,x_n) : \text{ reject } H_0\}$
+3. Reject $H_0$ if $(X_1,...,X_n) \in \mathcal{R}$
+
+**Example:** $X_1,...,X_n$ iid with mean $\mu$ and variance $\sigma^2$
+
+\vspace{3cm}
+
+## Power function
+
+Suppose we reject $H_0$ when $(X_1,...,X_n) \in R$. The **power function** $\beta(\theta)$ is
+$$\beta(\theta) = P_{\theta}((X_1,...,X_n) \in R)$$
+
+\vspace{5cm}
+
+
+## Example
+
+$X_1,...,X_n$ iid from a population with mean $\mu$ and variance $\sigma^2$. 
+
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0$$
+
+\vspace{5cm}
+
+## Rejecting $H_0$
+
+$$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
+
+**Question:** A hypothesis test rejects $H_0$ if $(X_1,...,X_n)$ is in the rejection region $\mathcal{R}$. Are there any issues if we only use a rejection region to test hypotheses?
+
+\vspace{4cm}
+
+
+## p-values
+
+$$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
+
+A **p-value** $p(X_1,...,X_n)$ is a test statistic satisfying:
+
+\vspace{6cm}
+
+
+## p-values
+
+Suppose we have a test which rejects $H_0$ when $T(X_1,...,X_n) > c_\alpha$, where $c_\alpha$ is chosen so that
+
+$$\sup \limits_{\theta \in \Theta_0} \beta(\theta) = \sup \limits_{\theta \in \Theta_0} P_\theta(T(X_1,...,X_n) > c_\alpha) = \alpha$$
+Let $x_1,...,x_n$ be a set of observed data. 
+
+**Theorem:** The p-value for the set of observed data $x_1,...,x_n$ is 
+
+$$p = \sup \limits_{\theta \in \Theta_0} P_\theta(T(X_1,...,X_n) > T(x_1,...,x_n))$$
+
+\vspace{3cm}
+
+## Proof of theorem
+
+
