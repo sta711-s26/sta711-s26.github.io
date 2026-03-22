@@ -87,12 +87,12 @@ A **p-value** $p(X_1,...,X_n)$ is a test statistic satisfying:
 
 Suppose we have a test which rejects $H_0$ when $T(X_1,...,X_n) > c_\alpha$, where $c_\alpha$ is chosen so that
 
-$$\sup \limits_{\theta \in \Theta_0} \beta(\theta) = \sup \limits_{\theta \in \Theta_0} P_\theta(T(X_1,...,X_n) > c_\alpha) = \alpha$$
+$$\sup \limits_{\theta \in \Theta_0} \beta(\theta) = \sup \limits_{\theta \in \Theta_0} P_\theta(T(X_1,...,X_n) > c_\alpha) \leq \alpha$$
 Let $x_1,...,x_n$ be a set of observed data. 
 
-**Theorem:** The p-value for the set of observed data $x_1,...,x_n$ is 
-
-$$p = \sup \limits_{\theta \in \Theta_0} P_\theta(T(X_1,...,X_n) > T(x_1,...,x_n))$$
+**Theorem:** Let 
+$$p(x_1,...,x_n) = \sup \limits_{\theta \in \Theta_0} P_\theta(T(X_1,...,X_n) > T(x_1,...,x_n))$$
+Then $p$ is a valid p-value.
 
 \vspace{3cm}
 
