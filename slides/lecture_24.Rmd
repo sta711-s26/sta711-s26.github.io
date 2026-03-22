@@ -65,6 +65,34 @@ $$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0$$
 
 \vspace{5cm}
 
+## Example
+
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu \neq \mu_0$$
+$$\beta(\mu) \approx 1 - \Phi\left(z_{\alpha/2} - \left(\frac{\mu- \mu_0}{\sigma/\sqrt{n}} \right) \right) + \Phi\left(-z_{\alpha/2} - \left(\frac{\mu- \mu_0}{\sigma/\sqrt{n}} \right) \right)$$
+Example: $\sigma = 1$, $\mu_0 = 0$
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=4.5, fig.height=2.25}
+library(tidyverse)
+mu <- seq(-3, 3, 0.01)
+z_a2 <- 1.96
+s <- 1
+beta <- c()
+for(n in c(15, 30, 50)){
+  beta <- c(beta, 1 - pnorm(z_a2 - mu/(s/sqrt(n))) + pnorm(-z_a2 - mu/(s/sqrt(n))))
+}
+
+data.frame(beta, n = as.factor(rep(c(15, 30, 50), each=length(mu))), 
+           mu = rep(mu, 3)) |>
+  ggplot(aes(x = mu, y = beta, color = n)) +
+  geom_line() +
+  geom_abline(slope = 0, intercept = 0.05, lty = 2) +
+  theme_bw() +
+  labs(y = "Power")
+
+```
+
+
+
 ## Rejecting $H_0$
 
 $$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
@@ -81,6 +109,36 @@ $$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
 A **p-value** $p(X_1,...,X_n)$ is a test statistic satisfying:
 
 \vspace{6cm}
+
+## Example: p-values
+
+Generate data $X_1,...,X_{20} \overset{iid}{\sim} N(\mu, 1)$. Test $H_0: \mu = 0$ vs. $H_A: \mu \neq 0$.
+
+Distribution of p-values:
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=4.5, fig.height=2.25}
+p_vals_0 <- rep(NA, 1000)
+mu <- 0
+for(i in 1:1000){
+  x <- rnorm(20, mu, 1)
+  p_vals_0[i] <- 2*pnorm(abs(mean(x)*sqrt(20)), lower.tail=F)
+}
+
+p_vals_1 <- rep(NA, 1000)
+mu <- 0.3
+for(i in 1:1000){
+  x <- rnorm(20, mu, 1)
+  p_vals_1[i] <- 2*pnorm(abs(mean(x)*sqrt(20)), lower.tail=F)
+}
+
+data.frame(p = c(p_vals_0, p_vals_1),
+           mu = paste0("mu = ", rep(c(0, 0.3), each=1000))) |>
+  ggplot(aes(x = p)) +
+  geom_histogram(bins = 20) +
+  theme_bw() +
+  facet_wrap(~mu)
+```
+
 
 
 ## p-values
