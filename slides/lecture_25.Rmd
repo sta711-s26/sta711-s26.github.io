@@ -1,0 +1,104 @@
+---
+title: "p-values and Neyman-Pearson test"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Recap: p-values
+
+$$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
+
+A **p-value** $p(X_1,...,X_n)$ is a test statistic satisfying:
+
+* $0 \leq p(X_1,...,X_n) \leq 1$
+* Reject $H_0$ for small values of $p(X_1,...,X_n)$ (e.g. reject when $p \leq \alpha$)
+* For all $\theta \in \Theta_0$, $P_{\theta}(p(X_1,...,X_n) \leq \alpha) \leq \alpha$
+
+\vspace{3cm}
+
+## p-values
+
+Suppose we have a test which rejects $H_0$ when $T(X_1,...,X_n) > c_\alpha$, where $c_\alpha$ is chosen so that
+
+$$\sup \limits_{\theta \in \Theta_0} \beta(\theta) = \sup \limits_{\theta \in \Theta_0} P_\theta(T(X_1,...,X_n) > c_\alpha) \leq \alpha$$
+Let $x_1,...,x_n$ be a set of observed data. 
+
+**Theorem:** Let 
+$$p(x_1,...,x_n) = \sup \limits_{\theta \in \Theta_0} P_\theta(T(X_1,...,X_n) > T(x_1,...,x_n))$$
+Then $p$ is a valid p-value.
+
+\vspace{3cm}
+
+## Proof of theorem
+
+## Recap: hypothesis testing and power function
+
+$$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
+
+Given observed data $X_1,...,X_n$:
+
+1. Calculate a test statistic $T_n = T(X_1,...,X_n)$
+2. Choose a rejection region $\mathcal{R} = \{(x_1,...,x_n) : \text{ reject } H_0\}$
+3. Reject $H_0$ if $(X_1,...,X_n) \in \mathcal{R}$
+
+The **power function** $\beta(\theta)$ is
+$$\beta(\theta) = P_{\theta}((X_1,...,X_n) \in \mathcal{R})$$
+
+**Goal:** maximize power for $\theta \in \Theta_1$, subject to control of power for $\theta \in \Theta_0$
+
+## Wald test for normal mean
+
+Let $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$ with $\sigma^2$ known. We wish to test
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu = \mu_1$$
+where $\mu_1 > \mu_0$. The Wald test rejects if
+
+\vspace{5cm}
+
+## Another angle
+
+Let $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$ with $\sigma^2$ known. We wish to test
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu = \mu_1$$
+where $\mu_1 > \mu_0$.
+
+Suppose we reject $H_0$ when 
+$$\dfrac{L(\mu_1 | X_1,...,X_n)}{L(\mu_0 | X_1,...,X_n)} = \dfrac{f(X_1,...,X_n | \mu_1)}{f(X_1,...,X_n | \mu_0)} > k_0$$
+
+\vspace{4cm}
+
+## Rearranging 
+
+## Rearranging
+
+Let ${\bf X} = X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$ with $\sigma^2$ known. We wish to test
+$$H_0: \mu = \mu_0 \hspace{1cm} H_A: \mu = \mu_1$$
+where $\mu_1 > \mu_0$. 
+
+The Wald test rejects if $\overline{X}_n > c_0$, which is equivalent to rejecting when
+$$\dfrac{L(\mu_1 | {\bf X})}{L(\mu_0 | {\bf X})} = \dfrac{f(X_1,...,X_n | \mu_1)}{f(X_1,...,X_n | \mu_0)} > k_0$$
+
+\vspace{3cm}
+
+
+## Neyman-Pearson test
+
+Let ${\bf X} = (X_1,...,X_n)$ be a sample from some distribution with probability function $f$ and parameter $\theta$. To test
+
+$$H_0: \theta = \theta_0 \hspace{1cm} H_A: \theta = \theta_1,$$
+
+the **Neyman-Pearson** test rejects $H_0$ when 
+
+$$\dfrac{L(\theta_1 | \mathbf{X})}{L(\theta_0 | \mathbf{X})} = \dfrac{f(X_1,...,X_n | \theta_1)}{f(X_1,...,X_n | \theta_0)} > k$$
+where $k$ is chosen so that $\beta(\theta_0) = \alpha$.
+
+
+## Example
+
+Let $X_1,...,X_n \overset{iid}{\sim} Exponential(\theta)$, with pdf $f(x|\theta) = \theta e^{-\theta x}$. We want to test
+$$H_0: \theta = \theta_0 \hspace{1cm} H_A: \theta = \theta_1,$$
+where $\theta_1 < \theta_0$. The Neyman-Pearson test rejects when
+$$\dfrac{L(\theta_1 | {\bf X})}{L(\theta_0 | {\bf X})} > k.$$
+
+1. Calculate $\dfrac{L(\theta_1 | {\bf X})}{L(\theta_0 | {\bf X})}$
+2. Rearrange the ratio to show that $\dfrac{L(\theta_1 | {\bf X})}{L(\theta_0 | {\bf X})} > k$ if and only if $\sum_i X_i > c$ for some $c$
+3. Using the fact that $\sum_i X_i \sim Gamma(n, \theta)$, find $c$ such that $\beta(\theta_0) = \alpha$
+
