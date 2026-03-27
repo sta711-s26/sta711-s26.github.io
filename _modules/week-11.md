@@ -16,5 +16,3 @@ March 25
   
 March 27
 : **Exam 2**{: .label .label-green }
-
-: **HW 8 released**{: .label .label-yellow }
