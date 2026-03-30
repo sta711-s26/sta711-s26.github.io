@@ -1,0 +1,108 @@
+---
+title: "Neyman-Pearson test"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+
+## Recap: hypothesis testing and power function
+
+$$H_0: \theta \in \Theta_0 \hspace{1cm} H_A: \theta \in \Theta_1$$
+
+Given observed data $X_1,...,X_n$:
+
+1. Calculate a test statistic $T_n = T(X_1,...,X_n)$
+2. Choose a rejection region $\mathcal{R} = \{(x_1,...,x_n) : \text{ reject } H_0\}$
+3. Reject $H_0$ if $(X_1,...,X_n) \in \mathcal{R}$
+
+The **power function** $\beta(\theta)$ is
+$$\beta(\theta) = P_{\theta}((X_1,...,X_n) \in \mathcal{R})$$
+
+**Goal:** maximize power for $\theta \in \Theta_1$, subject to control of power for $\theta \in \Theta_0$
+
+
+## Neyman-Pearson test
+
+Let ${\bf X} = (X_1,...,X_n)$ be a sample from some distribution with probability function $f$ and parameter $\theta$. To test
+
+$$H_0: \theta = \theta_0 \hspace{1cm} H_A: \theta = \theta_1,$$
+
+the **Neyman-Pearson** test rejects $H_0$ when 
+
+$$\dfrac{L(\theta_1 | \mathbf{X})}{L(\theta_0 | \mathbf{X})} = \dfrac{f(X_1,...,X_n | \theta_1)}{f(X_1,...,X_n | \theta_0)} > k$$
+where $k$ is chosen so that $\beta(\theta_0) = \alpha$.
+
+## Example
+
+Suppose $X_1,...,X_n \overset{indep.}{\sim} N(\theta, \sigma_i^2)$ where $\sigma_i^2$ are known, positive constants, and $\theta \in \mathbb{R}$ is unknown.
+$$H_0: \theta = 0 \hspace{1cm} H_A: \theta = \theta_1 \hspace{0.5cm} \text{where } \theta_1 > 0$$
+
+\vspace{6cm}
+
+## Example
+
+Suppose $X_1,...,X_n \overset{indep.}{\sim} N(\theta, \sigma_i^2)$ where $\sigma_i^2$ are known, positive constants, and $\theta \in \mathbb{R}$ is unknown.
+$$H_0: \theta = 0 \hspace{1cm} H_A: \theta = \theta_1 \hspace{0.5cm} \text{where } \theta_1 > 0$$
+
+Neyman-Pearson test: reject when $\sum \limits_{i=1}^n \dfrac{X_i}{\sigma_i^2} > c$
+
+\vspace{6cm}
+
+## Example
+
+Suppose $X_1,...,X_n \overset{indep.}{\sim} N(\theta, \sigma_i^2)$ where $\sigma_i^2$ are known, positive constants, and $\theta \in \mathbb{R}$ is unknown.
+$$H_0: \theta = 0 \hspace{1cm} H_A: \theta = \theta_1 \hspace{0.5cm} \text{where } \theta_1 > 0$$
+Neyman-Pearson test: $\beta(\theta) = 1 - \Phi\left( \dfrac{c}{\sqrt{\sum_{i=1}^n \frac{1}{\sigma_i^2}}} - \theta \sqrt{\sum_{i=1}^n \frac{1}{\sigma_i^2}} \right)$
+
+**What if we just do a Wald test?**
+
+\vspace{5cm}
+
+## Example
+
+$X_1,...,X_{20} \overset{indep.}{\sim} N(\theta, \sigma_i^2)$ where $\sigma_i^2 = i$ 
+$$H_0: \theta = 0 \hspace{1cm} H_A: \theta = \theta_1 \hspace{0.5cm} \text{where } \theta_1 > 0$$
+
+```{r, echo=F, warning=F, message=F, fig.width=5, fig.height=3}
+library(tidyverse)
+n <- 20
+sig_sum <- sum(1/(1:n))
+alpha <- 0.05
+c <- qnorm(1 - alpha, 0, sqrt(sig_sum))
+
+power_1 <- function(theta){
+  1 - pnorm(c/sqrt(sig_sum) - theta*sqrt(sig_sum))
+}
+
+theta_vals <- seq(0, 3, 0.1)
+#plot(theta_vals, power_1(theta_vals), type="l")
+
+
+c2 <- sqrt(sum(1:n)/(n^2)) * qnorm(1-alpha)
+power_2 <- function(theta){
+  1 - pnorm((c2 - theta)/sqrt(sum(1:n)/(n^2)))
+}
+
+#points(theta_vals, power_2(theta_vals), type="l", col="red")
+
+data.frame(theta = c(theta_vals, theta_vals),
+           power = c(power_1(theta_vals), power_2(theta_vals)),
+           test = rep(c("Neyman-Pearson", "Wald"), each=length(theta_vals))) |>
+  ggplot(aes(x = theta, y = power, color=test, lty=test)) +
+  geom_line() +
+  theme_bw() +
+  geom_abline(slope = 0, intercept = 0.05, lty=2)
+```
+
+
+## Example
+
+Let $X_1,...,X_n \overset{iid}{\sim} Exponential(\theta)$, with pdf $f(x|\theta) = \theta e^{-\theta x}$. We want to test
+$$H_0: \theta = \theta_0 \hspace{1cm} H_A: \theta = \theta_1,$$
+where $\theta_1 < \theta_0$. The Neyman-Pearson test rejects when
+$$\dfrac{L(\theta_1 | {\bf X})}{L(\theta_0 | {\bf X})} > k.$$
+
+1. Calculate $\dfrac{L(\theta_1 | {\bf X})}{L(\theta_0 | {\bf X})}$
+2. Rearrange the ratio to show that $\dfrac{L(\theta_1 | {\bf X})}{L(\theta_0 | {\bf X})} > k$ if and only if $\sum_i X_i > c$ for some $c$
+3. Using the fact that $\sum_i X_i \sim Gamma(n, \theta)$, find $c$ such that $\beta(\theta_0) = \alpha$
+

@@ -1,0 +1,67 @@
+---
+title: "Homework 7"
+format: html
+---
+
+**Due:** Friday, March 20, 11:59pm on Canvas
+
+**Instructions:** For mathematical work, you may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.
+
+See the course website for a [homework template](https://sta711-s26.github.io/homework/hw_template.tex) file and [instructions](https://sta711-s26.github.io/homework/latex_instructions/) on getting started with LaTeX and Overleaf.
+
+## UMP tests
+
+
+
+::: {.callout-note icon=false}
+
+## Question 1
+
+1. Suppose that $X_1,...,X_n \overset{iid}{\sim} N(0, \sigma^2)$. We wish to test the hypotheses $H_0: \sigma^2 = \sigma_0^2$ vs. $H_A: \sigma^2 = \sigma_1^2$, were $\sigma_0^2 < \sigma_1^2$.
+    (a) Show that the most powerful test of these hypotheses rejects when $\sum \limits_{i=1}^n X_i^2 > c$, for some value $c$.
+    (b) Find $c$ (as the appropriate quantile of a specific distribution) such that the test in part (a) has size $\alpha$.
+:::
+
+::: {.callout-note icon=false}
+
+## Question 2
+
+2. Suppose that $X_1,...,X_n \overset{iid}{\sim} Poisson(\lambda)$. We wish to test the hypotheses $H_0: \lambda = \lambda_0$ vs. $H_A: \lambda = \lambda_1$, where $\lambda_1 > \lambda_0$. 
+    (a) Show that the most powerful test of these hypotheses rejects when $\sum \limits_{i=1}^n X_i > c$, for some value $c$.
+    (b) Find $c$ (as the appropriate quantile of a specific distribution) such that the test in part (a) has size $\alpha$.
+:::
+
+::: {.callout-note icon=false}
+
+## Question 3
+
+3. Suppose that $X_1,...,X_n \overset{iid}{\sim} Pareto(1, \theta)$, with pdf
+$$f(x|\theta) = \frac{\theta}{x^{\theta + 1}}$$
+where $x > 1$, and $\theta > 0$. We wish to test the hypotheses $H_0: \theta = 1$ vs. $H_A: \theta = \theta_1$, for some $\theta_1 < 1$.
+    (a) Find the most powerful size $\alpha$ test of these hypotheses. Your answer should specify the test statistic, and the cutoff for determining whether we reject $H_0$ as a quantile of a specific distribution.
+    (b) For $n = 100$, calculate the cutoff in R.
+    (c) Write down the power function $\beta(\theta)$ for the test in part (a). Your power function should be written in terms of the inverse cdf of some specified distribution.
+    (d) Plot the power function $\beta(\theta)$ from part (c).
+:::
+
+### Monotone Likelihood Ratios
+
+**Definition (MLR):** Let $\mathcal{P} = \{f(x|\theta) : \theta \in \Theta \subseteq \mathbb{R}\}$ be a family of pdfs or pmfs. We say that $\mathcal{P}$ has **monotone likelihood ratios** (MLR) in the statistic $T(X)$ if $\dfrac{f(x|\theta_2)}{f(x|\theta_1)}$ is a non-decreasing function of $T(x)$, for any pair $\theta_2 > \theta_1$.
+
+**Theorem:** Let $\mathcal{P}$ be a family of distributions, and suppose we want to test $H_0: \theta \leq \theta_0$ vs. $H_A: \theta > \theta_0$ for some $\theta_0 \in \mathbb{R}$. If $\mathcal{P}$ has MLR in $T(X)$, then the test that rejects $H_0$ when $T(X) > c_0$ is UMP at level $\alpha = P_{\theta_0}(T(X) > c_0)$.
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+    
+    
