@@ -1,54 +1,204 @@
 ---
-title: "Homework 7"
+title: "Homework 8"
 format: html
 ---
 
-**Due:** Friday, March 20, 11:59pm on Canvas
+**Due:** Friday, April 10, 11:59pm on Canvas
 
 **Instructions:** For mathematical work, you may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.
 
 See the course website for a [homework template](https://sta711-s26.github.io/homework/hw_template.tex) file and [instructions](https://sta711-s26.github.io/homework/latex_instructions/) on getting started with LaTeX and Overleaf.
 
-## UMP tests
 
+## Logistic regression power analysis
 
+Suppose we are working with researchers interested in the relation between caffeine intake and insomnia. The researchers conduct a sleep study with a set of $n$ subjects, all of whom have reported difficulty sleeping.
+
+In the study, subjects are given a warm cup of coffee at 10pm, and then asked to go to bed directly after drinking the coffee. The subjects receive coffees containing different quantities of caffeine, with $n/5$ patients randomly assigned to each of 5 treatment groups: 0mg caffeine, 25mg, 50mg, 75mg, and 100mg caffeine (for reference, a normal cup of coffee contains about 100mg of caffeine).
+
+For each subject, the researchers record whether they fell asleep in the first hour after consuming the coffee (*note: time-to-event analysis is probably better here, but that is outside the scope of this course*). We plan to fit the following logistic regression model:
+$$Sleep_i|Caffeine_i \sim Bernoulli(p_i)$$
+$$\log \left( \frac{p_i}{1-p_i} \right) = \beta_0 + \beta_1 Caffeine_i$$
+where $Sleep_i = 1$ if subject $i$ fell asleep during the first hour, and $Caffeine_i$ is the quantity of caffeine consumed (in mg) by subject $i$.
+
+To test for a relationship, the researchers plan to test $H_0: \beta_1 = 0$ vs. $H_A: \beta_1 \neq 0$ using a Wald test, rejecting if the p-value is $< 0.05$.
+
+### Test statistic
+
+From our asymptotic results for maximum likelihood estimators, we know that if our model is correctly specified, then
+
+$$\widehat{\boldsymbol{\beta}} \approx N(\boldsymbol{\beta}, \mathcal{I}_n^{-1}(\boldsymbol{\beta}))$$
+which means that
+
+$$\widehat{\beta}_1 \approx N(\beta_1, [\mathcal{I}_n^{-1}(\boldsymbol{\beta})]_{2,2})$$
+
+where $[\mathcal{I}_n^{-1}(\beta)]_{2,2}$ denotes the $[2,2]$ entry of the inverse Fisher information. We have also previously shown that
+
+$$\mathcal{I}_n(\boldsymbol{\beta}) \approx \mathbf{X}^T \mathbf{V} \mathbf{X}$$
+with $\mathbf{X}$ the design matrix and $\mathbf{V} = \text{diag}(p_i(1 - p_i))$. So,
+
+$$\widehat{\beta}_1 \approx N(\beta_1, [(\mathbf{X}^T \mathbf{V} \mathbf{X})^{-1}]_{2,2})$$
+
+To test the hypotheses $H_0: \beta_1 = 0$ vs. $H_A: \beta_1 \neq 0$, the Wald test statistic is then
+
+$$W = \dfrac{(\widehat{\beta}_1 - 0)^2}{[(\mathbf{X}^T \widehat{\mathbf{V}} \mathbf{X})^{-1}]_{2,2}}$$
+
+where $\widehat{\mathbf{V}} = \text{diag}(\widehat{p}_i(1 - \widehat{p}_i))$.
+
+### Power analysis
 
 ::: {.callout-note icon=false}
 
 ## Question 1
 
-1. Suppose that $X_1,...,X_n \overset{iid}{\sim} N(0, \sigma^2)$. We wish to test the hypotheses $H_0: \sigma^2 = \sigma_0^2$ vs. $H_A: \sigma^2 = \sigma_1^2$, were $\sigma_0^2 < \sigma_1^2$.
-    (a) Show that the most powerful test of these hypotheses rejects when $\sum \limits_{i=1}^n X_i^2 > c$, for some value $c$.
-    (b) Find $c$ (as the appropriate quantile of a specific distribution) such that the test in part (a) has size $\alpha$.
+1. Argue that, if $H_0$ is true, then $W \approx \chi^2_1$. We will reject when $W > c$; find a rejection threshold $c$, as the quantile of some distribution, such that our test is approximately size $\alpha = 0.05$.
 :::
+
+Now we want to analyze the power of the test when $H_0$ is *false*. To do this, we need to know the distribution of the test statistic $W$ under the alternative hypothesis. It turns out the appropriate distribution is the **noncentral chi-squared distribution**.
+
+**Definition (noncentral chi-squared):** Let $X_1,...,X_k \overset{indep.}{\sim} N(\mu_i, 1)$. Then,
+$$\sum \limits_{i=1}^k X_i^2 \sim \chi^2_k(\lambda),$$
+the noncentral chi-squared distribution with noncentrality parameter $\lambda = \sum \limits_{i=1}^k \mu_i^2$.
+
+Note that the usual $\chi^2_k$ distribution is a special case of the noncentral chi-squared: $\chi^2_k = \chi^2_k(0)$ (noncentral chi-squared with noncentrality parameter 0).
+
+In `R`, probabilities for the $\chi^2_k(\lambda)$ can be computed using the `pchisq(...)` function, which allows you to specify the noncentrality parameter (`ncp`).
 
 ::: {.callout-note icon=false}
 
 ## Question 2
 
-2. Suppose that $X_1,...,X_n \overset{iid}{\sim} Poisson(\lambda)$. We wish to test the hypotheses $H_0: \lambda = \lambda_0$ vs. $H_A: \lambda = \lambda_1$, where $\lambda_1 > \lambda_0$. 
-    (a) Show that the most powerful test of these hypotheses rejects when $\sum \limits_{i=1}^n X_i > c$, for some value $c$.
-    (b) Find $c$ (as the appropriate quantile of a specific distribution) such that the test in part (a) has size $\alpha$.
+2.  Let's examine the power.
+    (a) Argue that, in general, $W \approx \chi^2_1(\lambda)$, where $\lambda = \dfrac{\beta_1^2}{[\mathcal{I}_n^{-1}(\boldsymbol{\beta})]_{2,2}}$.
+    (b) Suppose we observe 50 subjects, and we believe that a one-mg increase in caffeine is associated with a decrease of 0.02 in the log-odds of sleep within the first hour. We also know that from prior observation, there is a 40\% probability that a subject drinking decaf coffee directly before bed will fall asleep within the first hour. If these beliefs are correct, what are the true values $\beta_0$ and $\beta_1$?
+    (c) Now suppose we observe 50 subjects, and we believe that a one-mg increase in caffeine is associated with a decrease of 0.02 in the log-odds of sleep within the first hour. We also know that from prior observation, there is a 40\% probability that a subject drinking decaf coffee directly before bed will fall asleep within the first hour. If these beliefs are correct, what is the approximate power of the Wald test for $H_0: \beta_1 = 0$ vs. $H_A: \beta_1 \neq 0$, if our significance level is $\alpha = 0.05$? (Calculate this in `R`).
+    (d) Suppose we believe that a one-mg increase in caffeine is associated with a decrease of 0.02 in the log-odds of sleep within the first hour. We also know that from prior observation, there is a 40\% probability that a subject drinking decaf coffee directly before bed will fall asleep within the first hour. If these beliefs are correct, how many subjects $n$ do we need to observe for the approximate power of the Wald test of $H_0: \beta_1 = 0$ vs. $H_A: \beta_1 \neq 0$ to be at least 0.8, if our significance level is $\alpha = 0.05$? **Note:** you may answer this by calculating the power, in `R`, for different sample sizes $n$. You do not need to solve the sample size analytically.
 :::
+
+## $t$ tests
+
+Suppose we have data $X_1,...,X_n$ iid from some population with mean $\mu$ and variance $\sigma^2$. A Wald test for the population mean $\mu$ would use the fact that
+
+$$\dfrac{\sqrt{n}(\overline{X}_n - \mu)}{s} \approx N(0, 1)$$
+
+where $s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X}_n)^2$. This approximate normality is the result of a combination of the CLT and the consistency of $s^2$ as an estimator of $\sigma^2$. 
+
+*However*, in other statistics courses, you have likely used a $t$ distribution instead of a normal distribution to test these hypotheses! That is, 
+
+$$\dfrac{\sqrt{n}(\overline{X}_n - \mu)}{s} \approx t_{n-1},$$
+
+where $t_{n-1}$ is the $t$ distribution with $n-1$ degrees of freedom. The purpose of this part of the assignment is to justify the use of a $t$ distribution in these situations.
+
+### The $t$ distribution
+
+When we want to show that a statistic follows a $t$ distribution, it is helpful to think about where the $t$ distribution comes from.
+
+**Definition:** Let $Z \sim N(0, 1)$ and $V \sim \chi^2_d$ be independent. Then 
+$$T = \frac{Z}{\sqrt{V/d}} \sim t_d$$
+
+### The sample mean
+
+Suppose that we have $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. Then,
+
+$$\dfrac{\sqrt{n}(\overline{X}_n - \mu)}{s} = \dfrac{\sqrt{n}(\overline{X}_n - \mu)/\sigma}{s/\sigma} = \dfrac{\sqrt{n}(\overline{X}_n - \mu)/\sigma}{\sqrt{\frac{(n-1)s^2/\sigma^2}{(n-1)}}}$$
+
+Let $Z = \sqrt{n}(\overline{X}_n - \mu)/\sigma$ and $V = (n-1)s^2/\sigma^2$. Then,
+
+$$T = \dfrac{\sqrt{n}(\overline{X}_n - \mu)}{s} = \dfrac{Z}{\sqrt{V/(n-1)}}$$
+
+Since $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$, then $Z \sim N(0, 1)$. To show that $T \sim t_{n-1}$, it just remains to show that
+
+* $V \sim \chi^2_{n-1}$
+* $Z$ and $V$ are independent
+
+Fortunately, we can use a very cool result called *Cochran's theorem*.
+
+### Cochran's theorem
+
+**Theorem:** Let $Z_1,...,Z_n \overset{iid}{\sim} N(0, 1)$, and let $\mathbf{z} = (Z_1,...,Z_n)^T$. Let $\mathbf{A}_1,...,\mathbf{A}_k \in \mathbb{R}^{n \times n}$ be symmetric matrices such that $\mathbf{z}^T\mathbf{z} = \sum \limits_{i=1}^k \mathbf{z}^T \mathbf{A}_i \mathbf{z}$, and let $r_i = rank(\mathbf{A}_i)$. Then the following are equivalent:
+
+* $r_1 + \cdots + r_k = n$
+* The $\mathbf{z}^T \mathbf{A}_i \mathbf{z}$ are independent
+* Each $\mathbf{z}^T \mathbf{A}_i \mathbf{z} \sim \chi^2_{r_i}$
+
+### Putting it all together
+
+Here we will put all of this information together to show that, indeed, $T \sim t_{n-1}$.
+
 
 ::: {.callout-note icon=false}
 
 ## Question 3
 
-3. Suppose that $X_1,...,X_n \overset{iid}{\sim} Pareto(1, \theta)$, with pdf
-$$f(x|\theta) = \frac{\theta}{x^{\theta + 1}}$$
-where $x > 1$, and $\theta > 0$. We wish to test the hypotheses $H_0: \theta = 1$ vs. $H_A: \theta = \theta_1$, for some $\theta_1 < 1$.
-    (a) Find the most powerful size $\alpha$ test of these hypotheses. Your answer should specify the test statistic, and the cutoff for determining whether we reject $H_0$ as a quantile of a specific distribution.
-    (b) For $n = 100$, calculate the cutoff in R.
-    (c) Write down the power function $\beta(\theta)$ for the test in part (a). Your power function should be written in terms of the inverse cdf of some specified distribution.
-    (d) Plot the power function $\beta(\theta)$ from part (c).
+3. Show that
+
+$$\sum \limits_{i=1}^n \left( \frac{X_i - \mu}{\sigma} \right)^2 = \sum \limits_{i=1}^n \left( \frac{X_i - \overline{X}_n}{\sigma} \right)^2 + n\left( \frac{\overline{X}_n - \mu}{\sigma}\right)^2$$
 :::
+
+::: {.callout-note icon=false}
+
+## Question 4
+
+4. Now we want to get something that looks like the set-up for Cochran's theorem. 
+    (a) Suppose $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$, and let $Z_i = \dfrac{X_i - \mu}{\sigma}$. Using the result from question 3, show that
+$$\mathbf{z}^T \mathbf{z} = \mathbf{z}^T \mathbf{A}_1 \mathbf{z} + \mathbf{z}^T \mathbf{A}_2 \mathbf{z}$$
+where $\mathbf{A}_1 = \mathbf{I}_n - \frac{1}{n} \mathbf{J}_n$ and $\mathbf{A}_2 = \frac{1}{n} \mathbf{J}_n$, with $\mathbf{I}_n$ the $n \times n$ identity matrix and $\mathbf{J}_n$ the $n \times n$ matrix of all 1s.
+    (b) If $\mathbf{A}$ is idempotent, then $rank(\mathbf{A}) = tr(\mathbf{A})$. (Intuitively, this is because all eigenvalues of an idempotent matrix must be either 1 or 0, and the trace is the sum of the eigenvalues). Using this fact, show that $rank(\mathbf{A}_1) = n-1$ and $rank(\mathbf{A}_2) = 1$. 
+:::
+
+::: {.callout-note icon=false}
+
+## Question 5
+
+5. Finally, using the results of the previous questions, apply Cochran's theorem to conclude that 
+$$(n-1)s^2/\sigma^2 \sim \chi^2_{n-1}$$
+
+and $(n-1)s^2/\sigma^2$ is independent from $n(\overline{X}_n - \mu)^2/\sigma^2$.
+:::
+
+
+## UMP tests
+
+The Neyman-Pearson lemma says that the *most powerful* size-$\alpha$ test of the simple hypotheses $H_0: \theta = \theta_0$ vs. $H_A: \theta = \theta_1$ is the likelihood ratio test which rejects when
+$$\frac{L(\theta_1 | \mathbf{X})}{L(\theta_0 | \mathbf{X})} > k,$$
+where $k$ is chosen so that the test is size $\alpha$.
+
+Using a likelihood ratio to test hypotheses is very common, but we often don't have just a simple null and a simple alternative, so we don't know if the likelihood ratio test is uniformly most powerful. However, there are certain situations in which a likelihood ratio test is still uniformly most powerful for composite hypotheses.
 
 ### Monotone Likelihood Ratios
 
 **Definition (MLR):** Let $\mathcal{P} = \{f(x|\theta) : \theta \in \Theta \subseteq \mathbb{R}\}$ be a family of pdfs or pmfs. We say that $\mathcal{P}$ has **monotone likelihood ratios** (MLR) in the statistic $T(X)$ if $\dfrac{f(x|\theta_2)}{f(x|\theta_1)}$ is a non-decreasing function of $T(x)$, for any pair $\theta_2 > \theta_1$.
 
 **Theorem:** Let $\mathcal{P}$ be a family of distributions, and suppose we want to test $H_0: \theta \leq \theta_0$ vs. $H_A: \theta > \theta_0$ for some $\theta_0 \in \mathbb{R}$. If $\mathcal{P}$ has MLR in $T(X)$, then the test that rejects $H_0$ when $T(X) > c_0$ is UMP at level $\alpha = P_{\theta_0}(T(X) > c_0)$.
+
+**Corollary:** Let $\mathcal{P}$ be a family of distributions, and suppose we want to test $H_0: \theta \geq \theta_0$ vs. $H_A: \theta < \theta_0$ for some $\theta_0 \in \mathbb{R}$  If $\mathcal{P}$ has MLR in $T(X)$, then the test that rejects $H_0$ when $T(X) < c_0$ is UMP at level $\alpha = P_{\theta_0}(T(X) < c_0)$.
+
+::: {.callout-note icon=false}
+
+## Question 6
+
+6. Suppose that $X_1,...,X_n \overset{iid}{\sim} N(0, \sigma^2)$. 
+    (a) Let $f(x | \sigma^2)$ be the pdf of the $N(0, \sigma^2)$ distribution. Show that $\mathcal{P} = \{ f(x|\sigma^2) : \sigma^2 > 0 \}$ has MLR in the statistic $\sum\limits_{i=1}^n X_i^2$.
+    (b) Find the UMP test of $H_0: \sigma^2 \leq \sigma_0^2$ vs. $H_A: \sigma^2 > \sigma_0^2$ at level $\alpha = 0.05$. Your answer should provide a cutoff value in terms of $\sigma^2$ and an appropriate quantile of some distribution.
+    (c) Using `R`, compute the cutoff $c$ from part (b) in the case where $n = 50$ and $\sigma_0^2 = 1$.
+:::
+
+::: {.callout-note icon=false}
+
+## Question 7
+
+7. Suppose that $X_1,...,X_n \overset{iid}{\sim} Pareto(1, \theta)$, with pdf
+$$f(x|\theta) = \frac{\theta}{x^{\theta + 1}}$$
+where $x > 1$, and $\theta > 0$. We wish to test the hypotheses $H_0: \theta \geq 1$ vs. $H_A: \theta < 1$.
+    (a) Find the UMP test of these hypotheses at level $\alpha = 0.05$. Your answer should provide a cutoff value in terms of an appropriate quantile of some distribution.
+    (b) For $n = 100$ and $\alpha = 0.05$, calculate the cutoff in `R`.
+    (c) Write down the power function $\beta(\theta)$ for the test in part (a). Your power function should be written in terms of the inverse cdf of some specified distribution.
+    (d) Plot the power function $\beta(\theta)$ from part (c), for $n = 100$ and $\alpha = 0.05$.
+    
+**Hints:** For this question, it will also help you to know two facts, which you can use without proof. First, if $X_i \sim Pareto(1, \theta)$ then $Y_i = \log(X_i) \sim Exponential(\theta)$, with pdf $\theta e^{-\theta y}$. Second, if $Y_1,...,Y_n \overset{iid}{\sim} Exponential(\theta)$ then $U = \sum_{i=1}^n Y_i \sim Gamma(n, \theta)$, with pdf
+$$f(u) = \frac{\theta^n}{\Gamma(n)} u^{n-1}e^{-\theta u}$$
+:::
+
 
 
     

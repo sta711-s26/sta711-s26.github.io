@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Homework 7</title>
+<title>Homework 8</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -76,7 +76,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Homework 7</h1>
+<h1 class="title">Homework 8</h1>
 </div>
 
 
@@ -93,11 +93,29 @@ window.Quarto = {
 </header>
 
 
-<p><strong>Due:</strong> Friday, March 20, 11:59pm on Canvas</p>
+<p><strong>Due:</strong> Friday, April 10, 11:59pm on Canvas</p>
 <p><strong>Instructions:</strong> For mathematical work, you may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.</p>
 <p>See the course website for a <a href="https://sta711-s26.github.io/homework/hw_template.tex">homework template</a> file and <a href="https://sta711-s26.github.io/homework/latex_instructions/">instructions</a> on getting started with LaTeX and Overleaf.</p>
-<section id="ump-tests" class="level2">
-<h2 class="anchored" data-anchor-id="ump-tests">UMP tests</h2>
+<section id="logistic-regression-power-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-regression-power-analysis">Logistic regression power analysis</h2>
+<p>Suppose we are working with researchers interested in the relation between caffeine intake and insomnia. The researchers conduct a sleep study with a set of <span class="math inline">\(n\)</span> subjects, all of whom have reported difficulty sleeping.</p>
+<p>In the study, subjects are given a warm cup of coffee at 10pm, and then asked to go to bed directly after drinking the coffee. The subjects receive coffees containing different quantities of caffeine, with <span class="math inline">\(n/5\)</span> patients randomly assigned to each of 5 treatment groups: 0mg caffeine, 25mg, 50mg, 75mg, and 100mg caffeine (for reference, a normal cup of coffee contains about 100mg of caffeine).</p>
+<p>For each subject, the researchers record whether they fell asleep in the first hour after consuming the coffee (<em>note: time-to-event analysis is probably better here, but that is outside the scope of this course</em>). We plan to fit the following logistic regression model: <span class="math display">\[Sleep_i|Caffeine_i \sim Bernoulli(p_i)\]</span> <span class="math display">\[\log \left( \frac{p_i}{1-p_i} \right) = \beta_0 + \beta_1 Caffeine_i\]</span> where <span class="math inline">\(Sleep_i = 1\)</span> if subject <span class="math inline">\(i\)</span> fell asleep during the first hour, and <span class="math inline">\(Caffeine_i\)</span> is the quantity of caffeine consumed (in mg) by subject <span class="math inline">\(i\)</span>.</p>
+<p>To test for a relationship, the researchers plan to test <span class="math inline">\(H_0: \beta_1 = 0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \beta_1 \neq 0\)</span> using a Wald test, rejecting if the p-value is <span class="math inline">\(&lt; 0.05\)</span>.</p>
+<section id="test-statistic" class="level3">
+<h3 class="anchored" data-anchor-id="test-statistic">Test statistic</h3>
+<p>From our asymptotic results for maximum likelihood estimators, we know that if our model is correctly specified, then</p>
+<p><span class="math display">\[\widehat{\boldsymbol{\beta}} \approx N(\boldsymbol{\beta}, \mathcal{I}_n^{-1}(\boldsymbol{\beta}))\]</span> which means that</p>
+<p><span class="math display">\[\widehat{\beta}_1 \approx N(\beta_1, [\mathcal{I}_n^{-1}(\boldsymbol{\beta})]_{2,2})\]</span></p>
+<p>where <span class="math inline">\([\mathcal{I}_n^{-1}(\beta)]_{2,2}\)</span> denotes the <span class="math inline">\([2,2]\)</span> entry of the inverse Fisher information. We have also previously shown that</p>
+<p><span class="math display">\[\mathcal{I}_n(\boldsymbol{\beta}) \approx \mathbf{X}^T \mathbf{V} \mathbf{X}\]</span> with <span class="math inline">\(\mathbf{X}\)</span> the design matrix and <span class="math inline">\(\mathbf{V} = \text{diag}(p_i(1 - p_i))\)</span>. So,</p>
+<p><span class="math display">\[\widehat{\beta}_1 \approx N(\beta_1, [(\mathbf{X}^T \mathbf{V} \mathbf{X})^{-1}]_{2,2})\]</span></p>
+<p>To test the hypotheses <span class="math inline">\(H_0: \beta_1 = 0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \beta_1 \neq 0\)</span>, the Wald test statistic is then</p>
+<p><span class="math display">\[W = \dfrac{(\widehat{\beta}_1 - 0)^2}{[(\mathbf{X}^T \widehat{\mathbf{V}} \mathbf{X})^{-1}]_{2,2}}\]</span></p>
+<p>where <span class="math inline">\(\widehat{\mathbf{V}} = \text{diag}(\widehat{p}_i(1 - \widehat{p}_i))\)</span>.</p>
+</section>
+<section id="power-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="power-analysis">Power analysis</h3>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -109,14 +127,14 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(0, \sigma^2)\)</span>. We wish to test the hypotheses <span class="math inline">\(H_0: \sigma^2 = \sigma_0^2\)</span> vs.&nbsp;<span class="math inline">\(H_A: \sigma^2 = \sigma_1^2\)</span>, were <span class="math inline">\(\sigma_0^2 &lt; \sigma_1^2\)</span>.
-<ol type="a">
-<li>Show that the most powerful test of these hypotheses rejects when <span class="math inline">\(\sum \limits_{i=1}^n X_i^2 &gt; c\)</span>, for some value <span class="math inline">\(c\)</span>.</li>
-<li>Find <span class="math inline">\(c\)</span> (as the appropriate quantile of a specific distribution) such that the test in part (a) has size <span class="math inline">\(\alpha\)</span>.</li>
-</ol></li>
+<li>Argue that, if <span class="math inline">\(H_0\)</span> is true, then <span class="math inline">\(W \approx \chi^2_1\)</span>. We will reject when <span class="math inline">\(W &gt; c\)</span>; find a rejection threshold <span class="math inline">\(c\)</span>, as the quantile of some distribution, such that our test is approximately size <span class="math inline">\(\alpha = 0.05\)</span>.</li>
 </ol>
 </div>
 </div>
+<p>Now we want to analyze the power of the test when <span class="math inline">\(H_0\)</span> is <em>false</em>. To do this, we need to know the distribution of the test statistic <span class="math inline">\(W\)</span> under the alternative hypothesis. It turns out the appropriate distribution is the <strong>noncentral chi-squared distribution</strong>.</p>
+<p><strong>Definition (noncentral chi-squared):</strong> Let <span class="math inline">\(X_1,...,X_k \overset{indep.}{\sim} N(\mu_i, 1)\)</span>. Then, <span class="math display">\[\sum \limits_{i=1}^k X_i^2 \sim \chi^2_k(\lambda),\]</span> the noncentral chi-squared distribution with noncentrality parameter <span class="math inline">\(\lambda = \sum \limits_{i=1}^k \mu_i^2\)</span>.</p>
+<p>Note that the usual <span class="math inline">\(\chi^2_k\)</span> distribution is a special case of the noncentral chi-squared: <span class="math inline">\(\chi^2_k = \chi^2_k(0)\)</span> (noncentral chi-squared with noncentrality parameter 0).</p>
+<p>In <code>R</code>, probabilities for the <span class="math inline">\(\chi^2_k(\lambda)\)</span> can be computed using the <code>pchisq(...)</code> function, which allows you to specify the noncentrality parameter (<code>ncp</code>).</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -128,14 +146,56 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ol start="2" type="1">
-<li>Suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} Poisson(\lambda)\)</span>. We wish to test the hypotheses <span class="math inline">\(H_0: \lambda = \lambda_0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \lambda = \lambda_1\)</span>, where <span class="math inline">\(\lambda_1 &gt; \lambda_0\)</span>.
+<li>Let’s examine the power.
 <ol type="a">
-<li>Show that the most powerful test of these hypotheses rejects when <span class="math inline">\(\sum \limits_{i=1}^n X_i &gt; c\)</span>, for some value <span class="math inline">\(c\)</span>.</li>
-<li>Find <span class="math inline">\(c\)</span> (as the appropriate quantile of a specific distribution) such that the test in part (a) has size <span class="math inline">\(\alpha\)</span>.</li>
+<li>Argue that, in general, <span class="math inline">\(W \approx \chi^2_1(\lambda)\)</span>, where <span class="math inline">\(\lambda = \dfrac{\beta_1^2}{[\mathcal{I}_n^{-1}(\boldsymbol{\beta})]_{2,2}}\)</span>.</li>
+<li>Suppose we observe 50 subjects, and we believe that a one-mg increase in caffeine is associated with a decrease of 0.02 in the log-odds of sleep within the first hour. We also know that from prior observation, there is a 40% probability that a subject drinking decaf coffee directly before bed will fall asleep within the first hour. If these beliefs are correct, what are the true values <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>?</li>
+<li>Now suppose we observe 50 subjects, and we believe that a one-mg increase in caffeine is associated with a decrease of 0.02 in the log-odds of sleep within the first hour. We also know that from prior observation, there is a 40% probability that a subject drinking decaf coffee directly before bed will fall asleep within the first hour. If these beliefs are correct, what is the approximate power of the Wald test for <span class="math inline">\(H_0: \beta_1 = 0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \beta_1 \neq 0\)</span>, if our significance level is <span class="math inline">\(\alpha = 0.05\)</span>? (Calculate this in <code>R</code>).</li>
+<li>Suppose we believe that a one-mg increase in caffeine is associated with a decrease of 0.02 in the log-odds of sleep within the first hour. We also know that from prior observation, there is a 40% probability that a subject drinking decaf coffee directly before bed will fall asleep within the first hour. If these beliefs are correct, how many subjects <span class="math inline">\(n\)</span> do we need to observe for the approximate power of the Wald test of <span class="math inline">\(H_0: \beta_1 = 0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \beta_1 \neq 0\)</span> to be at least 0.8, if our significance level is <span class="math inline">\(\alpha = 0.05\)</span>? <strong>Note:</strong> you may answer this by calculating the power, in <code>R</code>, for different sample sizes <span class="math inline">\(n\)</span>. You do not need to solve the sample size analytically.</li>
 </ol></li>
 </ol>
 </div>
 </div>
+</section>
+</section>
+<section id="t-tests" class="level2">
+<h2 class="anchored" data-anchor-id="t-tests"><span class="math inline">\(t\)</span> tests</h2>
+<p>Suppose we have data <span class="math inline">\(X_1,...,X_n\)</span> iid from some population with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. A Wald test for the population mean <span class="math inline">\(\mu\)</span> would use the fact that</p>
+<p><span class="math display">\[\dfrac{\sqrt{n}(\overline{X}_n - \mu)}{s} \approx N(0, 1)\]</span></p>
+<p>where <span class="math inline">\(s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X}_n)^2\)</span>. This approximate normality is the result of a combination of the CLT and the consistency of <span class="math inline">\(s^2\)</span> as an estimator of <span class="math inline">\(\sigma^2\)</span>.</p>
+<p><em>However</em>, in other statistics courses, you have likely used a <span class="math inline">\(t\)</span> distribution instead of a normal distribution to test these hypotheses! That is,</p>
+<p><span class="math display">\[\dfrac{\sqrt{n}(\overline{X}_n - \mu)}{s} \approx t_{n-1},\]</span></p>
+<p>where <span class="math inline">\(t_{n-1}\)</span> is the <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom. The purpose of this part of the assignment is to justify the use of a <span class="math inline">\(t\)</span> distribution in these situations.</p>
+<section id="the-t-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="the-t-distribution">The <span class="math inline">\(t\)</span> distribution</h3>
+<p>When we want to show that a statistic follows a <span class="math inline">\(t\)</span> distribution, it is helpful to think about where the <span class="math inline">\(t\)</span> distribution comes from.</p>
+<p><strong>Definition:</strong> Let <span class="math inline">\(Z \sim N(0, 1)\)</span> and <span class="math inline">\(V \sim \chi^2_d\)</span> be independent. Then <span class="math display">\[T = \frac{Z}{\sqrt{V/d}} \sim t_d\]</span></p>
+</section>
+<section id="the-sample-mean" class="level3">
+<h3 class="anchored" data-anchor-id="the-sample-mean">The sample mean</h3>
+<p>Suppose that we have <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>. Then,</p>
+<p><span class="math display">\[\dfrac{\sqrt{n}(\overline{X}_n - \mu)}{s} = \dfrac{\sqrt{n}(\overline{X}_n - \mu)/\sigma}{s/\sigma} = \dfrac{\sqrt{n}(\overline{X}_n - \mu)/\sigma}{\sqrt{\frac{(n-1)s^2/\sigma^2}{(n-1)}}}\]</span></p>
+<p>Let <span class="math inline">\(Z = \sqrt{n}(\overline{X}_n - \mu)/\sigma\)</span> and <span class="math inline">\(V = (n-1)s^2/\sigma^2\)</span>. Then,</p>
+<p><span class="math display">\[T = \dfrac{\sqrt{n}(\overline{X}_n - \mu)}{s} = \dfrac{Z}{\sqrt{V/(n-1)}}\]</span></p>
+<p>Since <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>, then <span class="math inline">\(Z \sim N(0, 1)\)</span>. To show that <span class="math inline">\(T \sim t_{n-1}\)</span>, it just remains to show that</p>
+<ul>
+<li><span class="math inline">\(V \sim \chi^2_{n-1}\)</span></li>
+<li><span class="math inline">\(Z\)</span> and <span class="math inline">\(V\)</span> are independent</li>
+</ul>
+<p>Fortunately, we can use a very cool result called <em>Cochran’s theorem</em>.</p>
+</section>
+<section id="cochrans-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="cochrans-theorem">Cochran’s theorem</h3>
+<p><strong>Theorem:</strong> Let <span class="math inline">\(Z_1,...,Z_n \overset{iid}{\sim} N(0, 1)\)</span>, and let <span class="math inline">\(\mathbf{z} = (Z_1,...,Z_n)^T\)</span>. Let <span class="math inline">\(\mathbf{A}_1,...,\mathbf{A}_k \in \mathbb{R}^{n \times n}\)</span> be symmetric matrices such that <span class="math inline">\(\mathbf{z}^T\mathbf{z} = \sum \limits_{i=1}^k \mathbf{z}^T \mathbf{A}_i \mathbf{z}\)</span>, and let <span class="math inline">\(r_i = rank(\mathbf{A}_i)\)</span>. Then the following are equivalent:</p>
+<ul>
+<li><span class="math inline">\(r_1 + \cdots + r_k = n\)</span></li>
+<li>The <span class="math inline">\(\mathbf{z}^T \mathbf{A}_i \mathbf{z}\)</span> are independent</li>
+<li>Each <span class="math inline">\(\mathbf{z}^T \mathbf{A}_i \mathbf{z} \sim \chi^2_{r_i}\)</span></li>
+</ul>
+</section>
+<section id="putting-it-all-together" class="level3">
+<h3 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h3>
+<p>Here we will put all of this information together to show that, indeed, <span class="math inline">\(T \sim t_{n-1}\)</span>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -147,20 +207,99 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ol start="3" type="1">
-<li>Suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} Pareto(1, \theta)\)</span>, with pdf <span class="math display">\[f(x|\theta) = \frac{\theta}{x^{\theta + 1}}\]</span> where <span class="math inline">\(x &gt; 1\)</span>, and <span class="math inline">\(\theta &gt; 0\)</span>. We wish to test the hypotheses <span class="math inline">\(H_0: \theta = 1\)</span> vs.&nbsp;<span class="math inline">\(H_A: \theta = \theta_1\)</span>, for some <span class="math inline">\(\theta_1 &lt; 1\)</span>.
+<li>Show that</li>
+</ol>
+<p><span class="math display">\[\sum \limits_{i=1}^n \left( \frac{X_i - \mu}{\sigma} \right)^2 = \sum \limits_{i=1}^n \left( \frac{X_i - \overline{X}_n}{\sigma} \right)^2 + n\left( \frac{\overline{X}_n - \mu}{\sigma}\right)^2\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="4" type="1">
+<li>Now we want to get something that looks like the set-up for Cochran’s theorem.
 <ol type="a">
-<li>Find the most powerful size <span class="math inline">\(\alpha\)</span> test of these hypotheses. Your answer should specify the test statistic, and the cutoff for determining whether we reject <span class="math inline">\(H_0\)</span> as a quantile of a specific distribution.</li>
-<li>For <span class="math inline">\(n = 100\)</span>, calculate the cutoff in R.</li>
-<li>Write down the power function <span class="math inline">\(\beta(\theta)\)</span> for the test in part (a). Your power function should be written in terms of the inverse cdf of some specified distribution.</li>
-<li>Plot the power function <span class="math inline">\(\beta(\theta)\)</span> from part (c).</li>
+<li>Suppose <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>, and let <span class="math inline">\(Z_i = \dfrac{X_i - \mu}{\sigma}\)</span>. Using the result from question 3, show that <span class="math display">\[\mathbf{z}^T \mathbf{z} = \mathbf{z}^T \mathbf{A}_1 \mathbf{z} + \mathbf{z}^T \mathbf{A}_2 \mathbf{z}\]</span> where <span class="math inline">\(\mathbf{A}_1 = \mathbf{I}_n - \frac{1}{n} \mathbf{J}_n\)</span> and <span class="math inline">\(\mathbf{A}_2 = \frac{1}{n} \mathbf{J}_n\)</span>, with <span class="math inline">\(\mathbf{I}_n\)</span> the <span class="math inline">\(n \times n\)</span> identity matrix and <span class="math inline">\(\mathbf{J}_n\)</span> the <span class="math inline">\(n \times n\)</span> matrix of all 1s.</li>
+<li>If <span class="math inline">\(\mathbf{A}\)</span> is idempotent, then <span class="math inline">\(rank(\mathbf{A}) = tr(\mathbf{A})\)</span>. (Intuitively, this is because all eigenvalues of an idempotent matrix must be either 1 or 0, and the trace is the sum of the eigenvalues). Using this fact, show that <span class="math inline">\(rank(\mathbf{A}_1) = n-1\)</span> and <span class="math inline">\(rank(\mathbf{A}_2) = 1\)</span>.</li>
 </ol></li>
 </ol>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="5" type="1">
+<li>Finally, using the results of the previous questions, apply Cochran’s theorem to conclude that <span class="math display">\[(n-1)s^2/\sigma^2 \sim \chi^2_{n-1}\]</span></li>
+</ol>
+<p>and <span class="math inline">\((n-1)s^2/\sigma^2\)</span> is independent from <span class="math inline">\(n(\overline{X}_n - \mu)^2/\sigma^2\)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="ump-tests" class="level2">
+<h2 class="anchored" data-anchor-id="ump-tests">UMP tests</h2>
+<p>The Neyman-Pearson lemma says that the <em>most powerful</em> size-<span class="math inline">\(\alpha\)</span> test of the simple hypotheses <span class="math inline">\(H_0: \theta = \theta_0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \theta = \theta_1\)</span> is the likelihood ratio test which rejects when <span class="math display">\[\frac{L(\theta_1 | \mathbf{X})}{L(\theta_0 | \mathbf{X})} &gt; k,\]</span> where <span class="math inline">\(k\)</span> is chosen so that the test is size <span class="math inline">\(\alpha\)</span>.</p>
+<p>Using a likelihood ratio to test hypotheses is very common, but we often don’t have just a simple null and a simple alternative, so we don’t know if the likelihood ratio test is uniformly most powerful. However, there are certain situations in which a likelihood ratio test is still uniformly most powerful for composite hypotheses.</p>
 <section id="monotone-likelihood-ratios" class="level3">
 <h3 class="anchored" data-anchor-id="monotone-likelihood-ratios">Monotone Likelihood Ratios</h3>
 <p><strong>Definition (MLR):</strong> Let <span class="math inline">\(\mathcal{P} = \{f(x|\theta) : \theta \in \Theta \subseteq \mathbb{R}\}\)</span> be a family of pdfs or pmfs. We say that <span class="math inline">\(\mathcal{P}\)</span> has <strong>monotone likelihood ratios</strong> (MLR) in the statistic <span class="math inline">\(T(X)\)</span> if <span class="math inline">\(\dfrac{f(x|\theta_2)}{f(x|\theta_1)}\)</span> is a non-decreasing function of <span class="math inline">\(T(x)\)</span>, for any pair <span class="math inline">\(\theta_2 &gt; \theta_1\)</span>.</p>
 <p><strong>Theorem:</strong> Let <span class="math inline">\(\mathcal{P}\)</span> be a family of distributions, and suppose we want to test <span class="math inline">\(H_0: \theta \leq \theta_0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \theta &gt; \theta_0\)</span> for some <span class="math inline">\(\theta_0 \in \mathbb{R}\)</span>. If <span class="math inline">\(\mathcal{P}\)</span> has MLR in <span class="math inline">\(T(X)\)</span>, then the test that rejects <span class="math inline">\(H_0\)</span> when <span class="math inline">\(T(X) &gt; c_0\)</span> is UMP at level <span class="math inline">\(\alpha = P_{\theta_0}(T(X) &gt; c_0)\)</span>.</p>
+<p><strong>Corollary:</strong> Let <span class="math inline">\(\mathcal{P}\)</span> be a family of distributions, and suppose we want to test <span class="math inline">\(H_0: \theta \geq \theta_0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \theta &lt; \theta_0\)</span> for some <span class="math inline">\(\theta_0 \in \mathbb{R}\)</span> If <span class="math inline">\(\mathcal{P}\)</span> has MLR in <span class="math inline">\(T(X)\)</span>, then the test that rejects <span class="math inline">\(H_0\)</span> when <span class="math inline">\(T(X) &lt; c_0\)</span> is UMP at level <span class="math inline">\(\alpha = P_{\theta_0}(T(X) &lt; c_0)\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="6" type="1">
+<li>Suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(0, \sigma^2)\)</span>.
+<ol type="a">
+<li>Let <span class="math inline">\(f(x | \sigma^2)\)</span> be the pdf of the <span class="math inline">\(N(0, \sigma^2)\)</span> distribution. Show that <span class="math inline">\(\mathcal{P} = \{ f(x|\sigma^2) : \sigma^2 &gt; 0 \}\)</span> has MLR in the statistic <span class="math inline">\(\sum\limits_{i=1}^n X_i^2\)</span>.</li>
+<li>Find the UMP test of <span class="math inline">\(H_0: \sigma^2 \leq \sigma_0^2\)</span> vs.&nbsp;<span class="math inline">\(H_A: \sigma^2 &gt; \sigma_0^2\)</span> at level <span class="math inline">\(\alpha = 0.05\)</span>. Your answer should provide a cutoff value in terms of <span class="math inline">\(\sigma^2\)</span> and an appropriate quantile of some distribution.</li>
+<li>Using <code>R</code>, compute the cutoff <span class="math inline">\(c\)</span> from part (b) in the case where <span class="math inline">\(n = 50\)</span> and <span class="math inline">\(\sigma_0^2 = 1\)</span>.</li>
+</ol></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="7" type="1">
+<li>Suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} Pareto(1, \theta)\)</span>, with pdf <span class="math display">\[f(x|\theta) = \frac{\theta}{x^{\theta + 1}}\]</span> where <span class="math inline">\(x &gt; 1\)</span>, and <span class="math inline">\(\theta &gt; 0\)</span>. We wish to test the hypotheses <span class="math inline">\(H_0: \theta \geq 1\)</span> vs.&nbsp;<span class="math inline">\(H_A: \theta &lt; 1\)</span>.
+<ol type="a">
+<li>Find the UMP test of these hypotheses at level <span class="math inline">\(\alpha = 0.05\)</span>. Your answer should provide a cutoff value in terms of an appropriate quantile of some distribution.</li>
+<li>For <span class="math inline">\(n = 100\)</span> and <span class="math inline">\(\alpha = 0.05\)</span>, calculate the cutoff in <code>R</code>.</li>
+<li>Write down the power function <span class="math inline">\(\beta(\theta)\)</span> for the test in part (a). Your power function should be written in terms of the inverse cdf of some specified distribution.</li>
+<li>Plot the power function <span class="math inline">\(\beta(\theta)\)</span> from part (c), for <span class="math inline">\(n = 100\)</span> and <span class="math inline">\(\alpha = 0.05\)</span>.</li>
+</ol></li>
+</ol>
+<p><strong>Hints:</strong> For this question, it will also help you to know two facts, which you can use without proof. First, if <span class="math inline">\(X_i \sim Pareto(1, \theta)\)</span> then <span class="math inline">\(Y_i = \log(X_i) \sim Exponential(\theta)\)</span>, with pdf <span class="math inline">\(\theta e^{-\theta y}\)</span>. Second, if <span class="math inline">\(Y_1,...,Y_n \overset{iid}{\sim} Exponential(\theta)\)</span> then <span class="math inline">\(U = \sum_{i=1}^n Y_i \sim Gamma(n, \theta)\)</span>, with pdf <span class="math display">\[f(u) = \frac{\theta^n}{\Gamma(n)} u^{n-1}e^{-\theta u}\]</span></p>
+</div>
+</div>
 </section>
 </section>
 
