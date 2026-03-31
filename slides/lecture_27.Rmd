@@ -1,0 +1,111 @@
+---
+title: "Likelihood ratio tests"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+
+## Neyman-Pearson test
+
+Let ${\bf X} = (X_1,...,X_n)$ be a sample from some distribution with probability function $f$ and parameter $\theta$. To test
+
+$$H_0: \theta = \theta_0 \hspace{1cm} H_A: \theta = \theta_1,$$
+
+the **Neyman-Pearson** test rejects $H_0$ when 
+
+$$\dfrac{L(\theta_1 | \mathbf{X})}{L(\theta_0 | \mathbf{X})} = \dfrac{f(X_1,...,X_n | \theta_1)}{f(X_1,...,X_n | \theta_0)} > k$$
+where $k$ is chosen so that $\beta(\theta_0) = \alpha$.
+
+
+## Last time: Example
+
+$X_1,...,X_{20} \overset{indep.}{\sim} N(\theta, \sigma_i^2)$ where $\sigma_i^2 = i$ 
+$$H_0: \theta = 0 \hspace{1cm} H_A: \theta = \theta_1 \hspace{0.5cm} \text{where } \theta_1 > 0$$
+
+```{r, echo=F, warning=F, message=F, fig.width=5, fig.height=3}
+library(tidyverse)
+n <- 20
+sig_sum <- sum(1/(1:n))
+alpha <- 0.05
+c <- qnorm(1 - alpha, 0, sqrt(sig_sum))
+
+power_1 <- function(theta){
+  1 - pnorm(c/sqrt(sig_sum) - theta*sqrt(sig_sum))
+}
+
+theta_vals <- seq(0, 3, 0.1)
+#plot(theta_vals, power_1(theta_vals), type="l")
+
+
+c2 <- sqrt(sum(1:n)/(n^2)) * qnorm(1-alpha)
+power_2 <- function(theta){
+  1 - pnorm((c2 - theta)/sqrt(sum(1:n)/(n^2)))
+}
+
+#points(theta_vals, power_2(theta_vals), type="l", col="red")
+
+data.frame(theta = c(theta_vals, theta_vals),
+           power = c(power_1(theta_vals), power_2(theta_vals)),
+           test = rep(c("Neyman-Pearson", "Wald"), each=length(theta_vals))) |>
+  ggplot(aes(x = theta, y = power, color=test, lty=test)) +
+  geom_line() +
+  theme_bw() +
+  geom_abline(slope = 0, intercept = 0.05, lty=2)
+```
+
+## Most powerful test
+
+**Big idea:** can't do better than a likelihood ratio test for two simple hypotheses!
+
+What does it mean for one test to be "better" than another?
+
+**Definition (UMP test):** Consider testing $H_0: \theta \in \Theta_0$ vs. $H_A: \theta \in \Theta_1$. Let $\mathcal{C}_{\alpha}$ be the set of all level $\alpha$ tests for these hypotheses. A test in $\mathcal{C}_\alpha$ is the **uniformly most powerful** (UMP) level $\alpha$ test if:
+
+\vspace{4cm}
+
+## Neyman-Pearson lemma
+
+Let $\mathbf{X} = (X_1,...,X_n)$ be a sample from some distribution with probability function $f(x|\theta)$. Consider testing $H_0: \theta = \theta_0$ vs. $H_A: \theta = \theta_1$.
+
+\vspace{6cm}
+
+## Last time: Example
+
+Let $X_1,...,X_n \overset{iid}{\sim} Exponential(\theta)$, with pdf $f(x|\theta) = \theta e^{-\theta x}$. We want to test
+$$H_0: \theta = \theta_0 \hspace{1cm} H_A: \theta = \theta_1,$$
+where $\theta_1 < \theta_0$. 
+
+\vspace{6cm}
+
+## UMP tests of composite hypotheses
+
+## UMP tests of composite hypotheses
+
+**Definition (MLR):** Let $\mathcal{P} = \{f(x|\theta) : \theta \in \Theta \subseteq \mathbb{R}\}$ be a family of pdfs or pmfs. We say that $\mathcal{P}$ has **monotone likelihood ratios** (MLR) in the statistic $T(X)$ if:
+
+\vspace{6cm}
+
+## UMP tests of composite hypotheses
+
+**Definition (MLR):** Let $\mathcal{P} = \{f(x|\theta) : \theta \in \Theta \subseteq \mathbb{R}\}$ be a family of pdfs or pmfs. We say that $\mathcal{P}$ has **monotone likelihood ratios** (MLR) in the statistic $T(X)$ if $\dfrac{f(x|\theta_2)}{f(x|\theta_1)}$ is a non-decreasing function of $T(x)$, for any pair $\theta_2 > \theta_1$.
+
+**Theorem:** Let $\mathcal{P}$ be a family of distributions, and suppose we want to test $H_0: \theta \leq \theta_0$ vs. $H_A: \theta > \theta_0$ for some $\theta_0 \in \mathbb{R}$.
+
+\vspace{4cm}
+
+## Example
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} N(\theta, \sigma^2)$, and consider testing $H_0: \theta \leq \theta_0$ vs. $H_A: \theta > \theta_0$.
+
+\vspace{6cm}
+
+## Example
+
+Let $X_1,...,X_n \overset{iid}{\sim} Poisson(\lambda)$, and let $f(x|\lambda)$ be the pmf.
+
+1. Show that $\mathcal{P} = \{ f(x|\lambda): \lambda > 0 \}$ has MLR in $\sum_{i=1}^n X_i$.
+2. Find the UMP test of $H_0: \lambda \leq \lambda_0$ vs. $H_A: \lambda > \lambda_0$.
+
+
+
+
