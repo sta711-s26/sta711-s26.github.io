@@ -1,0 +1,32 @@
+---
+title: "Likelihood ratio tests"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Last time
+
+* Optimal (UMP) test of $H_0: \theta = \theta_0$ vs. $H_A: \theta = \theta_1$ rejects when
+$$\dfrac{L(\theta_1 | \mathbf{X})}{L(\theta_0 | \mathbf{X})} > k$$
+* If this test is the same for all values of $\theta_1 \in \Theta_1$ (depends only on $\theta_0$), then it is UMP for $H_0: \theta = \theta_0$ vs. $H_A: \theta \in \Theta_1$
+* If the distribution has MLR in $T(X)$, then the UMP test of $H_0: \theta \leq \theta_0$ vs. $H_A: \theta > \theta_0$ rejects when
+$$T(X) > t_0$$
+
+**In general:** Can't find a UMP test for general hypotheses. But we *can* generalize idea of likelihood ratio test (even if it isn't always UMP).
+
+## Likelihood ratio test
+
+Suppose we have an iid sample $\mathbf{X} = (X_1,...,X_n)$ from some distribution with probability function $f(x|\boldsymbol{\theta})$, with parameter $\boldsymbol{\theta} \in \mathbb{R}^d$. We wish to test
+$$H_0: \boldsymbol{\theta} \in \Theta_0 \hspace{1cm} H_A: \boldsymbol{\theta} \in \Theta_1$$
+The **likelihood ratio test** (LRT) of these hypotheses rejects $H_0$ when:
+
+\vspace{6cm}
+
+## Example: comparing linear regression models
+
+Data $(\mathbf{x}_i, Y_i)$ iid from model $Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \varepsilon_i$, with $\varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$.
+
+\vspace{7cm}
+
+
+
