@@ -38,7 +38,7 @@ $$\widehat{\boldsymbol{\beta}}^0 = (\mathbf{X}_{(1)}^T\mathbf{X}_{(1)})^{-1} \ma
 
 1. Write down the likelihood $L(\boldsymbol{\beta}, \sigma^2 | \mathbf{X}, \mathbf{y})$ as a function of $\boldsymbol{\beta}$ and $\sigma^2$.
 
-\vspace{5cm}
+\vspace{7cm}
 
 2. Using question 1, show that 
 $$L(\widehat{\boldsymbol{\beta}}, \widehat{\sigma}^2 | \mathbf{X}, \mathbf{y}) = (2 \pi \widehat{\sigma}^2)^{-n/2} \exp \{-n/2 \}$$
