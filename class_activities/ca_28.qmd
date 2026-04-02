@@ -12,7 +12,7 @@ Suppose we observe iid data $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ from t
 
 $$Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \varepsilon_i$$
 
-where $\varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$, and $\mathbf{x}_i, \boldsymbol{\beta} \in \mathbb{R}^{k+1}$. Suppose also that we partition $\boldsymbol{\beta} = \begin{pmatrix} \boldsymbol{\beta}_{(1)} \\ \boldsymbol{\beta}_{(2)} \end{pmatrix}$, where $\boldsymbol{\beta}_{(1)} \in \mathbb{R}^{q_1}$ and $\boldsymbol{\beta}_{(2)} \in \mathbb{R}^{q_2}$, and $q_1 + q_2 = k+1$. Likewise partition $\mathbf{x}_i = \begin{pmatrix} \mathbf{x}_{i, (1)} \\ \mathbf{x}_{i, (2)} \end{pmatrix}$.
+where $\varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$, and $\mathbf{x}_i, \boldsymbol{\beta} \in \mathbb{R}^{p}$. Suppose also that we partition $\boldsymbol{\beta} = \begin{pmatrix} \boldsymbol{\beta}_{(1)} \\ \boldsymbol{\beta}_{(2)} \end{pmatrix}$, where $\boldsymbol{\beta}_{(1)} \in \mathbb{R}^{q_1}$ and $\boldsymbol{\beta}_{(2)} \in \mathbb{R}^{q_2}$, and $q_1 + q_2 = p$. Likewise partition $\mathbf{x}_i = \begin{pmatrix} \mathbf{x}_{i, (1)} \\ \mathbf{x}_{i, (2)} \end{pmatrix}$.
 
 We are interested in testing the hypotheses
 
@@ -20,7 +20,7 @@ $$H_0: \boldsymbol{\beta}_{(2)} = \boldsymbol{0} \hspace{1cm} H_A: \boldsymbol{\
 
 This is equivalent to comparing the nested full and reduced models
 
-**Full model:** $Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \beta_{q_1} X_{i, q_1} + \cdots + \beta_k X_{i,k} + \varepsilon_i$
+**Full model:** $Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \beta_{q_1} X_{i, q_1} + \cdots + \beta_{p-1} X_{i,p-1} + \varepsilon_i$
 
 **Reduced model:** $Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \varepsilon_i$
 
@@ -28,11 +28,11 @@ This is equivalent to comparing the nested full and reduced models
 
 The unrestricted MLEs for $\boldsymbol{\beta}$ and $\sigma^2$ are:
 
-$$\widehat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{y} \hspace{1cm} \widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \mathbf{x}_i^T \widehat{\boldsymbol{\beta}})^2$$
+$$\widehat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T \mathbf{y} \hspace{1cm} \widehat{\sigma}^2 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \mathbf{x}_i^T \widehat{\boldsymbol{\beta}})^2$$
 
 while the restricted MLEs (under $H_0$) are:
 
-$$\widehat{\boldsymbol{\beta}}^0 = (\mathbf{X}_{(1)}^T\mathbf{X}_{(1)})^{-1} \mathbf{y} \hspace{1cm} \widehat{\sigma}^2_0 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \mathbf{x}_{i, (1)}^T \widehat{\boldsymbol{\beta}}^0)^2$$
+$$\widehat{\boldsymbol{\beta}}^0 = (\mathbf{X}_{(1)}^T\mathbf{X}_{(1)})^{-1} \mathbf{X}_{(1)}^T \mathbf{y} \hspace{1cm} \widehat{\sigma}^2_0 = \frac{1}{n} \sum \limits_{i=1}^n (Y_i - \mathbf{x}_{i, (1)}^T \widehat{\boldsymbol{\beta}}^0)^2$$
 
 ## Questions
 
@@ -51,18 +51,18 @@ $$L(\widehat{\boldsymbol{\beta}}^0, \widehat{\sigma}^2_0 | \mathbf{X}, \mathbf{y
 3. The **likelihood ratio test** rejects when
 $$\Lambda = \dfrac{\sup \limits_{(\boldsymbol{\beta}, \sigma^2) \in \Theta_0} L(\boldsymbol{\beta}, \sigma^2 | \mathbf{X}, \mathbf{y})}{\sup \limits_{(\boldsymbol{\beta}, \sigma^2) \in \Theta} L(\boldsymbol{\beta}, \sigma^2 | \mathbf{X}, \mathbf{y})} = \dfrac{L(\widehat{\boldsymbol{\beta}}^0, \widehat{\sigma}^2_0 | \mathbf{X}, \mathbf{y})}{L(\widehat{\boldsymbol{\beta}}, \widehat{\sigma}^2 | \mathbf{X}, \mathbf{y})} \leq k$$
 Using question 2, show that this is equivalent to rejecting when
-$$\dfrac{SSE_{reduced}}{SSE_{full}} = \dfrac{\sum \limits_{i=1}^n (Y_i - \mathbf{x}_{i, (1)}^T \widehat{\boldsymbol{\beta}}^0)^2}{\sum \limits_{i=1}^n (Y_i - \mathbf{x}_i^T \widehat{\boldsymbol{\beta}})^2} > k'$$
+$$\dfrac{SSE_{reduced}}{SSE_{full}} = \dfrac{\sum \limits_{i=1}^n (Y_i - \mathbf{x}_{i, (1)}^T \widehat{\boldsymbol{\beta}}^0)^2}{\sum \limits_{i=1}^n (Y_i - \mathbf{x}_i^T \widehat{\boldsymbol{\beta}})^2} \geq k'$$
 for some $k'$.
 
 \vspace{6cm}
 
 4. From question 3, conclude that the LRT is equivalent to rejecting when
-$$\dfrac{(SSE_{reduced} - SSE_{full})/q_2}{SSE_{full}/(n-(k+1))} > c$$
+$$\dfrac{(SSE_{reduced} - SSE_{full})/q_2}{SSE_{full}/(n-p)} \geq c$$
 for some $c$.
 
 \newpage
 
-5. It turns out that, under $H_0$, $\dfrac{(SSE_{reduced} - SSE_{full})/q_2}{SSE_{full}/(n-(k+1))} \sim F_{q_2, n-(k+1)}$. Use this fact to choose a threshold $c$ such that the test from question 4 has size $\alpha$.
+5. It turns out that, under $H_0$, $\dfrac{(SSE_{reduced} - SSE_{full})/q_2}{SSE_{full}/(n-p)} \sim F_{q_2, n-p}$. Use this fact to choose a threshold $c$ such that the test from question 4 has size $\alpha$.
 
 
 
