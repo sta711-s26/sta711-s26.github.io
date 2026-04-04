@@ -19,4 +19,4 @@ April 1
   
 April 3
 : Likelihood ratio tests
-  : [Slides](https://sta711-s26.github.io/slides/lecture_28.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_28.pdf)
+  : [Slides](https://sta711-s26.github.io/slides/lecture_28.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_28.pdf), [activity solutions](https://sta711-s26.github.io/class_activities/ca_28_solutions.pdf)
