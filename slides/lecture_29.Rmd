@@ -6,7 +6,7 @@ output: beamer_presentation
 
 ## Last time: Likelihood ratio test
 
-Suppose we have a sample $\mathbf{X} = (X_1,...,X_n)$ from some distribution with probability function $f(x|\boldsymbol{\theta})$, with parameter $\boldsymbol{\theta} \in \mathbb{R}^d$. We wish to test
+Suppose we have a sample $\mathbf{X} = (X_1,...,X_n)$ from some distribution with probability function $f(x|\boldsymbol{\theta})$, with parameter $\boldsymbol{\theta} \in \Theta \subseteq \mathbb{R}^d$. We wish to test
 $$H_0: \boldsymbol{\theta} \in \Theta_0 \hspace{1cm} H_A: \boldsymbol{\theta} \in \Theta_1$$
 The **likelihood ratio test** (LRT) of these hypotheses rejects $H_0$ when:
 $$\Lambda = \dfrac{\sup \limits_{\boldsymbol{\theta} \in \Theta_0} L(\boldsymbol{\theta} | \boldsymbol{X})}{\sup \limits_{\boldsymbol{\theta} \in \Theta} L(\boldsymbol{\theta} | \boldsymbol{X})} \leq k$$

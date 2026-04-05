@@ -1,0 +1,65 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+# Logistic regression: Hypothesis testing with the Wald and Likelihood ratio tests
+
+For this class activity, we have data from the 2015 Gorkha earthquake, with information on 211774 buildings. 
+
+```{r, message=F, warning=F}
+earthquake <- readr::read_csv("https://sta711-s26.github.io/class_activities/earthquake.csv")
+```
+Variables include:
+
+* `Damage`: whether the building sustained any damage (1) or not (0)
+* `Age`: the age of the building (in years)
+* `Surface`: a categorical variable recording the surface condition of the land around the building. There are three different levels: `n`, `o`, and `t`
+
+We are interested in testing whether the relationship between age and the probability of building damage depends on surface condition. To do so, we will fit a logistic regression model including both main effects and their interaction:
+
+```{r}
+m_full <- glm(Damage ~ Age*Surface, family = binomial, data = earthquake)
+summary(m_full)$coefficients
+```
+
+To test their hypothesis, the researchers want to test
+$$H_0: \begin{pmatrix} \beta_4 \\ \beta_5 \end{pmatrix} = \boldsymbol{0} \hspace{1cm} H_A: \begin{pmatrix} \beta_4 \\ \beta_5 \end{pmatrix} \neq \boldsymbol{0}$$
+
+### Likelihood ratio test
+
+Researchers wish to know whether the relationship between age and the probability of building damage depends on surface condition. We will conduct a likelihood ratio test to explore this question.
+
+To test $H_0: \boldsymbol{\theta} \in \Theta_0$ vs. $H_A: \boldsymbol{\theta} \in \Theta_1$, our test statistic is 
+$$-2 \log \Lambda = 2 \log L(\widehat{\boldsymbol{\theta}}) - 2 \log L(\widehat{\boldsymbol{\theta}}_0),$$
+where $\widehat{\boldsymbol{\theta}}$ is the unrestricted MLE and $\widehat{\boldsymbol{\theta}}_0$ is the *restricted* MLE under the null hypothesis. Using the asymptotic $\chi^2$ distribution of $-2 \log \Lambda$, the p-value is
+$$p = P(\chi^2_{d - d_0} > -2 \log \Lambda)$$
+where $d - d_0$ is the difference in the number of free parameters specified by $\Theta$ and $\Theta_0$.
+
+In our regression setting, $2 \log L(\widehat{\boldsymbol{\theta}})$ is twice the log likelihood of the *full* model (`m_full`). For a logistic regression model, $-2 \log L$ is called the *deviance*, and we can access it in `R` with:
+
+```{r}
+m_full$deviance
+```
+
+Thus,
+
+$$-2 \log \Lambda = 2 \log L(\widehat{\boldsymbol{\theta}}) - 2 \log L(\widehat{\boldsymbol{\theta}}_0) = \text{deviance}_{reduced} - \text{deviance}_{full},$$
+so it remains to find the deviance of the reduced model to calculate the test statistic.
+
+1. **Question 1:** Fit a reduced model in `R` that will allow the researchers to test the null hypothesis that the relationship between age and the probability of building damage does *not* depend on surface condition. That is, your reduced model should be a subset of the full model we fit above, where you remove certain terms from the model.
+
+2. **Question 2:** Compute the deviance of the reduced model, and use it to compute the LRT statistic $-2 \log \Lambda$.
+
+3. **Question 3:** Compute a p-value for your test statistic from question 2, using the appropriate $\chi^2$ distribution.
+
+### Wald test
+
+The hypotheses tested above could also be tested with a Wald test, which we have discussed previously for logistic regression. The resulting test statistic and p-value will be slightly different, but the conclusion should be similar.
+
+4. **Question 4:** Conduct the hypothesis test using a Wald test (compute the test statistic and p-value).
+
+
+
+
