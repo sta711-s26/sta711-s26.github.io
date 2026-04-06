@@ -46,35 +46,34 @@ $$H_0: \boldsymbol{\theta} \in \Theta_0 \hspace{1cm} H_A: \boldsymbol{\theta} \i
 * Chi-squared tests (independence, etc.)
 * ANOVA, linear regression $F$ tests
 * Comparing nested models for GLMs
-* In practice usually rely on asymptotic result $-2 \log \Lambda \approx \chi^2_1$ under $H_0$
+* In practice usually rely on asymptotic result $-2 \log \Lambda \approx \chi^2_{d - d_0}$ under $H_0$
 
 ## Comparing Wald and LRT statistics
 
-Suppose we observe data $X_1,...,X_n$ from some distribution with parameter $\theta \in \mathbb{R}^q$, and we wish to test
+Suppose we observe data $X_1,...,X_n$ from some distribution with parameter $\boldsymbol{\theta} \in \mathbb{R}^q$, and we wish to test
 
-$$H_0: \theta = \theta_0 \hspace{1cm} H_A: \theta \neq \theta_0$$
+$$H_0: \boldsymbol{\theta} = \boldsymbol{\theta}_0 \hspace{1cm} H_A: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$$
 
 Consider three possible scenarios:
 
-* $H_0$ is true: $\theta =$
-* $H_A$ is true, **fixed** alternative: $\theta =$
-* $H_A$ is true, **local** alternative: $\theta =$
+* $H_0$ is true: $\boldsymbol{\theta} =$
+* $H_A$ is true, **fixed** alternative: $\boldsymbol{\theta} =$
+* $H_A$ is true, **local** alternative: $\boldsymbol{\theta} =$
 
 \vspace{3cm}
 
 ## Comparing Wald and LRT statistics
 
-Under $H_0$, or for a local alternative $\theta = \theta_0 + \frac{d}{\sqrt{n}}$, Wald and LRT are asymptotically equivalent as $n \to \infty$ (under certain regularity conditions).
+Under $H_0$, or for a local alternative $\boldsymbol{\theta} = \boldsymbol{\theta}_0 + \frac{\boldsymbol{h}}{\sqrt{n}}$, Wald and LRT are asymptotically equivalent as $n \to \infty$ (under certain regularity conditions).
 
 \vspace{6cm}
 
 ## Power under a local alternative
 
-Recall asymptotic normality of the MLE: $\widehat{\theta} \approx N(\theta, \mathcal{I}^{-1}(\theta))$
+Recall asymptotic normality of the MLE: $\widehat{\boldsymbol{\theta}} \approx N(\boldsymbol{\theta}, \mathcal{I}_n^{-1}(\boldsymbol{\theta}))$
 
-Suppose we test $H_0: \theta = \theta_0$ vs. $H_A: \theta \neq \theta_0$.
-
-$$W = \hspace{3cm}$$
+Suppose we test $H_0: \boldsymbol{\theta} = \boldsymbol{\theta}_0$ vs. $H_A: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$.
+$$W = \hspace{5cm}$$
 Under $H_0$, $W \approx \chi^2_q$
 
 \vspace{4cm}
