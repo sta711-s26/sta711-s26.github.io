@@ -68,7 +68,7 @@ Under $H_0$, or for a local alternative $\boldsymbol{\theta} = \boldsymbol{\thet
 
 \vspace{6cm}
 
-## Power under a local alternative
+## Power under the alternative
 
 Recall asymptotic normality of the MLE: $\widehat{\boldsymbol{\theta}} \approx N(\boldsymbol{\theta}, \mathcal{I}_n^{-1}(\boldsymbol{\theta}))$
 
@@ -77,6 +77,25 @@ $$W = \hspace{5cm}$$
 Under $H_0$, $W \approx \chi^2_q$
 
 \vspace{4cm}
+
+## $\chi^2_q(\lambda)$
+
+```{r, echo=F, message=F, warning=F, fig.width=6, fig.height=3}
+library(tidyverse)
+x <- seq(0, 20, 0.1)
+data.frame(x = rep(x, 3),
+           chisq = c(dchisq(x, df = 4),
+                     dchisq(x, df = 4, ncp = 2),
+                     dchisq(x, df = 4, ncp=6)),
+           ncp = rep(c("0", "2", "6"), each = length(x))) |>
+  ggplot(aes(x = x, y = chisq, color = ncp, lty=ncp)) +
+  geom_line() +
+  labs(x = "", y = "density") +
+  theme_classic()
+```
+
+
+
 
 ## Comparing other hypothesis tests
 
