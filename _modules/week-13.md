@@ -4,7 +4,7 @@ title: Hypothesis testing, confidence intervals
 
 April 6
 : Likelihood ratio tests
-  : [Slides](https://sta711-s26.github.io/slides/lecture_29.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_29.html)
+  : [Slides](https://sta711-s26.github.io/slides/lecture_29.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_29.html), [activity solutions](https://sta711-s26.github.io/class_activities/ca_29_solutions.html)
 
 April 8
 : Comparing tests
