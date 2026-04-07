@@ -8,6 +8,7 @@ April 6
 
 April 8
 : Comparing tests
+  : [Slides](https://sta711-s26.github.io/slides/lecture_30.pdf)
   
 April 10
 : Confidence intervals
