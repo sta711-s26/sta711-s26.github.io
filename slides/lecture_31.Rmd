@@ -1,0 +1,110 @@
+---
+title: "Comparing hypothesis tests, confidence intervals"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Last time: Comparing hypothesis tests
+
+Suppose we have $X_1,...,X_n$ iid from a symmetric distribution with mean and median $\theta$. We wish to test
+$$H_0: \theta = 0 \hspace{1cm} H_A: \theta > 0$$
+Two asymptotic results:
+$$\sqrt{n}(\overline{X}_n - \theta) \overset{d}{\to} N(0, \sigma^2) \hspace{1cm} \sqrt{n}(M_n - \theta) \overset{d}{\to} N\left(0, \frac{1}{4 f^2(\theta)}\right)$$
+
+\vspace{6cm}
+
+## Comparing hypothesis tests
+
+$$\sqrt{n}(\overline{X}_n - \theta) \overset{d}{\to} N(0, \sigma^2) \hspace{1cm} \sqrt{n}(M_n - \theta) \overset{d}{\to} N\left(0, \frac{1}{4 f^2(\theta)}\right)$$
+
+```{r, echo=F, message=F, warning=F, fig.width=7, fig.height=3.5}
+library(tidyverse)
+library(patchwork)
+
+alpha <- 0.05
+za <- qnorm(alpha, lower.tail=F)
+sigma <- 2
+n <- 20
+power_mean <- function(theta){
+  1 - pnorm(za - sqrt(n)*theta/sigma)
+}
+
+power_median <- function(theta){
+  1 - pnorm(za - 2*sqrt(n)*theta*dnorm(0, sd = sigma))
+}
+
+theta_vals <- seq(0, 3, 0.1)
+p1 <- data.frame(theta = c(theta_vals, theta_vals),
+           power = c(power_mean(theta_vals), power_median(theta_vals)),
+           type = rep(c("mean", "median"), each=length(theta_vals))) |>
+  ggplot(aes(x = theta, y = power, color = type, lty=type)) +
+  geom_line() +
+  theme_bw() +
+  labs(title = "Normal distribution")
+
+
+
+
+alpha <- 0.05
+za <- qnorm(alpha, lower.tail=F)
+b <- 2
+n <- 20
+power_mean <- function(theta){
+  1 - pnorm(za - sqrt(n)*theta/sqrt(2*b^2))
+}
+
+power_median <- function(theta){
+  1 - pnorm(za - 2*sqrt(n)*theta*VGAM::dlaplace(0, scale=b))
+}
+
+theta_vals <- seq(0, 3, 0.1)
+p2 <- data.frame(theta = c(theta_vals, theta_vals),
+           power = c(power_mean(theta_vals), power_median(theta_vals)),
+           type = rep(c("mean", "median"), each=length(theta_vals))) |>
+  ggplot(aes(x = theta, y = power, color = type, lty=type)) +
+  geom_line() +
+  theme_bw() +
+  labs(title = "Laplace distribution")
+
+p1 + p2 + plot_layout(guides = 'collect') & theme(legend.position = 'bottom')
+```
+
+\vspace{3cm}
+
+## Local asymptotic power
+
+$$H_0: \theta = 0 \hspace{1cm} H_A: \theta > 0$$
+
+Using the mean: $\beta_{mean}(\theta) \approx \Phi\left(  \dfrac{\theta\sqrt{n}}{\sigma} - z_\alpha \right)$
+
+Using the median: $\beta_{med}(\theta) \approx \Phi \left(2  \theta f_\theta(\theta) \sqrt{n} - z_\alpha \right)$
+
+\vspace{5cm}
+
+## Confidence interval
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. I wish to create a *confidence interval* for the unknown mean $\mu$.
+
+\vspace{6cm}
+
+## Deriving the coverage probability
+
+$$(1 - \alpha) \text{ Wald interval}: \widehat{\theta} \pm z_{\alpha/2} SE(\widehat{\theta})$$
+
+\vspace{6cm}
+
+## Formal definition
+
+## Inverting a test
+
+**Theorem:** Let $\theta \in \Theta$ be a parameter of interest. For each value of $\theta_0 \in \Theta$, consider testing $H_0: \theta = \theta_0$ vs. $H_A: \theta \neq \theta_0$, and let $\mathcal{R}(\theta_0)$ be the rejection region for a level $\alpha$ test. Let $C(X_1,...,X_n) = \{\theta_0 \in \Theta: (X_1,...,X_n) \not \in \mathcal{R}(\theta_0) \}$. Then $C(X_1,...,X_n)$ is a $1 - \alpha$ confidence set for $\theta$.
+
+\vspace{4cm}
+
+## Example
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} Uniform[0, \theta]$. Let's invert the LRT to find a confidence interval for $\theta$.
+
+\vspace{6cm}
+
+

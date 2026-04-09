@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -96,13 +131,220 @@ window.Quarto = {
 <p><strong>Due:</strong> Friday, April 17, 11:59pm on Canvas</p>
 <p><strong>Instructions:</strong> For mathematical work, you may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.</p>
 <p>See the course website for a <a href="https://sta711-s26.github.io/homework/hw_template.tex">homework template</a> file and <a href="https://sta711-s26.github.io/homework/latex_instructions/">instructions</a> on getting started with LaTeX and Overleaf.</p>
-<section id="sign-test" class="level2">
-<h2 class="anchored" data-anchor-id="sign-test">Sign test</h2>
-<p>Suppose we have iid data <span class="math inline">\(X_1,...,X_n\)</span> from some symmetric distribution <span class="math inline">\(f(x|\theta)\)</span> with mean and median <span class="math inline">\(\theta\)</span>, and finite variance <span class="math inline">\(\sigma^2\)</span>. We wish to test the hypotheses <span class="math display">\[H_0: \theta = 0 \hspace{1cm} H_A: \theta &gt; 0\]</span></p>
-<p>We know that the <strong>Wald test</strong> rejects when <span class="math inline">\(\dfrac{\overline{X}_n - 0}{s/\sqrt{n}} &gt; z_{\alpha} = \Phi^{-1}(1 - \alpha)\)</span>.</p>
-<p>The Wald test is testing a hypothesis about the <em>mean</em> of the distribution. What if we instead wanted to test a hypothesis about the <em>median</em>? For a symmetric distribution, the mean and median will be the same, so we are doing inference on the same parameter – but as we know from previous homework, sometimes it is more efficient to estimate the median than the mean.</p>
-<p>Let <span class="math inline">\(T(\boldsymbol{X}) = \frac{1}{n} \sum \limits_{i=1}^n \mathbb{I}\{X_i &gt; 0\}\)</span>. The <strong>sign test</strong> of the hypotheses <span class="math inline">\(H_0: \theta = 0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \theta &gt; 0\)</span> rejects when <span class="math inline">\(T(\boldsymbol{X}) &gt; t_0\)</span>, for some cutoff <span class="math inline">\(t_0\)</span>.</p>
-<p>The purpose of this section of the assignment is to compare the sign test and the Wald test.</p>
+<section id="likelihood-ratio-test" class="level2">
+<h2 class="anchored" data-anchor-id="likelihood-ratio-test">Likelihood ratio test</h2>
+<p>The purpose of these problems is to practice with likelihood ratio tests.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Suppose we have two independent samples, <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} Exponential(\mu_1)\)</span>, and <span class="math inline">\(Y_1,...,Y_m \overset{iid}{\sim} Exponential(\mu_2)\)</span>. We wish to test the hypotheses <span class="math display">\[H_0: \mu_1 = \mu_2 \hspace{1cm} H_A: \mu_1 \neq \mu_2\]</span>
+<ol type="a">
+<li>Find the (unrestricted) maximum likelihood estimators <span class="math inline">\(\widehat{\mu}_1\)</span> and <span class="math inline">\(\widehat{\mu}_2\)</span>.</li>
+<li>Under the null hypothesis, <span class="math inline">\(\mu_1 = \mu_2\)</span>. Let <span class="math inline">\(\mu = \mu_1 = \mu_2\)</span> denote the common parameter under <span class="math inline">\(H_0\)</span>, and find the (restricted) MLE for <span class="math inline">\(\mu\)</span>.</li>
+<li>Show that the likelihood ratio test of the hypotheses can be based on the statistic <span class="math display">\[T = \dfrac{\sum \limits_{i=1}^n X_i}{\sum \limits_{i=1}^n X_i + \sum \limits_{j=1}^m Y_j}\]</span></li>
+</ol></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="2" type="1">
+<li>Suppose that <span class="math inline">\(Y_1,...,Y_n\)</span> are independent with pdfs <span class="math display">\[f(y_i | \lambda_i) = \lambda_i e^{-\lambda_i y_i}\]</span> That is, the parameter <span class="math inline">\(\lambda_i\)</span> is allowed to be different for each observation <span class="math inline">\(i\)</span>. We are interested in testing the hypotheses <span class="math display">\[H_0: \lambda_1 = \lambda_2 = \cdots = \lambda_n \hspace{1cm} H_A: \text{not all } \lambda_i \text{ are equal}\]</span>
+<ol type="a">
+<li>If <span class="math inline">\(H_0\)</span> is true, let <span class="math inline">\(\lambda = \lambda_1 = \cdots = \lambda_n\)</span> be the common parameter. Find the (restricted) MLE for the common parameter <span class="math inline">\(\lambda\)</span>.</li>
+<li>If <span class="math inline">\(H_A\)</span> is true, we need to estimate a different parameter <span class="math inline">\(\lambda_i\)</span> for each observation. Find the MLE for each <span class="math inline">\(\lambda_i\)</span>.</li>
+<li>Show that the likelihood ratio statistic for the hypotheses above is given by <span class="math display">\[\Lambda = \dfrac{\prod \limits_{i=1}^n Y_i}{(\overline{Y}_n)^n}\]</span></li>
+<li>Use part (c) to conclude the <em>arithmetic mean - geometric mean</em> inequality: <span class="math inline">\(\frac{1}{n} \sum_i x_i \geq \left( \prod_i x_i \right)^{1/n}\)</span> for any non-negative real numbers <span class="math inline">\(x_1,...,x_n\)</span>.</li>
+</ol></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="t-tests" class="level2">
+<h2 class="anchored" data-anchor-id="t-tests">t-tests</h2>
+<p>Here I want to revisit the topic of t-tests from the previous homework.</p>
+<section id="why-a-t-test" class="level3">
+<h3 class="anchored" data-anchor-id="why-a-t-test">Why a t-test?</h3>
+<p>The use of the <span class="math inline">\(t\)</span> distribution for testing hypotheses about means can be traced back to statistician William Sealy Gosset’s work while a researcher at the Guinness Brewery in Dublin. Unlike some other applications of statistics at the time (e.g.&nbsp;Pearson’s biometrics work, which could involve observations on hundreds of individuals), Gosset was particularly interested in inference with small sample sizes, for which the asymptotic results that we use so much don’t apply!</p>
+<p>To make this concrete, suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>. We wish to test the hypotheses <span class="math inline">\(H_0: \mu = \mu_0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \mu \neq \mu_0\)</span>. Consider the statistic</p>
+<p><span class="math display">\[T = \dfrac{\overline{X} - \mu_0}{s/\sqrt{n}}\]</span></p>
+<p>If <span class="math inline">\(n\)</span> is sufficiently large, the <span class="math inline">\(T \approx N(0, 1)\)</span>, because <span class="math inline">\(s \approx \sigma\)</span>. However, if <span class="math inline">\(n\)</span> is small, that approximation will be poor.</p>
+<p>However, if the original data are truly normal, then <span class="math inline">\(T \sim t_{n-1}\)</span>. This distribution is <em>exact</em>, regardless of sample size, under the assumption of normality.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="3" type="1">
+<li>Consider <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>. We wish to test the hypotheses <span class="math inline">\(H_0: \mu = 0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \mu \neq 0\)</span>. Conduct a simulation to show that, if <span class="math inline">\(n\)</span> is small, then the normal approximation <span class="math inline">\(T \approx N(0, 1)\)</span> leads to inflated type I errors, but using the <span class="math inline">\(t\)</span> distribution <span class="math inline">\(T \sim t_{n-1}\)</span> correctly controls the type I error.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="paired-t-test" class="level3">
+<h3 class="anchored" data-anchor-id="paired-t-test">Paired t-test</h3>
+<p>Many studies involve the analysis of <em>paired</em> data, in which two observations are taken on the same individual. For example, researchers studying whether a teaching intervention improves student learning may assess each student’s knowledge before and after the intervention, and examine how much the scores changed.</p>
+<p>Suppose that we observe pairs <span class="math inline">\((Y_{11}, Y_{12}), (Y_{21}, Y_{22}),...,(Y_{n1}, Y_{n2})\)</span>. The pairs are independent, that is <span class="math inline">\((Y_{i1}, Y_{i2})\)</span> is independent from <span class="math inline">\((Y_{j1}, Y_{j2})\)</span> for <span class="math inline">\(i \neq j\)</span>. Within each pair, we assume that <span class="math display">\[Y_{i2} = Y_{i1} + \varepsilon_i\]</span> where <span class="math inline">\(\varepsilon_i \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>, and both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> are unknown. We wish to test <span class="math inline">\(H_0: \mu = 0\)</span> vs.&nbsp;<span class="math inline">\(H_A: \mu \neq 0\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="4" type="1">
+<li>Construct a test statistic for these hypotheses which follows a <span class="math inline">\(t_{n-1}\)</span> distribution under <span class="math inline">\(H_0\)</span>. (<em>Note:</em> You do not need to re-derive the <span class="math inline">\(t\)</span> distribution with Cochran’s theorem here. It is enough to apply the results from HW 8 to the right quantity).</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="chi-squared-goodness-of-fit-test" class="level2">
+<h2 class="anchored" data-anchor-id="chi-squared-goodness-of-fit-test">Chi-squared goodness-of-fit test</h2>
+<p>A random variable <span class="math inline">\(X\)</span> follows a distribution with <span class="math inline">\(k\)</span> categories if <span class="math inline">\(X \in \{1,...,k\}\)</span> and the probability that <span class="math inline">\(X\)</span> is in category <span class="math inline">\(j\)</span> is <span class="math inline">\(P(X = j) = p_j\)</span>, with each <span class="math inline">\(p_j \in [0,1]\)</span> and <span class="math inline">\(\sum \limits_{j=1}^k p_j = 1\)</span>. We write <span class="math inline">\(X \sim Categorical(p_1,...,p_k)\)</span>. (This is just a generalization of the Bernoulli to more than two categories).</p>
+<p>Suppose that we observe <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} Categorical(p_1,...,p_k)\)</span>. Let <span class="math inline">\(n_j = \sum \limits_{i=1}^n  \mathbb{I}\{X_i = j\}\)</span> (the number of observations in category <span class="math inline">\(j\)</span>), and note that <span class="math inline">\(\sum_j n_j = n\)</span>. We are interested in testing the hypotheses <span class="math display">\[H_0: (p_1,...,p_k) = (p_{01},...,p_{0k}) \hspace{1cm} H_A: (p_1,...,p_k) \neq (p_{01},...,p_{0k})\]</span> (in other words, are the true probabilities for each category equal to hypothesized probabilities).</p>
+<p>The usual statistic used to test these hypotheses is</p>
+<p><span class="math display">\[T = \sum \limits_{j=1}^k \dfrac{(n_j - e_j)^2}{e_j}\]</span></p>
+<p>where <span class="math inline">\(n_j\)</span> is the <em>observed</em> count in category <span class="math inline">\(j\)</span>, and <span class="math inline">\(e_j\)</span> is the <em>expected</em> count in category <span class="math inline">\(j\)</span> under <span class="math inline">\(H_0\)</span>. Under <span class="math inline">\(H_0\)</span>, <span class="math inline">\(T \approx \chi^2_{k-1}\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="5" type="1">
+<li>In this question, we will derive the chi-squared goodness-of-fitness test as a special case of the likelihood ratio test.
+<ol type="a">
+<li>Find the maximum likelihood estimators <span class="math inline">\(\widehat{p}_j\)</span> of each probability <span class="math inline">\(p_j\)</span>. (<em>Hint:</em> You will need to add a constraint that <span class="math inline">\(\sum_j \widehat{p}_j = 1\)</span>. Lagrange multipliers may be helpful.)</li>
+<li>Let <span class="math inline">\(\Lambda\)</span> denote the likelihood ratio test statistic for the hypotheses above. Show that <span class="math inline">\(-2 \log(\Lambda)\)</span> can be written in the form <span class="math display">\[-2 \log(\Lambda) = 2 \sum \limits_{j=1}^k n_j \log \left( \frac{n_j}{e_j} \right),\]</span> where you will need to define <span class="math inline">\(e_j\)</span>.</li>
+<li>Show that if each <span class="math inline">\(|n_j - e_j|\)</span> is small, then <span class="math display">\[-2 \log(\Lambda) \approx \sum \limits_{j=1}^k \frac{(n_j - e_j)^2}{e_j}.\]</span> (<em>Hint:</em> Use a second-order Taylor approximation…)</li>
+<li>Using results from class, argue that <span class="math inline">\(-2 \log \Lambda \approx \chi^2_{k-1}\)</span> under <span class="math inline">\(H_0\)</span>.</li>
+</ol></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="inference-with-a-logistic-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="inference-with-a-logistic-regression-model">Inference with a logistic regression model</h2>
+<p>Hypothesis testing often involves testing hypotheses like <span class="math inline">\(H_0: \theta = 0\)</span> for some parameter of interest <span class="math inline">\(\theta\)</span> (for example, we regularly test whether the coefficients in a regression model are 0). However, there are several critiques of such tests, including that:</p>
+<ul>
+<li>rejecting the null hypothesis <span class="math inline">\(H_0: \theta = 0\)</span> does not actually tell us what the value of <span class="math inline">\(\theta\)</span> is, only that we think it <em>isn’t</em> 0</li>
+<li>if <span class="math inline">\(\theta \neq 0\)</span>, that still doesn’t make <span class="math inline">\(\theta\)</span> meaningful. For example, it could be that, actually, <span class="math inline">\(\theta = 0.000000001\)</span>, which is non-zero (but perhaps not meaningfully different from zero)</li>
+</ul>
+<p>These critiques are valid, but they do not mean that statistical inference is useless. To address the first criticism, we can create a confidence interval that gives us a reasonable range of values for the unknown quantity. To address the second question, we can test null hypotheses such as <span class="math inline">\(H_0: \theta \leq \delta\)</span> or <span class="math inline">\(H_0: |\theta| \leq \delta\)</span> for some value <span class="math inline">\(\delta\)</span>.</p>
+<p>In this portion of the assignment, you will construct a confidence interval for a probability of interest using a logistic regression model, and then test a hypothesis about the effect of one of the variables in that model.</p>
+<section id="grad-admissions-data" class="level3">
+<h3 class="anchored" data-anchor-id="grad-admissions-data">Grad admissions data</h3>
+<p>We have data on 400 students applying to graduate programs from different universities. For each student, we have the following variables:</p>
+<ul>
+<li><code>admit</code>: whether the student was admitted (<code>admit = 1</code>) or not (<code>admit = 0</code>) to a graduate program</li>
+<li><code>gre</code>: the student’s GRE score (out of 800)</li>
+<li><code>gpa</code>: the student’s undergraduate GPA (out of 4.0)</li>
+<li><code>rank</code>: a ranking of the student’s undergraduate institution, on a scale of 1 (= most prestigious) to 4 (= least prestigious)</li>
+</ul>
+<p>The data can be downloaded in R with the following code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>grad_app <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://stats.idre.ucla.edu/stat/data/binary.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We are interested in modelling the probability of acceptance to graduate school, given GRE score, undergraduate GPA, and school rank.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="6" type="1">
+<li>Your friend attends a school of Rank 3, and has an undergraduate GPA of 3.95. They took the GRE over the summer and received an average score (590), but they are wondering whether they should retake the GRE before applying to graduate school.
+<ol type="a">
+<li>Fit a logistic regression model with the <code>grad_app</code> data, using <code>admit</code> as the response and the other variables as explanatory variables. Make sure to treat <code>rank</code> as categorical in your model.</li>
+<li>Given your friend’s GPA, school, and current GRE score, what is your estimated probability that they will be accepted to graduate school?</li>
+<li>Construct a 98% confidence interval for the probability you estimated in part (b). (<em>Hint</em>: begin by constructing a confidence interval for the log-odds of acceptance, using approximate normality of the estimated coefficients and the fact that the log odds is a linear combination of the entries of <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>; then, transform the endpoints to get a confidence interval for the probability).</li>
+<li>Taking the GRE again is expensive, and studying for the GRE enough to substantially increase the score is very time consuming. So, your friend is reluctant to retake the exam unless they believe that their odds of acceptance will increase by at least 25%. They think they can improve their GRE score by one standard deviation (115.5 points) if they study hard. To help your friend make a decision, test the hypotheses <span class="math display">\[H_0: \beta_{\text{GRE}} \leq \delta \hspace{1cm} H_A: \beta_{\text{GRE}} &gt; \delta\]</span> where you use <span class="math inline">\(\delta\)</span> to correspond to the desired change in odds for a one-standard deviation increase in GRE score. Based on the results of your hypothesis test, do you think your friend should re-take the GRE?</li>
+</ol></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="conceptual-questions" class="level2">
+<h2 class="anchored" data-anchor-id="conceptual-questions">Conceptual questions</h2>
+<section id="statistically-significant" class="level3">
+<h3 class="anchored" data-anchor-id="statistically-significant">Statistically “significant”?</h3>
+<p>Traditionally, we use the phrase “statistically significant” to describe a result in which we reject the null hypothesis. E.g., a scientist might say they found a “statistically significant difference” in the effects of two different drugs.</p>
+<p>However, this phrase has been criticized because “significant” doesn’t necessarily mean “important”; in earlier stats courses, for example, you probably discussed the difference between “statistical significance” and “practical significance”.</p>
+<p>Because the word “significant” is so potentially misleading, Jeff Witmer (from Oberlin) and others advocate the use of “<em>statistically discernible</em>” rather than “statistically significant”. That is, an observed difference in means is “statistically discernible” if I reject the null hypothesis (but it may or may not be of any real importance!).</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="7" type="1">
+<li>By discussing the usual behavior of hypothesis tests and their power, explain why a difference that is unimportant in practice can still be statistically <em>discernible</em>, given enough data.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="common-questions-from-undergrads" class="level3">
+<h3 class="anchored" data-anchor-id="common-questions-from-undergrads">Common questions from undergrads</h3>
+<p>There are certain questions that I am commonly asked by undergraduate stats students about statistical inference, and I have included a few below. At this point in the course, you have the machinery to answer them!</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="8" type="1">
+<li>For each question, I’d like you to provide two answers: one written for me (so you can use all the theoretical results from class), and one written for an STA 111 student
+<ol type="a">
+<li>“I’m interested in testing a hypothesis about a population mean <span class="math inline">\(\mu\)</span>, using a z-test. The alternative is <span class="math inline">\(H_A: \mu &gt; 0\)</span>. But for the null, sometimes my professor writes <span class="math inline">\(H_0: \mu = 0\)</span> and sometimes they write <span class="math inline">\(H_0: \mu \leq 0\)</span>. Is there a difference?”</li>
+<li>“I have to do a hypothesis test for a population proportion <span class="math inline">\(p\)</span>. The hypotheses are <span class="math inline">\(H_0: p = p_0\)</span> vs.&nbsp;<span class="math inline">\(H_A: p \neq p_0\)</span>. My professor said we could use either <span class="math inline">\(Z = \dfrac{\widehat{p} - p_0}{\sqrt{\frac{p_0(1 - p_0)}{n}}}\)</span> or <span class="math inline">\(Z = \dfrac{\widehat{p} - p_0}{\sqrt{\frac{\widehat{p}(1 - \widehat{p})}{n}}}\)</span>. Why do both test statistics work?”</li>
+<li>“I have to do a hypothesis test for a population proportion <span class="math inline">\(p\)</span>. The hypotheses are <span class="math inline">\(H_0: p = p_0\)</span> vs.&nbsp;<span class="math inline">\(H_A: p \neq p_0\)</span>. My professor said we can do a z-test [using the test statistics in the previous question], but we <strong>don’t</strong> do a t-test. Why don’t I do a t-test for a population proportion?”</li>
+</ol></li>
+</ol>
+</div>
+</div>
+</section>
 </section>
 
 </main>

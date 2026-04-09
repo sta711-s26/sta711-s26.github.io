@@ -9,18 +9,180 @@ format: html
 
 See the course website for a [homework template](https://sta711-s26.github.io/homework/hw_template.tex) file and [instructions](https://sta711-s26.github.io/homework/latex_instructions/) on getting started with LaTeX and Overleaf.
 
+## Likelihood ratio test
 
-## Sign test
+The purpose of these problems is to practice with likelihood ratio tests. 
 
-Suppose we have iid data $X_1,...,X_n$ from some symmetric distribution $f(x|\theta)$ with mean and median $\theta$, and finite variance $\sigma^2$. We wish to test the hypotheses
-$$H_0: \theta = 0 \hspace{1cm} H_A: \theta > 0$$
+::: {.callout-note icon=false}
 
-We know that the **Wald test** rejects when $\dfrac{\overline{X}_n - 0}{s/\sqrt{n}} > z_{\alpha} = \Phi^{-1}(1 - \alpha)$.
+## Question 1
 
-The Wald test is testing a hypothesis about the *mean* of the distribution. What if we instead wanted to test a hypothesis about the *median*? For a symmetric distribution, the mean and median will be the same, so we are doing inference on the same parameter -- but as we know from previous homework, sometimes it is more efficient to estimate the median than the mean.
+1. Suppose we have two independent samples, $X_1,...,X_n \overset{iid}{\sim} Exponential(\mu_1)$, and $Y_1,...,Y_m \overset{iid}{\sim} Exponential(\mu_2)$. We wish to test the hypotheses
+$$H_0: \mu_1 = \mu_2 \hspace{1cm} H_A: \mu_1 \neq \mu_2$$
+    a. Find the (unrestricted) maximum likelihood estimators $\widehat{\mu}_1$ and $\widehat{\mu}_2$.
+    b. Under the null hypothesis, $\mu_1 = \mu_2$. Let $\mu = \mu_1 = \mu_2$ denote the common parameter under $H_0$, and find the (restricted) MLE for $\mu$.
+    c. Show that the likelihood ratio test of the hypotheses can be based on the statistic
+    $$T = \dfrac{\sum \limits_{i=1}^n X_i}{\sum \limits_{i=1}^n X_i + \sum \limits_{j=1}^m Y_j}$$
+:::
 
-Let $T(\boldsymbol{X}) = \frac{1}{n} \sum \limits_{i=1}^n \mathbb{I}\{X_i > 0\}$. The **sign test** of the hypotheses $H_0: \theta = 0$ vs. $H_A: \theta > 0$ rejects when $T(\boldsymbol{X}) > t_0$, for some cutoff $t_0$.
+::: {.callout-note icon=false}
 
-The purpose of this section of the assignment is to compare the sign test and the Wald test.
+## Question 2
+
+2. Suppose that $Y_1,...,Y_n$ are independent with pdfs
+$$f(y_i | \lambda_i) = \lambda_i e^{-\lambda_i y_i}$$
+That is, the parameter $\lambda_i$ is allowed to be different for each observation $i$. We are interested in testing the hypotheses
+$$H_0: \lambda_1 = \lambda_2 = \cdots = \lambda_n \hspace{1cm} H_A: \text{not all } \lambda_i \text{ are equal}$$
+    a. If $H_0$ is true, let $\lambda = \lambda_1 = \cdots = \lambda_n$ be the common parameter. Find the (restricted) MLE for the common parameter $\lambda$.
+    b. If $H_A$ is true, we need to estimate a different parameter $\lambda_i$ for each observation. Find the MLE for each $\lambda_i$.
+    c. Show that the likelihood ratio statistic for the hypotheses above is given by
+    $$\Lambda = \dfrac{\prod \limits_{i=1}^n Y_i}{(\overline{Y}_n)^n}$$
+    d. Use part (c) to conclude the *arithmetic mean - geometric mean* inequality: $\frac{1}{n} \sum_i x_i \geq \left( \prod_i x_i \right)^{1/n}$ for any non-negative real numbers $x_1,...,x_n$.
+
+:::
+
+
+## t-tests
+
+Here I want to revisit the topic of t-tests from the previous homework.
+
+### Why a t-test?
+
+The use of the $t$ distribution for testing hypotheses about means can be traced back to statistician William Sealy Gosset's work while a researcher at the Guinness Brewery in Dublin. Unlike some other applications of statistics at the time (e.g. Pearson's biometrics work, which could involve observations on hundreds of individuals), Gosset was particularly interested in inference with small sample sizes, for which the asymptotic results that we use so much don't apply!
+
+To make this concrete, suppose that $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. We wish to test the hypotheses $H_0: \mu = \mu_0$ vs. $H_A: \mu \neq \mu_0$. Consider the statistic
+
+$$T = \dfrac{\overline{X} - \mu_0}{s/\sqrt{n}}$$
+
+If $n$ is sufficiently large, the $T \approx N(0, 1)$, because $s \approx \sigma$. However, if $n$ is small, that approximation will be poor.
+
+However, if the original data are truly normal, then $T \sim t_{n-1}$. This distribution is *exact*, regardless of sample size, under the assumption of normality.
+
+::: {.callout-note icon=false}
+
+## Question 3
+
+3. Consider $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. We wish to test the hypotheses $H_0: \mu = 0$ vs. $H_A: \mu \neq 0$. Conduct a simulation to show that, if $n$ is small, then the normal approximation $T \approx N(0, 1)$ leads to inflated type I errors, but using the $t$ distribution $T \sim t_{n-1}$ correctly controls the type I error. 
+:::
+
+### Paired t-test
+
+Many studies involve the analysis of *paired* data, in which two observations are taken on the same individual. For example, researchers studying whether a teaching intervention improves student learning may assess each student's knowledge before and after the intervention, and examine how much the scores changed.
+
+Suppose that we observe pairs $(Y_{11}, Y_{12}), (Y_{21}, Y_{22}),...,(Y_{n1}, Y_{n2})$. The pairs are independent, that is $(Y_{i1}, Y_{i2})$ is independent from  $(Y_{j1}, Y_{j2})$ for $i \neq j$. Within each pair, we assume that
+$$Y_{i2} = Y_{i1} + \varepsilon_i$$
+where $\varepsilon_i \overset{iid}{\sim} N(\mu, \sigma^2)$, and both $\mu$ and $\sigma^2$ are unknown. We wish to test $H_0: \mu = 0$ vs. $H_A: \mu \neq 0$.
+
+::: {.callout-note icon=false}
+
+## Question 4
+
+4. Construct a test statistic for these hypotheses which follows a $t_{n-1}$ distribution under $H_0$. (*Note:* You do not need to re-derive the $t$ distribution with Cochran's theorem here. It is enough to apply the results from HW 8 to the right quantity).
+:::
+
+## Chi-squared goodness-of-fit test
+
+A random variable $X$ follows a \textit{categorical} distribution with $k$ categories if $X \in \{1,...,k\}$ and the probability that $X$ is in category $j$ is $P(X = j) = p_j$, with each $p_j \in [0,1]$ and $\sum \limits_{j=1}^k p_j = 1$. We write $X \sim Categorical(p_1,...,p_k)$. (This is just a generalization of the Bernoulli to more than two categories).
+
+Suppose that we observe $X_1,...,X_n \overset{iid}{\sim} Categorical(p_1,...,p_k)$. Let $n_j = \sum \limits_{i=1}^n  \mathbb{I}\{X_i = j\}$ (the number of observations in category $j$), and note that $\sum_j n_j = n$. We are interested in testing the hypotheses
+$$H_0: (p_1,...,p_k) = (p_{01},...,p_{0k}) \hspace{1cm} H_A: (p_1,...,p_k) \neq (p_{01},...,p_{0k})$$
+(in other words, are the true probabilities for each category equal to hypothesized probabilities).
+
+The usual statistic used to test these hypotheses is
+
+$$T = \sum \limits_{j=1}^k \dfrac{(n_j - e_j)^2}{e_j}$$
+
+where $n_j$ is the *observed* count in category $j$, and $e_j$ is the *expected* count in category $j$ under $H_0$. Under $H_0$, $T \approx \chi^2_{k-1}$.
+
+::: {.callout-note icon=false}
+
+## Question 5
+
+5. In this question, we will derive the chi-squared goodness-of-fitness test as a special case of the likelihood ratio test.
+    a. Find the maximum likelihood estimators $\widehat{p}_j$ of each probability $p_j$. (*Hint:* You will need to add a constraint that $\sum_j \widehat{p}_j = 1$. Lagrange multipliers may be helpful.)
+    b. Let $\Lambda$ denote the likelihood ratio test statistic for the hypotheses above. Show that $-2 \log(\Lambda)$ can be written in the form
+$$-2 \log(\Lambda) = 2 \sum \limits_{j=1}^k n_j \log \left( \frac{n_j}{e_j} \right),$$
+where you will need to define $e_j$.
+    c. Show that if each $|n_j - e_j|$ is small, then 
+$$-2 \log(\Lambda) \approx \sum \limits_{j=1}^k \frac{(n_j - e_j)^2}{e_j}.$$
+(*Hint:* Use a second-order Taylor approximation...)
+    d. Using results from class, argue that $-2 \log \Lambda \approx \chi^2_{k-1}$ under $H_0$.
+:::
+
+## Inference with a logistic regression model
+
+Hypothesis testing often involves testing hypotheses like $H_0: \theta = 0$ for some parameter of interest $\theta$ (for example, we regularly test whether the coefficients in a regression model are 0). However, there are several critiques of such tests, including that:
+
+* rejecting the null hypothesis $H_0: \theta = 0$ does not actually tell us what the value of $\theta$ is, only that we think it *isn't* 0
+* if $\theta \neq 0$, that still doesn't make $\theta$ meaningful. For example, it could be that, actually, $\theta = 0.000000001$, which is non-zero (but perhaps not meaningfully different from zero)
+
+These critiques are valid, but they do not mean that statistical inference is useless. To address the first criticism, we can create a confidence interval that gives us a reasonable range of values for the unknown quantity. To address the second question, we can test null hypotheses such as $H_0: \theta \leq \delta$ or $H_0: |\theta| \leq \delta$ for some value $\delta$.
+
+In this portion of the assignment, you will construct a confidence interval for a probability of interest using a logistic regression model, and then test a hypothesis about the effect of one of the variables in that model.
+
+### Grad admissions data
+
+We have data on 400 students applying to graduate programs from different universities. For each student, we have the following variables:
+
+* `admit`: whether the student was admitted (`admit = 1`) or not (`admit = 0`) to a graduate program
+* `gre`: the student's GRE score (out of 800)
+* `gpa`: the student's undergraduate GPA (out of 4.0)
+* `rank`: a ranking of the student's undergraduate institution, on a scale of 1 (= most prestigious) to 4 (= least prestigious)
+
+The data can be downloaded in R with the following code:
+
+```{r, eval=F}
+grad_app <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+```
+
+We are interested in modelling the probability of acceptance to graduate school, given GRE score, undergraduate GPA, and school rank.
+
+::: {.callout-note icon=false}
+
+## Question 6
+
+6. Your friend attends a school of Rank 3, and has an undergraduate GPA of 3.95. They took the GRE over the summer and received an average score (590), but they are wondering whether they should retake the GRE before applying to graduate school.
+    a. Fit a logistic regression model with the `grad_app` data, using `admit` as the response and the other variables as explanatory variables. Make sure to treat `rank` as categorical in your model.
+    b. Given your friend’s GPA, school, and current GRE score, what is your estimated probability that they will be accepted to graduate school?
+    c. Construct a 98% confidence interval for the probability you estimated in part (b). (*Hint*: begin by constructing a confidence interval for the log-odds of acceptance, using approximate normality of the estimated coefficients and the fact that the log odds is a linear combination of the entries of $\widehat{\boldsymbol{\beta}}$; then, transform the endpoints to get a confidence interval for the probability).
+    d. Taking the GRE again is expensive, and studying for the GRE enough to substantially increase the score is very time consuming. So, your friend is reluctant to retake the exam unless they believe that their odds of acceptance will increase by at least 25%. They think they can improve their GRE score by one standard deviation (115.5 points) if they study hard. To help your friend make a decision, test the hypotheses
+    $$H_0: \beta_{\text{GRE}} \leq \delta \hspace{1cm} H_A: \beta_{\text{GRE}} > \delta$$
+    where you use $\delta$ to correspond to the desired change in odds for a one-standard deviation increase in GRE score. Based on the results of your hypothesis test, do you think your friend should re-take the GRE?
+:::
+
+## Conceptual questions
+
+### Statistically "significant"?
+
+Traditionally, we use the phrase "statistically significant" to describe a result in which we reject the null hypothesis. E.g., a scientist might say they found a "statistically significant difference" in the effects of two different drugs. 
+
+However, this phrase has been criticized because "significant" doesn't necessarily mean "important"; in earlier stats courses, for example, you probably discussed the difference between "statistical significance" and "practical significance". 
+
+Because the word "significant" is so potentially misleading, Jeff Witmer (from Oberlin) and others advocate the use of "*statistically discernible*" rather than "statistically significant". That is, an observed difference in means is "statistically discernible" if I reject the null hypothesis (but it may or may not be of any real importance!). 
+
+::: {.callout-note icon=false}
+
+## Question 7
+
+7. By discussing the usual behavior of hypothesis tests and their power, explain why a difference that is unimportant in practice can still be statistically *discernible*, given enough data.
+:::
+
+### Common questions from undergrads
+
+There are certain questions that I am commonly asked by undergraduate stats students about statistical inference, and I have included a few below. At this point in the course, you have the machinery to answer them!
+
+::: {.callout-note icon=false}
+
+## Question 8
+
+8. For each question, I'd like you to provide two answers: one written for me (so you can use all the theoretical results from class), and one written for an STA 111 student
+    a. "I'm interested in testing a hypothesis about a population mean $\mu$, using a z-test. The alternative is $H_A: \mu > 0$. But for the null, sometimes my professor writes $H_0: \mu = 0$ and sometimes they write $H_0: \mu \leq 0$. Is there a difference?"
+    b. "I have to do a hypothesis test for a population proportion $p$. The hypotheses are $H_0: p = p_0$ vs. $H_A: p \neq p_0$. My professor said we could use either $Z = \dfrac{\widehat{p} - p_0}{\sqrt{\frac{p_0(1 - p_0)}{n}}}$ or $Z = \dfrac{\widehat{p} - p_0}{\sqrt{\frac{\widehat{p}(1 - \widehat{p})}{n}}}$. Why do both test statistics work?"
+    c. "I have to do a hypothesis test for a population proportion $p$. The hypotheses are $H_0: p = p_0$ vs. $H_A: p \neq p_0$. My professor said we can do a z-test [using the test statistics in the previous question], but we **don't** do a t-test. Why don't I do a t-test for a population proportion?"
+:::
+
+
+
+
 
 

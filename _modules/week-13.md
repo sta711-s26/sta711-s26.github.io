@@ -11,4 +11,8 @@ April 8
   : [Slides](https://sta711-s26.github.io/slides/lecture_30.pdf)
   
 April 10
-: Confidence intervals
+: Comparing tests, beginning confidence intervals
+  : [Slides](https://sta711-s26.github.io/slides/lecture_31.pdf)
+  
+: **HW 9 released**{: .label .label-yellow }
+  : [HW 9](https://sta711-s26.github.io/homework/hw_09.html)
