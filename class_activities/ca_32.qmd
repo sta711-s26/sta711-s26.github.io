@@ -1,0 +1,24 @@
+---
+title: "Activity: Confidence intervals"
+format: pdf
+editor: source
+---
+
+\vspace{-3cm}
+
+## Inverting the test
+
+Suppose we have data $X_1,...,X_n \overset{iid}{\sim} Uniform[0, \theta]$. We want to invert the LRT to find a confidence interval for $\theta$.
+
+1. Find the LRT statistic for the test of $H_0: \theta = \theta_0$ vs. $H_A: \theta \neq \theta_0$.
+
+\vspace{8cm}
+
+2. From question 1, argue that the LRT *fails to reject* $H_0: \theta = \theta_0$ when $\theta_0 \in [X_{(n)}, cX_{(n)}]$ for some constant $c$. Therefore, a confidence interval for $\theta$ will be of the form $[X_{(n)}, cX_{(n)}]$.
+
+\newpage
+
+3. To obtain a $1 - \alpha$ confidence interval using question 2, we want to choose the value of $c$ such that 
+$$P_\theta(X_{(n)} \leq \theta \leq cX_{(n)}) = 1 - \alpha$$
+Show that $c = \alpha^{-1/n}$ works.
+

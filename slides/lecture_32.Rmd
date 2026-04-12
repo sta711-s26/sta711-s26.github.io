@@ -1,0 +1,26 @@
+---
+title: "Confidence intervals: inverting the test"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Last time: Formal definition
+
+Let $\boldsymbol{\theta} \in \Theta$ be a parameter of interest, and $X_1,...,X_n$ a sample from the population. Let $C(X_1,...,X_n) \subseteq \Theta$ be a set constructed from $X_1,...,X_n$. Then, $C(X_1,...,X_n)$ is a $1 - \alpha$ **confidence set** for $\boldsymbol{\theta}$ if
+$$\inf_{\boldsymbol{\theta} \in \Theta} P_{\boldsymbol{\theta}}(\boldsymbol{\theta} \in C(X_1,...,X_n)) = 1 - \alpha$$
+
+\vspace{3cm}
+
+## Inverting a test
+
+**Theorem:** Let $\theta \in \Theta$ be a parameter of interest. For each value of $\theta_0 \in \Theta$, consider testing $H_0: \theta = \theta_0$ vs. $H_A: \theta \neq \theta_0$, and let $\mathcal{R}(\theta_0)$ be the rejection region for a level $\alpha$ test. Let $C(X_1,...,X_n) = \{\theta_0 \in \Theta: (X_1,...,X_n) \not \in \mathcal{R}(\theta_0) \}$. Then $C(X_1,...,X_n)$ is a $1 - \alpha$ confidence set for $\theta$.
+
+\vspace{4cm}
+
+## Example
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} Uniform[0, \theta]$. Let's invert the LRT to find a confidence interval for $\theta$.
+
+\vspace{6cm}
+
+## Using confidence sets to test hypotheses
