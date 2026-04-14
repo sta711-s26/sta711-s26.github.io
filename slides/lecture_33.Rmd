@@ -1,0 +1,49 @@
+---
+title: "Confidence intervals, pivotal quantities"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Recap
+
+**Confidence set:** Let $\theta \in \Theta$ be a parameter of interest, and $X_1,...,X_n$ a sample. A set $C(X_1,...,X_n) \subseteq \Theta$ is a $1 - \alpha$ **confidence set** for $\theta$ if
+
+$$\inf \limits_{\theta \in \Theta} P_\theta(\theta \in C(X_1,...,X_n)) = 1 - \alpha$$
+
+\bigskip
+
+**Inverting a test:** Create a confidence set by inverting a test:
+
+$$C(X_1,...,X_n) = \{ \theta_0: (X_1,...,X_n) \not \in \mathcal{R}(\theta_0) \}$$
+
+## Using confidence sets to test hypotheses
+
+## t interval
+
+Suppose $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. We want to construct a $1 - \alpha$ CI for $\mu$.
+
+\vspace{6cm}
+
+## Pivotal quantities
+
+Let $X_1,...,X_n$ be a sample and $\theta$ be an unknown parameter. A function $Q(X_1,...,X_n, \theta)$ is called a **pivot** if the distribution of $Q(X_1,...,X_n, \theta)$ does not depend on $\theta$.
+
+\vspace{6cm}
+
+## Example
+
+Let $X_1,...,X_n \overset{iid}{\sim} Uniform(0, \theta)$. We want to construct a $1 - \alpha$ CI for $\theta$ using a pivotal quantity.
+
+\vspace{6cm}
+
+## Example
+
+Let $X_1,...,X_n \overset{iid}{\sim} Exponential(\theta)$, with pdf $f(x|\theta) = \theta e^{-\theta x}$. Find a pivotal quantity $Q(X_1,...,X_n, \theta)$ and construct a $1 - \alpha$ confidence interval for $\theta$ using that quantity.
+
+* Begin with the MLE, $\widehat{\theta} = \dfrac{n}{\sum_{i=1}^n X_i}$
+* If $X \sim Exponential(\theta)$, then $cX \sim Exponential\left(\dfrac{\theta}{c}\right)$
+
+\vspace{4cm}
+
+
+

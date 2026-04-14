@@ -8,6 +8,7 @@ April 13
   
 April 15
 : Confidence intervals, pivotal quantities
+  : [Slides](https://sta711-s26.github.io/slides/lecture_33.pdf)
   
 April 17
 : Testing multiple hypotheses
