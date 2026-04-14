@@ -40,8 +40,10 @@ Let $X_1,...,X_n \overset{iid}{\sim} Uniform(0, \theta)$. We want to construct a
 
 Let $X_1,...,X_n \overset{iid}{\sim} Exponential(\theta)$, with pdf $f(x|\theta) = \theta e^{-\theta x}$. Find a pivotal quantity $Q(X_1,...,X_n, \theta)$ and construct a $1 - \alpha$ confidence interval for $\theta$ using that quantity.
 
-* Begin with the MLE, $\widehat{\theta} = \dfrac{n}{\sum_{i=1}^n X_i}$
+Hints:
+
 * If $X \sim Exponential(\theta)$, then $cX \sim Exponential\left(\dfrac{\theta}{c}\right)$
+* The sum of exponential random variables has a Gamma distribution
 
 \vspace{4cm}
 
