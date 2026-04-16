@@ -1,0 +1,81 @@
+---
+title: "Multiple testing considerations"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Warmup: xkcd comic
+
+* Read the provided xkcd comic
+* Do you think that green jelly beans are truly related to acne? If not, why did the scientists see a significant p-value for green jelly beans, but not for other colors?
+
+\vspace{4cm}
+
+## Motivation: differential gene expression
+
+Suppose a biologist is interested in identifying genes which are *differentially expressed* under different biological treatments. The biologist observes 10 subjects under treatment A, and 10 subjects under treatment B. Gene expression measurements $X_{i,j}$ (treatment A) and $Y_{i,j}$ (treatment B) are recorded for 1000 different genes ( $i = 1,...,1000$, $j = 1,...,10$ ). 
+
+For each gene $i$, the biologist tests $H_{0i}: \mu_{i,A} = \mu_{i,B}$, rejecting when the p-value is below a threshold $\alpha$.
+
+If $H_0$ is actually true for all 1000 genes, how many false positives do we expect?
+
+\vspace{3cm}
+
+## Motivation
+
+In what other settings might we test many hypotheses?
+
+\vspace{5cm}
+
+## Outcomes for testing multiple hypotheses
+
+Suppose we test $m$ hypotheses $H_{0,1},...,H_{0,m}$, of which $m_0$ are truly null (i.e. $H_{0,i}$ is true). 
+
+\vspace{7cm}
+
+## FWER
+
+**Definition:** Suppose we test $m$ null hypotheses $H_{0,1},...,H_{0,m}$. The *family-wise error rate* is the probability of making *at least one* type I error:
+$$FWER = P \left( \bigcup \limits_{i: H_{0,i} \text{ is true}} \{\text{reject } H_{0,i}\} \right)$$
+
+\bigskip
+
+Suppose all $m$ tests are independent. For each test, we reject if the corresponding p-value $p_i < \alpha$.
+
+\vspace{3cm}
+
+## The Sidak correction
+
+$$FWER = P \left( \bigcup \limits_{i: H_{0,i} \text{ is true}} \{\text{reject } H_{0,i}\} \right)$$
+
+If all $m$ hypotheses are independent, at what threshold $\alpha^*$ should we reject each test, so that FWER $\leq \alpha$?
+
+\vspace{5cm}
+
+## The Bonferroni correction
+
+$$FWER = P \left( \bigcup \limits_{i: H_{0,i} \text{ is true}} \{\text{reject } H_{0,i}\} \right)$$
+
+\vspace{6cm}
+
+## Holm's procedure
+
+Suppose we test 5 hypotheses, and observe p-values 0.4, 0.01, 0, 0, 0. Does it still seem reasonable to use the Bonferroni cutoff $\alpha/5$ for each test?
+
+\vspace{6cm}
+
+## Holm's procedure
+
+Suppose we test $m$ null hypotheses $H_{0,1},...,H_{0,m}$. Let $p_i$ be the corresponding p-value for test $i$.
+
+* Order the p-values $p_{(1)} \leq p_{(2)} \leq \cdots \leq p_{(m)}$
+* Let $i^* = \min \left\lbrace i: p_{(i)} > \frac{\alpha}{m - i + 1} \right\rbrace$
+* Reject $H_{0, (i)}$ for all $i < i^*$
+
+**Claim:** Holm's procedure controls FWER at level $\alpha$
+
+\vspace{5cm}
+
+
+
+
