@@ -12,5 +12,6 @@ April 15
   
 April 17
 : Testing multiple hypotheses
+  : [Slides](https://sta711-s26.github.io/slides/lecture_34.pdf)
   
 : **HW 10 released**{: .label .label-yellow }

@@ -1,0 +1,106 @@
+---
+title: "Homework 10"
+format: html
+---
+
+**Due:** Friday, April 24, 11:59pm on Canvas
+
+**Instructions:** For mathematical work, you may choose to either hand-write your work and submit a PDF scan, or type your work using LaTeX and submit the resulting PDF. For computational work, include all code and R output necessary to answer the questions, and submit as an html or pdf on Canvas.
+
+See the course website for a [homework template](https://sta711-s26.github.io/homework/hw_template.tex) file and [instructions](https://sta711-s26.github.io/homework/latex_instructions/) on getting started with LaTeX and Overleaf.
+
+## Confidence intervals
+
+1. Suppose $X_1,...,X_n \overset{iid}{\sim} N(\theta, \theta)$, where $\theta > 0$. Find a pivotal quantity $Q(X_1,...,X_n, \theta)$, and use the quantity to create a $1 - \alpha$ confidence interval for $\theta$.
+
+2. Suppose that $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. 
+    a. If $\sigma^2$ is known, the interval for $\mu$ is $\overline{X} \pm z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$, and the *width* of the interval is $2z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$. Find the minimum value of $n$ so that a 95\% confidence interval for $\mu$ will have a length of at most $\sigma/4$.
+    b. If $\sigma^2$ is unknown, the interval for $\mu$ is $\overline{X} \pm t_{n-1, \alpha/2} \frac{s}{\sqrt{n}}$, where $s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X})^2$. Find the minimum value of $n$ such that, with probability 0.9, a 95\% confidence interval for $\mu$ will have a length of at most $\sigma/4$. (You can use R to help answer this question!)
+    
+
+## Confidence intervals for a binomial proportion
+
+Let $X_1,...,X_n \overset{iid}{\sim} Bernoulli(p)$, and suppose we are interested in estimating the population proportion $p$. The basic Wald interval for $p$ is
+
+$$\widehat{p} \pm z_{\alpha/2} \sqrt{\dfrac{\widehat{p}(1 - \widehat{p})}{n}}$$
+
+For a sufficiently large sample size $n$, the normal approximation is reasonable here, and our confidence interval will have approximately the desired coverage. **However**, for smaller values of $n$, this interval does not perform well, *particularly* if $p$ is close to 0 or 1. In the extreme case, we might observe $\widehat{p} = 0$ or 1, in which case the width of our interval is 0!
+
+To address the shortcomings of the Wald interval for the proportion $p$, a variety of different intervals have been proposed. In this portion of the assignment, we will look at two different (and related) approaches.
+
+### The Wilson interval
+
+One way to create a confidence set is by inverting a hypothesis test. Suppose we wish to test the hypotheses
+$$H_0: p = p_0 \hspace{1cm} H_A: p \neq p_0$$
+Under $H_0$, 
+$$\dfrac{\widehat{p} - p_0}{\sqrt{p_0(1 - p_0)/n}} \approx N(0, 1)$$
+(the difference here, compared to the Wald interval, is that we are using $p_0$ instead of $\widehat{p}$ for the variance). Inverting the test to create a $1 - \alpha$ confidence set for $p$ gives us the set
+$$\left\lbrace p_0: \
+\Biggr\lvert \dfrac{\widehat{p} - p_0}{\sqrt{p_0(1 - p_0)/n}} \Biggr\rvert \leq z_{\alpha/2} \right\rbrace$$
+
+With some rearrangement, we can express this set as an interval (called the *Wilson interval* or the *Wilson score interval*) whose endpoints depend on $\widehat{p}$, $n$, and $z_{\alpha/2}$ (but the endpoints will be different to the Wald interval above).
+
+3. Find an expression for the Wilson interval, in the usual form
+$$\text{something} \pm (\text{something else})$$
+*Hints*:
+    * The center of the interval is provided in the next question
+    * You will have to solve a quadratic equation
+
+### The Agresti-Coull interval
+
+The *center* of the Wilson interval from the previous question is
+
+$$\widetilde{p} = \widehat{p} \left( \frac{n}{n + z^2_{\alpha/2}} \right) + \frac{1}{2} \left( \frac{z^2_{\alpha/2}}{n + z^2_{\alpha/2}} \right)$$
+Rather than calculate the complicated endpoints of the Wilson interval, the Agresti-Coull approach applies the usual Wald interval to the modified estimate $\widetilde{p}$. That is, the Agresti-Coull interval is
+$$\widetilde{p} \pm z_{\alpha/2} \sqrt{\frac{\widetilde{p}(1 - \widetilde{p})}{n}}$$
+
+4. Show that, for a 95% confidence interval specifically, the Agresti-Coull interval has the pleasing interpretation of "add 2 successes and 2 failures to the data, then create the usual Wald CI".
+
+5. Conduct a simulation study to show that both the Wilson and Agresti-Coull intervals have coverage approximately $1 - \alpha$, even when $p$ is close to 0 or 1 and $n$ is fairly small.
+
+## Nested F tests
+
+**Definition:** Suppose that $V_1 \sim \chi^2_{d_1}$ and $V_2 \sim \chi^2_{d_2}$ are independent $\chi^2$ random variables. Then 
+$$F = \dfrac{V_1/d_1}{V_2/d_2} \sim F_{d_1, d_2}$$
+where $F_{d_1, d_2}$ denotes the $F$-distribution with numerator degrees of freedom $d_1$ and denominator degrees of freedom $d_2$.
+
+The $F$ distribution appears frequently in the study of linear models. The purpose of this portion of the assignment is to make that connection.
+
+### Setup
+
+Suppose we observe iid data $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ from the linear model
+
+$$Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \varepsilon_i$$
+
+where $\varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$, and $\mathbf{x}_i, \boldsymbol{\beta} \in \mathbb{R}^{p}$. Suppose also that we partition $\boldsymbol{\beta} = \begin{pmatrix} \boldsymbol{\beta}_{(1)} \\ \boldsymbol{\beta}_{(2)} \end{pmatrix}$, where $\boldsymbol{\beta}_{(1)} \in \mathbb{R}^{q_1}$ and $\boldsymbol{\beta}_{(2)} \in \mathbb{R}^{q_2}$, and $q_1 + q_2 = p$. Likewise partition $\mathbf{x}_i = \begin{pmatrix} \mathbf{x}_{i, (1)} \\ \mathbf{x}_{i, (2)} \end{pmatrix}$.
+
+We are interested in testing the hypotheses
+
+$$H_0: \boldsymbol{\beta}_{(2)} = \boldsymbol{0} \hspace{1cm} H_A: \boldsymbol{\beta}_{(2)} \neq \boldsymbol{0}$$
+
+This is equivalent to comparing the nested full and reduced models
+
+**Full model:** $Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \beta_{q_1} X_{i, q_1} + \cdots + \beta_{p-1} X_{i,p-1} + \varepsilon_i$
+
+**Reduced model:** $Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \varepsilon_i$
+
+### LRT
+
+We showed in a previous class activity that the LRT is equivalent to rejecting when
+$$\dfrac{(SSE_{reduced} - SSE_{full})/q_2}{SSE_{full}/(n-p)} \geq c$$
+for some $c$, where
+$$SSE_{reduced} = (\mathbf{y} - \widehat{\mathbf{y}}_{reduced})^T (\mathbf{y} - \widehat{\mathbf{y}}_{reduced}) \hspace{1cm} SSE_{full} = (\mathbf{y} - \widehat{\mathbf{y}}_{full})^T (\mathbf{y} - \widehat{\mathbf{y}}_{full})$$
+$$\widehat{\mathbf{y}}_{reduced} = \mathbf{H}_r \mathbf{y} \hspace{1cm} \widehat{\mathbf{y}}_{full} = \mathbf{H}_f \mathbf{y}$$
+$$\mathbf{H}_r = \mathbf{X}_{(1)}(\mathbf{X}_{(1)}^T\mathbf{X}_{(1)})^{-1} \mathbf{X}_{(1)}^T \hspace{1cm} \mathbf{H}_f = \mathbf{X} (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T$$
+
+
+## Multiple testing
+
+(Note: these questions are adapted from material created by Larry Wasserman for 36-705 at Carnegie Mellon University)
+
+The purpose of this portion of the assignment is to get some practice with multiple testing procedures. The procedures described here are not necessarily good ideas! Rather, I want you to practice verifying that a given procedure controls the FWER.
+
+
+
+
+
