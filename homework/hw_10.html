@@ -98,14 +98,40 @@ window.Quarto = {
 <p>See the course website for a <a href="https://sta711-s26.github.io/homework/hw_template.tex">homework template</a> file and <a href="https://sta711-s26.github.io/homework/latex_instructions/">instructions</a> on getting started with LaTeX and Overleaf.</p>
 <section id="confidence-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="confidence-intervals">Confidence intervals</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Suppose <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\theta, \theta)\)</span>, where <span class="math inline">\(\theta &gt; 0\)</span>. Find a pivotal quantity <span class="math inline">\(Q(X_1,...,X_n, \theta)\)</span>, and use the quantity to create a <span class="math inline">\(1 - \alpha\)</span> confidence interval for <span class="math inline">\(\theta\)</span>.</p></li>
-<li><p>Suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>.</p>
+<li>Suppose <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\theta, \theta)\)</span>, where <span class="math inline">\(\theta &gt; 0\)</span>. Find a pivotal quantity <span class="math inline">\(Q(X_1,...,X_n, \theta)\)</span>, and use the quantity to create a <span class="math inline">\(1 - \alpha\)</span> confidence interval for <span class="math inline">\(\theta\)</span>.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="2" type="1">
+<li>Suppose that <span class="math inline">\(X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)\)</span>.
 <ol type="a">
 <li>If <span class="math inline">\(\sigma^2\)</span> is known, the interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\(\overline{X} \pm z_{\alpha/2} \frac{\sigma}{\sqrt{n}}\)</span>, and the <em>width</em> of the interval is <span class="math inline">\(2z_{\alpha/2} \frac{\sigma}{\sqrt{n}}\)</span>. Find the minimum value of <span class="math inline">\(n\)</span> so that a 95% confidence interval for <span class="math inline">\(\mu\)</span> will have a length of at most <span class="math inline">\(\sigma/4\)</span>.</li>
 <li>If <span class="math inline">\(\sigma^2\)</span> is unknown, the interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\(\overline{X} \pm t_{n-1, \alpha/2} \frac{s}{\sqrt{n}}\)</span>, where <span class="math inline">\(s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X})^2\)</span>. Find the minimum value of <span class="math inline">\(n\)</span> such that, with probability 0.9, a 95% confidence interval for <span class="math inline">\(\mu\)</span> will have a length of at most <span class="math inline">\(\sigma/4\)</span>. (You can use R to help answer this question!)</li>
 </ol></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="confidence-intervals-for-a-binomial-proportion" class="level2">
 <h2 class="anchored" data-anchor-id="confidence-intervals-for-a-binomial-proportion">Confidence intervals for a binomial proportion</h2>
@@ -118,6 +144,16 @@ window.Quarto = {
 <p>One way to create a confidence set is by inverting a hypothesis test. Suppose we wish to test the hypotheses <span class="math display">\[H_0: p = p_0 \hspace{1cm} H_A: p \neq p_0\]</span> Under <span class="math inline">\(H_0\)</span>, <span class="math display">\[\dfrac{\widehat{p} - p_0}{\sqrt{p_0(1 - p_0)/n}} \approx N(0, 1)\]</span> (the difference here, compared to the Wald interval, is that we are using <span class="math inline">\(p_0\)</span> instead of <span class="math inline">\(\widehat{p}\)</span> for the variance). Inverting the test to create a <span class="math inline">\(1 - \alpha\)</span> confidence set for <span class="math inline">\(p\)</span> gives us the set <span class="math display">\[\left\lbrace p_0: \
 \Biggr\lvert \dfrac{\widehat{p} - p_0}{\sqrt{p_0(1 - p_0)/n}} \Biggr\rvert \leq z_{\alpha/2} \right\rbrace\]</span></p>
 <p>With some rearrangement, we can express this set as an interval (called the <em>Wilson interval</em> or the <em>Wilson score interval</em>) whose endpoints depend on <span class="math inline">\(\widehat{p}\)</span>, <span class="math inline">\(n\)</span>, and <span class="math inline">\(z_{\alpha/2}\)</span> (but the endpoints will be different to the Wald interval above).</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="3" type="1">
 <li>Find an expression for the Wilson interval, in the usual form <span class="math display">\[\text{something} \pm (\text{something else})\]</span> <em>Hints</em>:
 <ul>
@@ -125,41 +161,91 @@ window.Quarto = {
 <li>You will have to solve a quadratic equation</li>
 </ul></li>
 </ol>
+</div>
+</div>
 </section>
 <section id="the-agresti-coull-interval" class="level3">
 <h3 class="anchored" data-anchor-id="the-agresti-coull-interval">The Agresti-Coull interval</h3>
 <p>The <em>center</em> of the Wilson interval from the previous question is</p>
 <p><span class="math display">\[\widetilde{p} = \widehat{p} \left( \frac{n}{n + z^2_{\alpha/2}} \right) + \frac{1}{2} \left( \frac{z^2_{\alpha/2}}{n + z^2_{\alpha/2}} \right)\]</span> Rather than calculate the complicated endpoints of the Wilson interval, the Agresti-Coull approach applies the usual Wald interval to the modified estimate <span class="math inline">\(\widetilde{p}\)</span>. That is, the Agresti-Coull interval is <span class="math display">\[\widetilde{p} \pm z_{\alpha/2} \sqrt{\frac{\widetilde{p}(1 - \widetilde{p})}{n}}\]</span></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="4" type="1">
-<li><p>Show that, for a 95% confidence interval specifically, the Agresti-Coull interval has the pleasing interpretation of “add 2 successes and 2 failures to the data, then create the usual Wald CI”.</p></li>
-<li><p>Conduct a simulation study to show that both the Wilson and Agresti-Coull intervals have coverage approximately <span class="math inline">\(1 - \alpha\)</span>, even when <span class="math inline">\(p\)</span> is close to 0 or 1 and <span class="math inline">\(n\)</span> is fairly small.</p></li>
+<li>Show that, for a 95% confidence interval specifically, the Agresti-Coull interval has the pleasing interpretation of “add 2 successes and 2 failures to the data, then create the usual Wald CI”.</li>
 </ol>
-</section>
-</section>
-<section id="nested-f-tests" class="level2">
-<h2 class="anchored" data-anchor-id="nested-f-tests">Nested F tests</h2>
-<p><strong>Definition:</strong> Suppose that <span class="math inline">\(V_1 \sim \chi^2_{d_1}\)</span> and <span class="math inline">\(V_2 \sim \chi^2_{d_2}\)</span> are independent <span class="math inline">\(\chi^2\)</span> random variables. Then <span class="math display">\[F = \dfrac{V_1/d_1}{V_2/d_2} \sim F_{d_1, d_2}\]</span> where <span class="math inline">\(F_{d_1, d_2}\)</span> denotes the <span class="math inline">\(F\)</span>-distribution with numerator degrees of freedom <span class="math inline">\(d_1\)</span> and denominator degrees of freedom <span class="math inline">\(d_2\)</span>.</p>
-<p>The <span class="math inline">\(F\)</span> distribution appears frequently in the study of linear models. The purpose of this portion of the assignment is to make that connection.</p>
-<section id="setup" class="level3">
-<h3 class="anchored" data-anchor-id="setup">Setup</h3>
-<p>Suppose we observe iid data <span class="math inline">\((\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)\)</span> from the linear model</p>
-<p><span class="math display">\[Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \varepsilon_i\]</span></p>
-<p>where <span class="math inline">\(\varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)\)</span>, and <span class="math inline">\(\mathbf{x}_i, \boldsymbol{\beta} \in \mathbb{R}^{p}\)</span>. Suppose also that we partition <span class="math inline">\(\boldsymbol{\beta} = \begin{pmatrix} \boldsymbol{\beta}_{(1)} \\ \boldsymbol{\beta}_{(2)} \end{pmatrix}\)</span>, where <span class="math inline">\(\boldsymbol{\beta}_{(1)} \in \mathbb{R}^{q_1}\)</span> and <span class="math inline">\(\boldsymbol{\beta}_{(2)} \in \mathbb{R}^{q_2}\)</span>, and <span class="math inline">\(q_1 + q_2 = p\)</span>. Likewise partition <span class="math inline">\(\mathbf{x}_i = \begin{pmatrix} \mathbf{x}_{i, (1)} \\ \mathbf{x}_{i, (2)} \end{pmatrix}\)</span>.</p>
-<p>We are interested in testing the hypotheses</p>
-<p><span class="math display">\[H_0: \boldsymbol{\beta}_{(2)} = \boldsymbol{0} \hspace{1cm} H_A: \boldsymbol{\beta}_{(2)} \neq \boldsymbol{0}\]</span></p>
-<p>This is equivalent to comparing the nested full and reduced models</p>
-<p><strong>Full model:</strong> <span class="math inline">\(Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \beta_{q_1} X_{i, q_1} + \cdots + \beta_{p-1} X_{i,p-1} + \varepsilon_i\)</span></p>
-<p><strong>Reduced model:</strong> <span class="math inline">\(Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \varepsilon_i\)</span></p>
-</section>
-<section id="lrt" class="level3">
-<h3 class="anchored" data-anchor-id="lrt">LRT</h3>
-<p>We showed in a previous class activity that the LRT is equivalent to rejecting when <span class="math display">\[\dfrac{(SSE_{reduced} - SSE_{full})/q_2}{SSE_{full}/(n-p)} \geq c\]</span> for some <span class="math inline">\(c\)</span>, where <span class="math display">\[SSE_{reduced} = (\mathbf{y} - \widehat{\mathbf{y}}_{reduced})^T (\mathbf{y} - \widehat{\mathbf{y}}_{reduced}) \hspace{1cm} SSE_{full} = (\mathbf{y} - \widehat{\mathbf{y}}_{full})^T (\mathbf{y} - \widehat{\mathbf{y}}_{full})\]</span> <span class="math display">\[\widehat{\mathbf{y}}_{reduced} = \mathbf{H}_r \mathbf{y} \hspace{1cm} \widehat{\mathbf{y}}_{full} = \mathbf{H}_f \mathbf{y}\]</span> <span class="math display">\[\mathbf{H}_r = \mathbf{X}_{(1)}(\mathbf{X}_{(1)}^T\mathbf{X}_{(1)})^{-1} \mathbf{X}_{(1)}^T \hspace{1cm} \mathbf{H}_f = \mathbf{X} (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="5" type="1">
+<li>Conduct a simulation study to show that both the Wilson and Agresti-Coull intervals have coverage approximately <span class="math inline">\(1 - \alpha\)</span>, even when <span class="math inline">\(p\)</span> is close to 0 or 1 and <span class="math inline">\(n\)</span> is fairly small.</li>
+</ol>
+</div>
+</div>
 </section>
 </section>
 <section id="multiple-testing" class="level2">
 <h2 class="anchored" data-anchor-id="multiple-testing">Multiple testing</h2>
 <p>(Note: these questions are adapted from material created by Larry Wasserman for 36-705 at Carnegie Mellon University)</p>
 <p>The purpose of this portion of the assignment is to get some practice with multiple testing procedures. The procedures described here are not necessarily good ideas! Rather, I want you to practice verifying that a given procedure controls the FWER.</p>
+<p>For these problems, it will help to remeber the following fact about p-values: if <span class="math inline">\(p\)</span> is a valid p-value, then under the null hypothesis, <span class="math inline">\(P(p \leq \alpha) \leq \alpha\)</span>. (In fact we usually have that <span class="math inline">\(p \approx Uniform(0, 1)\)</span>)</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="6" type="1">
+<li>Suppose that your collaborator wishes to test hypotheses about 1000 different genes. They are an expert in the field of genetics, so they have some ideas about which hypotheses are more likely to be rejected. <em>Before collecting any data</em>, they order the hypotheses based on their prior beliefs, placing the most “promising” genes first. Let <span class="math inline">\(H_{0,1},...,H_{0,1000}\)</span> denote the 1000 hypotheses, in the order determined by your collaborator. To test the hypotheses, they then do the following:
+<ul>
+<li>Compute a p-value <span class="math inline">\(p_i\)</span> for each hypothesis <span class="math inline">\(H_{0,i}\)</span></li>
+<li>For each hypothesis <span class="math inline">\(H_{0,i}\)</span>, reject <span class="math inline">\(H_{0,i}\)</span> if <span class="math inline">\(p_i &lt; \dfrac{\alpha}{2^i}\)</span></li>
+</ul></li>
+</ol>
+<p>Does this procedure control the FWER at level <span class="math inline">\(\alpha\)</span>? Justify your answer.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Question 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="7" type="1">
+<li>Suppose we have <span class="math inline">\(m\)</span> hypotheses, <span class="math inline">\(H_{0,1},...,H_{0,m}\)</span>, ordered <em>without</em> looking at the data. To test these hypotheses we carry out the following procedure:
+<ol type="a">
+<li>If <span class="math inline">\(p_1 &gt; \alpha\)</span>, fail to reject <span class="math inline">\(H_{0,1},...,H_{0,m}\)</span> and stop. Otherwise, reject <span class="math inline">\(H_{0,1}\)</span> and continue to the next step.</li>
+<li>If <span class="math inline">\(p_2 &gt; \alpha\)</span>, fail to reject <span class="math inline">\(H_{0,2},...,H_{0,m}\)</span> and stop. Otherwise, reject <span class="math inline">\(H_{0,2}\)</span> and continue to the next step.</li>
+<li>Etc…</li>
+</ol></li>
+</ol>
+<p>Show that this procedure controls the FWER at level <span class="math inline">\(\alpha\)</span>.</p>
+</div>
+</div>
 </section>
 
 </main>

@@ -15,3 +15,4 @@ April 17
   : [Slides](https://sta711-s26.github.io/slides/lecture_34.pdf)
   
 : **HW 10 released**{: .label .label-yellow }
+  : [HW 10](https://sta711-s26.github.io/homework/hw_10.html)

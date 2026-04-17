@@ -11,12 +11,22 @@ See the course website for a [homework template](https://sta711-s26.github.io/ho
 
 ## Confidence intervals
 
+::: {.callout-note icon=false}
+
+## Question 1
+
 1. Suppose $X_1,...,X_n \overset{iid}{\sim} N(\theta, \theta)$, where $\theta > 0$. Find a pivotal quantity $Q(X_1,...,X_n, \theta)$, and use the quantity to create a $1 - \alpha$ confidence interval for $\theta$.
+:::
+
+::: {.callout-note icon=false}
+
+## Question 2
 
 2. Suppose that $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$. 
     a. If $\sigma^2$ is known, the interval for $\mu$ is $\overline{X} \pm z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$, and the *width* of the interval is $2z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$. Find the minimum value of $n$ so that a 95\% confidence interval for $\mu$ will have a length of at most $\sigma/4$.
     b. If $\sigma^2$ is unknown, the interval for $\mu$ is $\overline{X} \pm t_{n-1, \alpha/2} \frac{s}{\sqrt{n}}$, where $s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X})^2$. Find the minimum value of $n$ such that, with probability 0.9, a 95\% confidence interval for $\mu$ will have a length of at most $\sigma/4$. (You can use R to help answer this question!)
     
+:::
 
 ## Confidence intervals for a binomial proportion
 
@@ -40,11 +50,17 @@ $$\left\lbrace p_0: \
 
 With some rearrangement, we can express this set as an interval (called the *Wilson interval* or the *Wilson score interval*) whose endpoints depend on $\widehat{p}$, $n$, and $z_{\alpha/2}$ (but the endpoints will be different to the Wald interval above).
 
+::: {.callout-note icon=false}
+
+## Question 3
+
 3. Find an expression for the Wilson interval, in the usual form
 $$\text{something} \pm (\text{something else})$$
 *Hints*:
     * The center of the interval is provided in the next question
     * You will have to solve a quadratic equation
+
+:::
 
 ### The Agresti-Coull interval
 
@@ -54,45 +70,21 @@ $$\widetilde{p} = \widehat{p} \left( \frac{n}{n + z^2_{\alpha/2}} \right) + \fra
 Rather than calculate the complicated endpoints of the Wilson interval, the Agresti-Coull approach applies the usual Wald interval to the modified estimate $\widetilde{p}$. That is, the Agresti-Coull interval is
 $$\widetilde{p} \pm z_{\alpha/2} \sqrt{\frac{\widetilde{p}(1 - \widetilde{p})}{n}}$$
 
+::: {.callout-note icon=false}
+
+## Question 4
+
 4. Show that, for a 95% confidence interval specifically, the Agresti-Coull interval has the pleasing interpretation of "add 2 successes and 2 failures to the data, then create the usual Wald CI".
+
+:::
+
+::: {.callout-note icon=false}
+
+## Question 5
 
 5. Conduct a simulation study to show that both the Wilson and Agresti-Coull intervals have coverage approximately $1 - \alpha$, even when $p$ is close to 0 or 1 and $n$ is fairly small.
 
-## Nested F tests
-
-**Definition:** Suppose that $V_1 \sim \chi^2_{d_1}$ and $V_2 \sim \chi^2_{d_2}$ are independent $\chi^2$ random variables. Then 
-$$F = \dfrac{V_1/d_1}{V_2/d_2} \sim F_{d_1, d_2}$$
-where $F_{d_1, d_2}$ denotes the $F$-distribution with numerator degrees of freedom $d_1$ and denominator degrees of freedom $d_2$.
-
-The $F$ distribution appears frequently in the study of linear models. The purpose of this portion of the assignment is to make that connection.
-
-### Setup
-
-Suppose we observe iid data $(\mathbf{x}_1, Y_1),...,(\mathbf{x}_n, Y_n)$ from the linear model
-
-$$Y_i = \mathbf{x}_i^T \boldsymbol{\beta} + \varepsilon_i$$
-
-where $\varepsilon_i \overset{iid}{\sim} N(0, \sigma^2)$, and $\mathbf{x}_i, \boldsymbol{\beta} \in \mathbb{R}^{p}$. Suppose also that we partition $\boldsymbol{\beta} = \begin{pmatrix} \boldsymbol{\beta}_{(1)} \\ \boldsymbol{\beta}_{(2)} \end{pmatrix}$, where $\boldsymbol{\beta}_{(1)} \in \mathbb{R}^{q_1}$ and $\boldsymbol{\beta}_{(2)} \in \mathbb{R}^{q_2}$, and $q_1 + q_2 = p$. Likewise partition $\mathbf{x}_i = \begin{pmatrix} \mathbf{x}_{i, (1)} \\ \mathbf{x}_{i, (2)} \end{pmatrix}$.
-
-We are interested in testing the hypotheses
-
-$$H_0: \boldsymbol{\beta}_{(2)} = \boldsymbol{0} \hspace{1cm} H_A: \boldsymbol{\beta}_{(2)} \neq \boldsymbol{0}$$
-
-This is equivalent to comparing the nested full and reduced models
-
-**Full model:** $Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \beta_{q_1} X_{i, q_1} + \cdots + \beta_{p-1} X_{i,p-1} + \varepsilon_i$
-
-**Reduced model:** $Y_i = \beta_0 + \beta_1 X_{i,1} + \cdots + \beta_{q_1 - 1} X_{i,q_1 - 1} + \varepsilon_i$
-
-### LRT
-
-We showed in a previous class activity that the LRT is equivalent to rejecting when
-$$\dfrac{(SSE_{reduced} - SSE_{full})/q_2}{SSE_{full}/(n-p)} \geq c$$
-for some $c$, where
-$$SSE_{reduced} = (\mathbf{y} - \widehat{\mathbf{y}}_{reduced})^T (\mathbf{y} - \widehat{\mathbf{y}}_{reduced}) \hspace{1cm} SSE_{full} = (\mathbf{y} - \widehat{\mathbf{y}}_{full})^T (\mathbf{y} - \widehat{\mathbf{y}}_{full})$$
-$$\widehat{\mathbf{y}}_{reduced} = \mathbf{H}_r \mathbf{y} \hspace{1cm} \widehat{\mathbf{y}}_{full} = \mathbf{H}_f \mathbf{y}$$
-$$\mathbf{H}_r = \mathbf{X}_{(1)}(\mathbf{X}_{(1)}^T\mathbf{X}_{(1)})^{-1} \mathbf{X}_{(1)}^T \hspace{1cm} \mathbf{H}_f = \mathbf{X} (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T$$
-
+:::
 
 ## Multiple testing
 
@@ -100,6 +92,32 @@ $$\mathbf{H}_r = \mathbf{X}_{(1)}(\mathbf{X}_{(1)}^T\mathbf{X}_{(1)})^{-1} \math
 
 The purpose of this portion of the assignment is to get some practice with multiple testing procedures. The procedures described here are not necessarily good ideas! Rather, I want you to practice verifying that a given procedure controls the FWER.
 
+For these problems, it will help to remeber the following fact about p-values: if $p$ is a valid p-value, then under the null hypothesis, $P(p \leq \alpha) \leq \alpha$. (In fact we usually have that $p \approx Uniform(0, 1)$)
+
+::: {.callout-note icon=false}
+
+## Question 6
+
+6. Suppose that your collaborator wishes to test hypotheses about 1000 different genes. They are an expert in the field of genetics, so they have some ideas about which hypotheses are more likely to be rejected. *Before collecting any data*, they order the hypotheses based on their prior beliefs, placing the most "promising" genes first. 
+    Let $H_{0,1},...,H_{0,1000}$ denote the 1000 hypotheses, in the order determined by your collaborator. To test the hypotheses, they then do the following:
+    * Compute a p-value $p_i$ for each hypothesis $H_{0,i}$
+    * For each hypothesis $H_{0,i}$, reject $H_{0,i}$ if $p_i < \dfrac{\alpha}{2^i}$
+    
+Does this procedure control the FWER at level $\alpha$? Justify your answer.
+:::
+
+::: {.callout-note icon=false}
+
+## Question 7
+
+7. Suppose we have $m$ hypotheses, $H_{0,1},...,H_{0,m}$, ordered *without* looking at the data. To test these hypotheses we carry out the following procedure:
+    (a) If $p_1 > \alpha$, fail to reject $H_{0,1},...,H_{0,m}$ and stop. Otherwise, reject $H_{0,1}$ and continue to the next step.
+    (b) If $p_2 > \alpha$, fail to reject $H_{0,2},...,H_{0,m}$ and stop. Otherwise, reject $H_{0,2}$ and continue to the next step.
+    (c) Etc...
+    
+Show that this procedure controls the FWER at level $\alpha$.
+
+:::
 
 
 
