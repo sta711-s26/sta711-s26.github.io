@@ -1,0 +1,30 @@
+---
+title: "Multiple testing considerations"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Last time: FWER
+
+**Definition:** Suppose we test $m$ null hypotheses $H_{0,1},...,H_{0,m}$. The *family-wise error rate* is the probability of making *at least one* type I error:
+$$FWER = P \left( \bigcup \limits_{i: H_{0,i} \text{ is true}} \{\text{reject } H_{0,i}\} \right)$$
+
+\vspace{4cm}
+
+## Holm's procedure
+
+Suppose we test $m$ null hypotheses $H_{0,1},...,H_{0,m}$. Let $p_i$ be the corresponding p-value for test $i$.
+
+* Order the p-values $p_{(1)} \leq p_{(2)} \leq \cdots \leq p_{(m)}$
+* Let $i^* = \min \left\lbrace i: p_{(i)} > \frac{\alpha}{m - i + 1} \right\rbrace$
+* Reject $H_{0, (i)}$ for all $i < i^*$
+
+**Claim:** Holm's procedure controls FWER at level $\alpha$
+
+\vspace{5cm}
+
+## p-value adjustments
+
+
+
+

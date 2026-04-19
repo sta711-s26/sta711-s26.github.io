@@ -1,0 +1,57 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+# FWER control: Bonferroni vs. Holm
+
+The code below simulates the results of $m = 1000$ hypothesis tests. For each test $H_{0,i}$, we test whether $\mu_i = 0$ for a $N(\mu_i, 1)$ population. For the first $m_0 \leq m$ tests, the null hypothesis is truly null ($\mu_i = 0$). For the remaining tests, the true mean is different from 0.
+
+```{r}
+set.seed(8923489)
+
+m <- 1000
+m0 <- 0.5*m
+mu1 <- 0.1
+n <- 100
+
+p_vals <- rep(NA, m)
+for(i in 1:m){
+  if(i <= m0){
+    x <- rnorm(n)
+  } else {
+    x <- rnorm(n, mean=mu1)
+  }
+  
+  p_vals[i] <- 2*pnorm(abs(sqrt(n)*mean(x)), lower.tail=F)
+}
+```
+
+The p-values $p_1,...,p_m$ for the $m$ different tests are stored in the vector `p_vals`.
+
+## Questions
+
+1. **Question 1:** If we reject when $p_i < \alpha = 0.05$, how many type I errors were made? (That is, how many of the $m_0$ true null hypotheses were incorrectly rejected?)
+
+To control the FWER, we can use the Bonferroni or Holm procedures. In R, the `p.adjust` function will adjust the p-values and supports both Bonferroni and Holm corrections.
+
+2. **Question 2:** Compute the Bonferroni and Holm adjusted p-values, and reject $H_{0,i}$ when the *adjusted* p-value is $< 0.05$. For each method, compute the number of type I errors in the simulated data.
+
+The results of question 2 don't give us the family-wise error rate. To estimate the FWER for each method, we would need to repeat the simulation many times.
+
+3. **Question 3:** Repeat the process many times. For each run of the simulation, compute both the number of type I errors (false positives) and the number of correct rejections (true positives) for each method.
+
+4. **Question 4:** Use the results of question 3 to approximate the FWER and power for the Bonferroni and Holm procedures. Explain why both methods are conservative (that is, why each method controls the FWER at a level less than $\alpha = 0.05$).
+
+The advantage of Holm's method is that it is always at least as powerful as the Bonferroni method, and typically strictly more powerful. Also, Holm's method will always control the FWER, but in some circumstances may be less conservative than the Bonferroni approach (this is closely related to improved power under the alternative). 
+
+The relative power of the two methods depends on both the fraction of truly null hypotheses $m_0/m$, and the distribution of p-values under the alternative hypothesis (in this simulation, that will be related to the true mean $\mu_i$).
+
+5. **Question 5:** Fix $m_0 = 0.5m$, and experiment with increasing the value of `mu1` in the simulations. How does the FWER and the power of the two methods change? Explain why this happens.
+
+6. **Question 6:** Now fix `mu1 = 0.5`, and experiment with decreasing $m_0$ in the simulations. How does the FWER and the power of the two methods change? Explain why this happens.
+
+
+
+
