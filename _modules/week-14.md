@@ -6,9 +6,13 @@ April 13
 : Confidence intervals, inverting the test
   : [Slides](https://sta711-s26.github.io/slides/lecture_32.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_32.pdf)
   
+: Casella and Berger 9.1, 9.2.1
+  
 April 15
 : Confidence intervals, pivotal quantities
   : [Slides](https://sta711-s26.github.io/slides/lecture_33.pdf)
+
+: Casella and Berger 9.2.1, 9.2.2
   
 April 17
 : Testing multiple hypotheses
