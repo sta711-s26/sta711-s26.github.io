@@ -8,6 +8,7 @@ April 20
   
 April 22
 : False discovery rate, Benjamini-Hochberg
+  : [Slides](https://sta711-s26.github.io/slides/lecture_36.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_36.html)
   
 April 24
 : False discovery rate, Benjamini-Hochberg

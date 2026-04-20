@@ -1,0 +1,61 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+# False Discovery Rate
+
+An alternative to controlling the family-wise error rate (FWER) is controlling the false discovery rate (FDR). Formally, Let $V$ denote the number of true null hypotheses which are rejected, and $R$ the total number of rejections. Let $FDP = V/R$ denote the *false discovery proportion*, with $FDP = 0$ if $R = 0$. Then, the **false discovery rate** is
+
+$$FDR = \mathbb{E}[FDP]$$
+
+For independent tests, the false discovery rate can be controlled by the Benjamini-Hochberg (BH) procedure. In the lecture notes, we mentioned several facts:
+
+* Using BH, $FDR \leq \frac{m_0}{m} \alpha$, where $m$ is the total number of hypotheses and $m_0$ is the number of true null hypotheses
+* If $m_0 = m$, FDR control is equivalent to FWER control
+* If $m_0 < m$, then FDR control gives more power to reject the true alternative hypotheses
+
+## Questions
+
+The code below is modified from the previous class activity on multiple testing, and simulates 100 samples $X_{i,1},...,X_{i,50} \overset{iid}{\sim} N(0, 1)$. For each sample, we test the $H_{0,i}: \mu_i = 0$ vs. $H_{A,i}: \mu_i \neq 0$. Here all null hypotheses are true. The code then calculates the number of rejections using the Bonferroni procedure to control FWER at $\alpha = 0.05$, and the number of rejections using the BH procedure to control FDR at level $\alpha = 0.05$. (Note how the `p.adjust` function is used to implement the BH procedure)
+
+```{r, eval=F}
+m <- 100 # number of hypotheses to test
+n <- 50 # sample size for each hypothesis
+m0 <- m # number of true null hypotheses
+mu1 <- 0.5 # mean under H_A
+
+pvals <- rep(0, m) # store p-values for each test
+for(i in 1:m){
+  if(i <= m0){
+    x <- rnorm(n) # sample N(0,1) data
+  } else {
+    x <- rnorm(n, mean = mu1)
+  }
+  
+  test_stat <- sqrt(n)*mean(x) # test statistic
+  pvals[i] <- 2*pnorm(abs(test_stat), lower.tail=F) #p-value
+}
+
+# count Bonferroni rejections
+sum(pvals < 0.05/m)
+
+# count BH rejections
+bh_pvals <- p.adjust(pvals, method = "BH")
+sum(bh_pvals < 0.05)
+```
+
+1. How many hypotheses are rejected under each method?
+
+2. Repeat the simulation many times. Verify that -- because all hypotheses are truly null -- both the BH procedure and the Bonferroni procedure control the FWER at level $0.05$.
+
+Now modify the code above so that for $m_0 = 80$ of the hypotheses, $\mu_i = 0$ (i.e., $H_0$ is true), while for the remaining 20 hypotheses $\mu_i = 0.5$ (i.e., $H_0$ is false). Compute the number of type I errors, and the number of correct rejections, at each iteration for the Bonferroni and BH methods. 
+
+3. Verify that the BH method controls the FDR at level $0.04 = 0.8\cdot 0.05$.
+
+4. Verify that the BH method is more powerful at rejecting $H_0$ when $H_0$ is false.
+
+5. How does the relative performance of BH and the Bonferroni method change as $m_0$ decreases?
+
+

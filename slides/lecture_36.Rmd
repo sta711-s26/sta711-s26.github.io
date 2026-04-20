@@ -1,0 +1,214 @@
+---
+title: "Multiple testing considerations"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Some methods to control FWER
+
+Suppose we test $m$ null hypotheses $H_{0,1},...,H_{0,m}$. Let $p_i$ be the corresponding p-value for test $i$.
+
+**Bonferroni method:** Reject $H_{0,i}$ if $p_i < \alpha/m$
+
+\bigskip
+
+**Holm method:**
+
+* Order the p-values $p_{(1)} \leq p_{(2)} \leq \cdots \leq p_{(m)}$
+* Let $i^* = \min \left\lbrace i: p_{(i)} > \frac{\alpha}{m - i + 1} \right\rbrace$
+* Reject $H_{0, (i)}$ for all $i < i^*$
+
+\vspace{3cm}
+
+## Ordered p-value plots
+
+```{r, echo=F, message=F, warning=F, fig.width=8, fig.height=3.5}
+library(tidyverse)
+library(gridExtra)
+set.seed(234)
+
+m <- 100
+m0 <- 0.5*m
+mu1 <- 0.43
+n <- 100
+
+p_vals <- rep(NA, m)
+for(i in 1:m){
+  if(i <= m0){
+    x <- rnorm(n)
+  } else {
+    x <- rnorm(n, mean=mu1)
+  }
+  
+  p_vals[i] <- 2*pnorm(abs(sqrt(n)*mean(x)), lower.tail=F)
+}
+
+p1 <- data.frame(index = 1:m, pval = sort(p_vals)) |>
+  ggplot() +
+  geom_point(aes(x = index, y = pval), size=0.7) +
+  theme_bw() +
+  labs(x = "Index", y = "Ordered p-values")
+
+p2 <- data.frame(index = 1:m, pval = sort(p_vals)) |>
+  ggplot() +
+  geom_point(aes(x = index, y = pval), size=0.7) +
+  geom_hline(yintercept = 0.05) +
+  geom_hline(yintercept = 0.05/m, color = "orange") +
+  geom_function(fun = function(x) 0.05/(m - x + 1), color = "blue") +
+  theme_bw() +
+  labs(x = "Index", y = "Ordered p-values") +
+  scale_y_continuous(limits = c(0, 0.06))
+
+grid.arrange(p1, p2, ncol=2)
+```
+
+## Ordered p-value plots
+
+Decreasing $m_0$:
+
+```{r, echo=F, message=F, warning=F, fig.width=8, fig.height=3.5}
+m <- 100
+m0 <- 0.1*m
+mu1 <- 0.43
+n <- 100
+
+p_vals <- rep(NA, m)
+for(i in 1:m){
+  if(i <= m0){
+    x <- rnorm(n)
+  } else {
+    x <- rnorm(n, mean=mu1)
+  }
+  
+  p_vals[i] <- 2*pnorm(abs(sqrt(n)*mean(x)), lower.tail=F)
+}
+
+p1 <- data.frame(index = 1:m, pval = sort(p_vals)) |>
+  ggplot() +
+  geom_point(aes(x = index, y = pval), size=0.7) +
+  theme_bw() +
+  labs(x = "Index", y = "Ordered p-values")
+
+p2 <- data.frame(index = 1:m, pval = sort(p_vals)) |>
+  ggplot() +
+  geom_point(aes(x = index, y = pval), size=0.7) +
+  geom_hline(yintercept = 0.05) +
+  geom_hline(yintercept = 0.05/m, color = "orange") +
+  geom_function(fun = function(x) 0.05/(m - x + 1), color = "blue") +
+  theme_bw() +
+  labs(x = "Index", y = "Ordered p-values") +
+  scale_y_continuous(limits = c(0, 0.06))
+
+grid.arrange(p1, p2, ncol=2)
+```
+
+## Ordered p-value plots
+
+Decreasing $m_0$:
+
+```{r, echo=F, message=F, warning=F, fig.width=8, fig.height=3.5}
+m <- 100
+m0 <- 0.01*m
+mu1 <- 0.43
+n <- 100
+
+p_vals <- rep(NA, m)
+for(i in 1:m){
+  if(i <= m0){
+    x <- rnorm(n)
+  } else {
+    x <- rnorm(n, mean=mu1)
+  }
+  
+  p_vals[i] <- 2*pnorm(abs(sqrt(n)*mean(x)), lower.tail=F)
+}
+
+p1 <- data.frame(index = 1:m, pval = sort(p_vals)) |>
+  ggplot() +
+  geom_point(aes(x = index, y = pval), size=0.7) +
+  theme_bw() +
+  labs(x = "Index", y = "Ordered p-values")
+
+p2 <- data.frame(index = 1:m, pval = sort(p_vals)) |>
+  ggplot() +
+  geom_point(aes(x = index, y = pval), size=0.7) +
+  geom_hline(yintercept = 0.05) +
+  geom_hline(yintercept = 0.05/m, color = "orange") +
+  geom_function(fun = function(x) 0.05/(m - x + 1), color = "blue") +
+  theme_bw() +
+  labs(x = "Index", y = "Ordered p-values") +
+  scale_y_continuous(limits = c(0, 0.06))
+
+grid.arrange(p1, p2, ncol=2)
+```
+
+## Outcomes for multiple hypothesis tests
+
+
+## False discovery rate
+
+Suppose we test $m$ hypotheses, $m_0$ of which are truly null. Let $V$ denote the number of type I errors, and $R$ the total number of rejections. 
+$$FWER = P(V > 0) \hspace{1cm} FDR = \mathbb{E}[FDP]$$
+
+\vspace{6cm}
+
+
+## The Benjamini-Hochberg procedure
+
+* Order the p-values $p_{(1)} \leq p_{(2)} \leq \cdots \leq p_{(m)}$
+* Let $i^* = \max \left\lbrace i: p_{(i)} < \frac{i\alpha}{m} \right\rbrace$
+* Reject $H_{0, (i)}$ for all $i \leq i^*$
+
+```{r, echo=F, message=F, warning=F, fig.width=5, fig.height=3}
+set.seed(17)
+m <- 50
+m0 <- 0.3*m
+mu1 <- 0.25
+n <- 100
+
+p_vals <- rep(NA, m)
+for(i in 1:m){
+  if(i <= m0){
+    x <- rnorm(n)
+  } else {
+    x <- rnorm(n, mean=mu1)
+  }
+  
+  p_vals[i] <- 2*pnorm(abs(sqrt(n)*mean(x)), lower.tail=F)
+}
+
+data.frame(index = 1:m, pval = sort(p_vals)) |>
+  ggplot() +
+  geom_point(aes(x = index, y = pval), size=0.7) +
+  geom_hline(yintercept = 0.05) +
+  geom_hline(yintercept = 0.05/m, color = "orange") +
+  geom_abline(slope = 0.05/(m+1), intercept = 0.05/m, 
+              color="green") +
+  theme_bw() +
+  labs(x = "Index", y = "Ordered p-values") +
+  scale_y_continuous(limits = c(0, 0.1))
+```
+
+## The Benjamini-Hochberg procedure
+
+* Order the p-values $p_{(1)} \leq p_{(2)} \leq \cdots \leq p_{(m)}$
+* Let $i^* = \max \left\lbrace i: p_{(i)} < \frac{i\alpha}{m} \right\rbrace$
+* Reject $H_{0, (i)}$ for all $i \leq i^*$
+
+
+```{r, echo=F, message=F, warning=F, fig.width=5, fig.height=3}
+data.frame(index = 1:30, pval = sort(p_vals)[1:30]) |>
+  ggplot() +
+  geom_point(aes(x = index, y = pval), size=0.7) +
+  geom_hline(yintercept = 0.05) +
+  geom_hline(yintercept = 0.05/m, color = "orange") +
+  geom_abline(slope = 0.05/(m+1), intercept = 0.05/m, 
+              color="green") +
+  theme_bw() +
+  labs(x = "Index", y = "Ordered p-values") +
+  scale_y_continuous(limits = c(0, 0.025))
+```
+
+## The Benjamini-Hochberg procedure: intuition
+
+
