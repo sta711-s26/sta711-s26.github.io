@@ -1,0 +1,314 @@
+\documentclass[11pt]{article}
+\usepackage{url}
+\usepackage{alltt}
+\usepackage{bm}
+\usepackage{bbm}
+\linespread{1}
+\textwidth 6.5in
+\oddsidemargin 0.in
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2in}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\begin{document}
+
+
+\begin{center}
+\Large
+STA 711 Final Exam Review\\
+\normalsize
+\vspace{5mm}
+\end{center} 
+
+\noindent \textbf{Information:} The final exam will be \textbf{cumulative}, and will cover material from homeworks 1 - 10 and class up through Holm's method for controlling FWER. (FDR, Benjamini-Hochberg, and interim analysis topics will not appear in the main questions, though they could potentially appear in extra credit).\\
+
+\noindent While you are expected to know material from the full course, the exam will place somewhat more emphasis on material since the second exam (hypothesis testing and confidence intervals).\\
+
+\noindent The practice questions below mostly focus on this new material. For practice with earlier material, see the homework assignments and review questions from the first two exams. As always, the review questions are not completely comprehensive, but will give you a sense of the kinds of questions I could ask on the exam.\\
+
+\noindent \textbf{Resources and rules:} 
+
+\begin{itemize}
+\item You will be provided with a sheet of common distributions, including their probability function, mean, and variance. You may use any of the facts on this sheet without proof, unless specifically asked to derive them
+
+\item You will also be provided with a partial list of results from class and homework assignments (see the next page); you may use these results without proof, unless asked to specifically to derive one of these results or otherwise stated.
+
+\item Finally, any other results from class or homework may also be used without proof, unless asked to specifically to derive one of these results or otherwise stated.
+\end{itemize}
+
+\newpage
+
+\section*{Provided results}
+
+\subsection*{Quantile estimation}
+
+Let $Y_1,...,Y_n \overset{iid}{\sim} F$, for some continuous $F$ with pdf $f$, and let $\theta_0$ be the $p$th quantile of $F$, and $\widehat{\theta}$ the sample $p$th quantile. Then,
+$$\sqrt{n}(\widehat{\theta} - \theta_0) \overset{d}{\to} N\left(0, \frac{p(1-p)}{f^2(\theta_0)} \right)$$
+(provided that $f(\theta_0) > 0$).
+
+\subsection*{M-estimation (including extension)}
+
+Let $Y_1,...,Y_n$ be iid samples from some distribution $g$. ($Y_i$ could be a scalar or vector random variable; and in the regression setting, we typically have $Y_i = (\mathbf{x}_i, Y_i)$). Let $\psi(Y, \boldsymbol{\theta})$ be a function which depends on a parameter $\boldsymbol{\theta} \in \mathbb{R}^d$.\\
+
+\noindent Let $\widehat{\boldsymbol{\theta}}$ solve
+$$\sum \limits_{i=1}^n \psi(Y_i, \boldsymbol{\theta}) = \boldsymbol{c}_n$$
+where $\boldsymbol{c}_n/\sqrt{n} \overset{p}{\to} \boldsymbol{0}$ as $n \to \infty$ (in the simplest case, we just have $\boldsymbol{c}_n \equiv \boldsymbol{0}$). And let $\boldsymbol{\theta}_0$ solve
+$$\mathbb{E}_g[\psi(Y_i, \boldsymbol{\theta})] = \boldsymbol{0}$$
+Then, under regularity conditions (which you may assume hold unless otherwise specified), $\widehat{\boldsymbol{\theta}} \overset{p}{\to} \boldsymbol{\theta}_0$, and
+$$\sqrt{n}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) \overset{d}{\to} N(\boldsymbol{0}, \mathbf{S}(\boldsymbol{\theta}_0)) \hspace{1cm} \mathbf{S}(\boldsymbol{\theta}_0) = \mathbf{A}^{-1} \mathbf{B} \mathbf{A}^{-1}$$
+where $\mathbf{B} = \mathbb{E}_g[\psi(Y_i, \boldsymbol{\theta}_0) \psi(Y_i, \boldsymbol{\theta}_0)^T]$. The definition of $\mathbf{A}$ depends on whether $\psi$ is differentiable. If $\psi$ is differentiable, then
+$$\mathbf{A} = -\mathbb{E}_g\left[ \psi'(Y_i, \boldsymbol{\theta}_0) \right]$$
+with $\psi'(Y_i, \boldsymbol{\theta}) = \frac{\partial}{\partial \boldsymbol{\theta}} \psi(Y_i, \boldsymbol{\theta})$. Otherwise,
+$$\mathbf{A} = -\frac{\partial}{\partial \boldsymbol{\theta}} \mathbb{E}_g[\psi(Y_i, \boldsymbol{\theta})] \ \Biggr\lvert_{\boldsymbol{\theta} = \boldsymbol{\theta}_0}$$
+
+\subsection*{PSD matrices}
+
+Suppose that $\mathbf{x} \sim N(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ is a multivariate normal random vector. We know that the covariance matrix $\boldsymbol{\Sigma}$ is positive semi-definite, and a useful fact about positive semi-definite matrices is that there exists a unique positive semi-definite matrix, which we will denote $\boldsymbol{\Sigma}^{\frac{1}{2}}$, such that $\boldsymbol{\Sigma}^{\frac{1}{2}}\boldsymbol{\Sigma}^{\frac{1}{2}} = \boldsymbol{\Sigma}$. It is also true that $\boldsymbol{\Sigma}^{-\frac{1}{2}} := (\boldsymbol{\Sigma}^{\frac{1}{2}})^{-1}$ satisfies $\boldsymbol{\Sigma}^{-\frac{1}{2}}\boldsymbol{\Sigma}^{-\frac{1}{2}} = \boldsymbol{\Sigma}^{-1}$.
+
+\subsection*{$t$ distribution}
+
+Let $Z \sim N(0, 1)$ and $V \sim \chi^2_d$ be \textit{independent}. Then, 
+$$\dfrac{Z}{\sqrt{V/d}} \sim t_{d}$$
+
+\subsection*{Sample variance and $\chi^2$ distribution}
+
+Let $X_1,...,X_n \overset{iid}{\sim} N(\mu, \sigma^2)$, and let
+$$s^2 = \frac{1}{n-1} \sum \limits_{i=1}^n (X_i - \overline{X})^2$$
+be the sample variance. Then,
+$$\frac{(n-1)s^2}{\sigma^2} \sim \chi^2_{n-1}$$
+
+\subsection*{Cochran's theorem}
+
+\textbf{Theorem:} Let $Z_1,...,Z_n \overset{iid}{\sim} N(0, 1)$, and let $\mathbf{z} = (Z_1,...,Z_n)^T$. Let $\mathbf{A}_1,...,\mathbf{A}_k \in \mathbb{R}^{n \times n}$ be symmetric matrices such that $\mathbf{z}^T\mathbf{z} = \sum \limits_{i=1}^k \mathbf{z}^T \mathbf{A}_i \mathbf{z}$, and let $r_i = rank(\mathbf{A}_i)$. Then the following are equivalent:
+\begin{itemize}
+\item $r_1 + \cdots + r_k = n$
+\item The $\mathbf{z}^T \mathbf{A}_i \mathbf{z}$ are independent
+\item Each $\mathbf{z}^T \mathbf{A}_i \mathbf{z} \sim \chi^2_{r_i}$
+\end{itemize}
+
+\newpage
+
+\section*{Questions}
+
+\begin{enumerate}
+
+\item Let $X_1,...,X_n$ be an iid sample from a distribution with pdf
+$$f(x|\theta) = \frac{2}{\sqrt{\theta \pi}} \exp \left\lbrace -\frac{x^2}{\theta} \right\rbrace \hspace{1cm} x > 0, \ \theta > 0.$$
+You may use, without proof, the fact that $\dfrac{2 X_i^2}{\theta} \sim \chi^2_1$.
+
+\begin{enumerate}
+\item Show that the likelihood ratio test of $H_0: \theta = \theta_0$ vs. $H_A: \theta \neq \theta_0$ rejects when $\dfrac{2 \sum \limits_{i=1}^n X_i^2}{\theta_0} < c_1$ or $\dfrac{2 \sum \limits_{i=1}^n X_i^2}{\theta_0} > c_2$, for some $c_1 < c_2$.
+
+\item Find values $c_1, c_2$ such that the likelihood ratio test from (a) is a size $\alpha$ test.
+\end{enumerate}
+
+\bigskip
+
+\item Let $Y_1,...,Y_n \overset{iid}{\sim} Poisson(\lambda)$, and let $\tau = P(Y_i = 0)$. We have previously shown that the MLE for $\lambda$ is $\widehat{\lambda}_{\text{MLE}} = \overline{Y}$.
+
+\begin{enumerate}
+\item Find the MLE $\widehat{\tau}_{\text{MLE}}$ for $\tau$.
+\item Now consider another estimator: $\widetilde{\tau} = \frac{1}{n} \sum \limits_{i=1}^n \mathbbm{1}\{Y_i = 0 \}$. Find the asymptotic relative efficiency $ARE(\widehat{\tau}_{\text{MLE}}, \widetilde{\tau})$.
+\item We are interested in testing $H_0: \tau = \tau_0$ vs. $H_A: \tau \neq \tau_0$. Propose two different Wald tests for these hypotheses (specify when you will reject), one based on $\widehat{\tau}_{\text{MLE}}$ and one based on $\widetilde{\tau}$. Which test will be more powerful?
+\end{enumerate}
+
+\bigskip
+
+\item \textbf{(Multivariate normal means)} Let $\mathbf{x}_1, \mathbf{x}_2 \in \mathbb{R}^d$ be two independent multivariate normal random vectors, with
+$$\mathbf{x}_1 \sim N(\boldsymbol{\theta}_1, \sigma^2 \mathbf{I}_d) \hspace{1cm} \mathbf{x}_2 \sim N(\boldsymbol{\theta}_2, \sigma^2 \mathbf{I}_d),$$
+where $\mathbf{I}_d$ is the $d \times d$ identity matrix.
+
+\begin{enumerate}
+\item Show that $\mathbf{x}_2 - \mathbf{x}_1 \sim N(\boldsymbol{\theta}_2 - \boldsymbol{\theta}_1, 2 \sigma^2 \mathbf{I}_d)$.
+
+\item Assume that $\sigma^2$ is \textit{known}, but $\boldsymbol{\theta}_1, \boldsymbol{\theta}_2$ are unknown. We wish to test $H_0: \boldsymbol{\theta}_1 = \boldsymbol{\theta}_2$ vs. $H_A: \boldsymbol{\theta}_1 \neq \boldsymbol{\theta}_2$. Using part (a), propose a test statistic that follows a $\chi^2_d$ distribution under $H_0$, and describe when you will reject for a level $\alpha$ test. (Note: the $\chi^2$ distribution here should be \textit{exact}, not asymptotic; this is possible because the underlying data are normal).
+
+\item Still assuming that $\sigma^2$ is known, under $H_A$ the test statistic from part (b) should follow a non-central chi-squared distribution $\chi^2_d(\lambda)$. Give the non-centrality parameter $\lambda$, and write down the power function.
+
+\item Finally, suppose now that $\sigma^2$ is \textit{unknown}, but it is known that
+$$\boldsymbol{\theta}_2 = \boldsymbol{\theta}_2 + \begin{pmatrix}
+\delta \\ \delta \\ \vdots \\ \delta
+\end{pmatrix}$$
+for some $\delta \in \mathbb{R}$. (That is, $\theta_{2,j} = \theta_{1,j} + \delta$ for each entry $j = 1,...,d$). For the test of $H_0: \delta = 0$ vs. $H_A: \delta \neq 0$, propose a test statistic which has a $t_{d-1}$ distribution under $H_0$.
+\end{enumerate}
+
+\bigskip
+
+\item \textbf{(Estimation in the geometric model)} For this problem, a geometric random variable $X \sim Geometric(\theta)$ with $\theta \in (0, 1)$ has pmf
+$$f(x|\theta) = P_\theta(X = x) = (1 - \theta)^x \theta \hspace{1cm} x \in \{0, 1, 2, ...\}$$
+It will also help to know that 
+$$\mathbb{E}_\theta[X] = \dfrac{1 - \theta}{\theta} \hspace{1cm} Var_\theta(X) = \dfrac{1 - \theta}{\theta^2}$$
+(This may be a slightly different parameterization than appears on the formula sheet).
+
+Suppose that $X_1,...,X_n \overset{iid}{\sim} Geometric(\theta)$.
+
+\begin{enumerate}
+\item Find the maximum likelihood estimator $\widehat{\theta}$.
+
+\item Show that $\widehat{\theta} \overset{p}{\to} \theta$. (While it is true that MLEs are generally consistent, I do not want you to use that general fact here; rather, I want you to show it directly using your estimator from part (a)).
+
+\item Find the asymptotic distribution of $\sqrt{n}(\widehat{\theta} - \theta)$. You may use our usual asymptotic results, and assume that any necessary regularity conditions hold.
+
+\item Use part (c) to construct a Wald confidence interval for $\theta$.
+\end{enumerate}
+
+\bigskip
+
+\item \textbf{(Six Gaussians)} Let $X_1,...,X_6$ be independent univariate normal random variables with $X_i \sim N(\theta_i, \sigma^2)$.
+
+\begin{enumerate}
+\item For this part of the problem \textbf{only}, assume that $\sigma^2 = 1$ is known, and we wish to test the null hypothesis $H_0: \theta_2 = \theta_3 \text{ and } \theta_4 = \theta_5 = \theta_6$, vs. the alternative that $\boldsymbol{\theta} = (\theta_1,...,\theta_6)^T$ is any other vector in $\mathbb{R}^6$. Suggest a test statistic which follows a $\chi^2$ distribution, and specify the degrees of freedom.
+
+\textit{Hints:}
+\begin{itemize}
+\item You should not use any large-sample approximations here. Because the $X_i$ are normal, it is possible to get a test statistic which is \textit{exactly} $\chi^2$.
+\item Think carefully about the different tests we have discussed, and choose one that allows you to specify these restrictions under $H_0$.
+\end{itemize}
+
+\item Now, for this part of the problem \textbf{only}, instead assume that $\sigma^2$ is unknown, but it \textit{is} known that $\theta_2 = \theta_3$ and $\theta_4 = \theta_5 = \theta_6$. We are interested in the quantity $\lambda = \theta_4 - \theta_3$.
+\begin{enumerate}
+\item Write down an estimator for $\lambda$ in terms of $X_1,...,X_6$.
+\item Write down an estimator for $\sigma^2$ in terms of $X_1,...,X_6$.
+\item Suggest a confidence interval based on the $t$ distribution for the quantity $\lambda = \theta_4 - \theta_3$. Make sure to specify the appropriate degrees of freedom.
+\end{enumerate}
+\end{enumerate}
+
+\bigskip
+
+\item \textbf{(McNemar's Test)} Suppose we have paired binary data: for $i = 1,...,n$ we observe $(X_i, Y_i)$ with $X_i, Y_i \in \{0,1\}$. The pairs $(X_i, Y_i)$ are iid, with probabilities
+$$P[(X_i, Y_i) = (a, b)] = \pi_{a,b} \hspace{1cm} a,b \in \{0, 1\}$$
+For instance, to borrow an example from Agresti's \textit{Categorical Data Analysis}, consider a survey of $n = 1600$ British voters, each of whom was asked their opinion of the British prime minister (approval or disapproval), and then asked again six months later. In this example, $X_i$ is the $i$th voter's initial response ($X_i = 0$ indicates disapproval, $X_i = 1$ indicates approval), while $Y_i$ is the same voter's subsequent response to the six-month follow-up question.
+
+Let $\pi_{1+} = P(X_i = 1) = \pi_{10} + \pi_{11}$ and $\pi_{+1} = P(Y_i = 1) = \pi_{01} + \pi_{11}$. We are interested in testing the null hypothesis that $\pi_{1+} = \pi_{+1}$. Since $X_i$ and $Y_i$ are correlated (e.g. they are two responses from the same British voter), we can't use methods for two independent samples.
+
+This is equivalent to testing
+$$H_0: \pi_{10} = \pi_{01} \hspace{1cm} H_A: \pi_{10} \neq \pi_{01}$$
+A common test of these hypotheses is \textit{McNemar's test}. Letting $n_{01} = \sum \limits_{i=1}^n \mathbbm{1}\{X_i = 0, Y_i = 1\}$ and $n_{10} = \sum \limits_{i=1}^n \mathbbm{1}\{X_i = 1, Y_i = 0\}$, McNemar's test is based on the statistic
+$$Z = \dfrac{n_{10} - n_{01}}{(n_{10} + n_{01})^{1/2}}$$
+Under $H_0$, $Z \approx N(0, 1)$.
+
+Really what this comes down to is testing for symmetric off-diagonals of a $2 \times 2$ contingency table. For example, for the British opinion poll example, the survey results are
+
+\begin{center}
+\begin{tabular}{l|lll}
+\hline
+First Survey \textbackslash Second Survey & Disapprove & Approve & Total \\ \hline
+Disapprove                                & 570        & 86      & 656   \\
+Approve                                   & 150        & 794     & 944   \\
+Total                                     & 720        & 880     & 1600  \\ \hline
+\end{tabular}
+\end{center}
+
+and the test statistic is
+
+$$Z = \dfrac{150 - 86}{(150 + 86)^{1/2}} = 4.17$$
+
+The purpose of this question is to derive McNemar's test.
+
+\begin{enumerate}
+\item Let $p_{10} = n_{10}/n$ and $p_{01} = n_{01}/n$ be the sample proportions, and let $D = p_{10} - p_{01}$. Using the fact that $Cov(n_{10}, n_{01}) = -n\pi_{10}\pi_{01}$ (you do not need to prove this covariance), find an expression for $Var(D)$.
+
+\item Suppose that the null hypothesis $H_0: \pi_{10} = \pi_{01}$ is true, and let $\pi_1 = \pi_{10} = \pi_{01}$ be the common parameter under the null. Show that, under $H_0$, 
+$$\sqrt{n} D \overset{d}{\to} N(0, 2 \pi_1)$$
+
+\item Show that, under $H_0$, $\dfrac{n_{10} - n_{01}}{(n_{10} + n_{01})^{1/2}} \approx N(0, 1)$.
+\end{enumerate}
+
+
+\bigskip
+
+\item Suppose that $X_{ij} \sim Poisson(\lambda_{ij})$ for $i,j \in \{0, 1\}$ are independent random variables. Further suppose that $\lambda_{ij} = \lambda_0 \rho^{i+j}$ where $\lambda_0, \rho > 0$ and $\lambda_0$ is known. Suggest a uniformly most powerful test of $H_0: \rho \leq \rho_0$ vs. $H_A: \rho > \rho_0$. You do not need to give an explicit cutoff for the test, but you should give an explicit formula for the test statistic and explain why your test is UMP.
+
+\bigskip
+
+\item \textbf{(Weighted Bonferroni)} We wish to test $m$ hypotheses $H_{0,1},...,H_{0,m}$. Let $p_i$ be the p-value corresponding to the $i$th hypothesis, and let $w_1,...,w_m \in [0,1]$ be weights such that $\sum \limits_{i=1}^m w_i = 1$. Consider a \textit{weighted Bonferroni} approach in which we reject $H_{0,i}$ when $p_i < w_i \alpha$. Show that this procedure controls FWER at level $\alpha$.
+
+\bigskip
+
+\item In general, the Bonferroni method (because it uses the union bound) is conservative, but it is possible for the Bonferroni method to be \textit{exact}. The purpose of this problem is to create a distribution of p-values for which the FWER under the Bonferroni correction is \textit{exactly} $\alpha$. 
+
+Suppose we wish to test $H_{0,1},...,H_{0,m}$, all of which are truly null, and the p-values have a joint distribution that can be described as follows. Let $J \in \{1,...,m\}$ be a random variable with $P(J = i) = \alpha/m$ for $i = 1,...,m$, and let $p_i \in [0, 1]$ depend on $J$:
+$$p_i | (J = i) \sim Uniform(0, \alpha/m) \hspace{1cm} p_i | (J \neq i) \sim Uniform(\alpha/m, 1)$$
+\begin{enumerate}
+\item In general, we want our p-values under the null hypothesis to have a $Uniform(0, 1)$ distribution. Show that the \textit{marginal} distribution of $p_i$ in this setup is $p_i \sim Uniform(0, 1)$.
+
+\item Show that, if we reject $H_{0,i}$ when $p_i < \alpha/m$, then the FWER is exactly $\alpha$.
+\end{enumerate}
+
+\bigskip
+
+\section*{Two-sample test for difference in means}
+
+\item Let $X_1,...,X_n$ be an iid sample from a population with mean $\mu_1$ and variance $\sigma^2$, and $Y_1,...,Y_m$ an iid sample from a population with mean $\mu_2$ and variance $\sigma^2$. The two samples are independent. Furthermore, assume that the common variance $\sigma^2$ for the two populations is finite. We wish to test the hypotheses $H_0: \mu_1 = \mu_2$ vs. $H_A: \mu_1 \neq \mu_2$. Consider the test statistic
+
+$$T = \frac{\overline{X} - \overline{Y}}{\sqrt{s_p^2 \left(\frac{1}{n} + \frac{1}{m} \right)}}$$
+
+where 
+
+$$s_p^2 = \dfrac{\sum \limits_{i=1}^n (X_i - \overline{X})^2 + \sum \limits_{j=1}^m (Y_j - \overline{Y})^2}{n+m-2}$$
+
+\begin{enumerate}
+\item Show that if $H_0$ is true and $\mu_1 = \mu_2 = \mu$, you can rewrite $T$ as
+
+$$T = \left(\sqrt{1 - \lambda_{n,m}} \sqrt{n} (\overline{X} - \mu) - \sqrt{ \lambda_{n,m}} \sqrt{m} (\overline{Y} - \mu) \right)/s_p$$
+
+where $\lambda_{n,m} = \dfrac{n}{n+m}$.
+
+\item Suppose that $n,m \to \infty$ such that $\lambda_{n,m} \to \lambda \in (0, 1)$. Using the fact that
+
+$$\frac{1}{n} \sum \limits_{i=1}^n (X_i - \overline{X})^2 \overset{p}{\to} \sigma^2 \hspace{1cm} \frac{1}{m} \sum \limits_{j=1}^m (Y_j - \overline{Y})^2 \overset{p}{\to} \sigma^2$$
+
+show that $s_p^2 \overset{p}{\to} \sigma^2$.
+
+\item Suppose that $H_0$ is true and $n,m \to \infty$ such that $\lambda_{n,m} \to \lambda \in (0, 1)$. Show that $T \overset{d}{\to} N(0, 1)$. For this, you may use the fact that if $\{U_n\}$ and $\{V_n\}$ are two independent sequences such that $U_n \overset{d}{\to} U$ and $V_n \overset{d}{\to} V$, and $U$ and $V$ are also independent, then $U_n + V_n \overset{d}{\to} U + V$.
+
+\item Finally, give a Wald test rejection region for the test of $H_0: \mu_1 = \mu_2$ vs. $H_A: \mu_1 \neq \mu_2$ in terms of $T$.
+\end{enumerate}
+
+\bigskip
+
+\item Consider the same setup as in the previous question, but this time also assume that the two populations are normal. That is, $X_1,...,X_n \overset{iid}{\sim} N(\mu_1, \sigma^2)$ and $Y_1,...,Y_m \overset{iid}{\sim} N(\mu_2, \sigma^2)$. 
+
+\begin{enumerate}
+\item Show that 
+$$\dfrac{(\overline{X} - \overline{Y}) - (\mu_1 - \mu_2)}{\sqrt{s_p^2 \left(\frac{1}{n} + \frac{1}{m} \right)}} \sim t_{n+m-2}$$
+(Note: you do not need to re-derive the $t$ distribution using Cochran's theorem here. Rather, rely on previous results from homework to show that $T$ can be written in a way that matches the definition of a random variable following a $t$ distribution).
+\item Give a $1 - \alpha$ confidence interval for $\mu_1 - \mu_2$ using the $t_{n+m-2}$ distribution.
+\end{enumerate}
+
+\end{enumerate}
+
+\section*{Wilcoxon signed-rank test}
+
+Let $X_1,...,X_n$ be iid from a continuous distribution which is symmetric about $\theta$, and let $f(x|\theta)$ denote the pdf. We are interesting in testing the hypotheses
+$$H_0: \theta = 0 \hspace{1cm} H_A: \theta > 0$$
+The \textbf{Wilcoxon signed-rank test} is based on the statistic
+$$W_n = n^{-3/2} \sum \limits_{i=1}^n R_{i,n}^+ \text{sign}(X_i)$$
+where $R_{i,n}^+$ is the rank of $|X_i|$ among $|X_1|,...,|X_n|$.\\
+
+\noindent The Wilcoxon signed-rank test rejects when $W_n$ is ``large''. Determining a ``large'' value for $W_n$ under $H_0$ requires finding an asymptotic distribution for $W_n$.\\
+
+\noindent It turns out (you do not need to show this!) that
+$$W_n \approx \sqrt{n} \ V_n \hspace{1cm} V_n = \frac{1}{n} \sum \limits_{i=1}^n U_i \text{sign}(X_i)$$
+where $U_i = G(|X_i|)$ and $G$ is the cdf of $|X|$. 
+
+\begin{enumerate}
+\item[11.] We will find an asymptotic distribution for $V_n$ to get an asymptotic distribution for $W_n$.
+
+\begin{enumerate}
+\item Let $Y \geq 0$ be a non-negative continuous random variable with cdf $G_Y$ and pdf $g_Y$. Show that $\mathbb{E}[G_Y^2(Y)] = 1/3$.
+
+\item Give an intuitive explanation that $U_i$ and $\text{sign}(X_i)$ are independent if $H_0: \theta = 0$ is true.
+
+\item Using the fact that $U_i$ and $\text{sign}(X_i)$ are independent under $H_0$, show that $\mathbb{E}[U_i \text{sign}(X_i)] = 0$ and $Var(U_i \text{sign}(X_i)) = 1/3$ under $H_0$.
+
+\item Conclude that $\sqrt{n} \ V_n \overset{d}{\to} N(0, 1/3)$.
+
+\item Using part (d), propose a rejection region for the test of $H_0: \theta = 0$ vs. $H_A: \theta > 0$ in terms of the statistic $W_n$.
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
