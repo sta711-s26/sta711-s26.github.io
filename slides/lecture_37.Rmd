@@ -1,0 +1,25 @@
+---
+title: "Interim Analysis"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Motivation: Peaking at the data?
+
+Observe data $X_1,...,X_n$ over $n$ months, with single $X_i$ collected each month. Assume that
+$$X_1,...,X_n \overset{iid}{\sim} N(\mu, 1)$$
+Want to test $H_0: \mu = 0$ vs. $H_A: \mu > 0$. Initial plan: reject if 
+$$Z_n = \frac{1}{\sqrt{n}} \sum \limits_{i=1}^n X_i > z_{\alpha}$$
+**Question:** Can we look at the data early?
+
+\vspace{4cm}
+
+## Motivation: Peaking at the data?
+
+$$X_1,...,X_n \overset{iid}{\sim} N(\mu, 1)$$
+$$Z_k = \frac{1}{\sqrt{k}} \sum \limits_{i=1}^k X_i \hspace{1cm} Z_n = \frac{1}{\sqrt{n}} \sum \limits_{i=1}^n X_i$$
+**Decision rule:** Reject $H_0$ if $Z_k > c_1$ or $Z_n > c_2$.
+
+**Question:** How would I choose $c_1, c_2$ to control type I error at level $\alpha$?
+
+\vspace{5cm}

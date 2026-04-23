@@ -1,0 +1,129 @@
+---
+title: "Class activity solutions"
+format: html
+---
+
+2. Verifying that when all hypotheses are truly null, both Bonferroni and BH control the FWER at level $\alpha$:
+
+```{r}
+m <- 100 # number of hypotheses to test
+n <- 50 # sample size for each hypothesis
+nsim <- 10000
+bonferroni_rejections <- rep(NA, nsim)
+bh_rejections <- rep(NA, nsim)
+
+for(j in 1:nsim){
+  pvals <- rep(0, m) # store p-values for each test
+  for(i in 1:m){
+    x <- rnorm(n) # sample N(0,1) data
+    test_stat <- sqrt(n)*mean(x) # test statistic
+    pvals[i] <- 2*pnorm(abs(test_stat), lower.tail=F) #p-value
+  }
+  
+  # count Bonferroni rejections
+  bonferroni_rejections[j] <- sum(pvals < 0.05/m)
+  
+  # count BH rejections
+  bh_pvals <- p.adjust(pvals, method = "BH")
+  bh_rejections[j] <- sum(bh_pvals < 0.05)
+}
+
+# FWER for Bonferroni
+mean(bonferroni_rejections > 0)
+
+# FWER for BH
+mean(bh_rejections > 0)
+```
+
+3.
+
+```{r}
+m <- 100 # number of hypotheses to test
+m0 <- 80
+n <- 50 # sample size for each hypothesis
+nsim <- 10000
+bonferroni_rejections <- rep(NA, nsim)
+bonferroni_errors <- rep(NA, nsim)
+bh_rejections <- rep(NA, nsim)
+bh_errors <- rep(NA, nsim)
+group_means <- rep(c(0, 0.5), times=c(m0, m-m0))
+
+for(j in 1:nsim){
+  pvals <- rep(0, m) # store p-values for each test
+  for(i in 1:m){
+    x <- rnorm(n, mean=group_means[i]) # sample N(0,1) data
+    test_stat <- sqrt(n)*mean(x) # test statistic
+    pvals[i] <- 2*pnorm(abs(test_stat), lower.tail=F) #p-value
+  }
+  
+  # count Bonferroni rejections
+  bonferroni_rejections[j] <- sum(pvals < 0.05/m)
+  bonferroni_errors[j] <- sum(pvals[group_means == 0] < 0.05/m)
+  
+  # count BH rejections
+  bh_pvals <- p.adjust(pvals, method = "BH")
+  bh_rejections[j] <- sum(bh_pvals < 0.05)
+  bh_errors[j] <- sum(bh_pvals[group_means == 0] < 0.05)
+}
+```
+
+FDR using the BH method:
+
+```{r}
+mean(bh_errors/bh_rejections)
+```
+
+Note also that Bonferroni still controls FWER (as expected), but BH does not:
+
+```{r}
+mean(bonferroni_errors > 0)
+mean(bh_errors > 0)
+```
+
+
+4. BH method is more powerful at rejecting $H_0$ when $H_0$ is false:
+
+```{r}
+mean(bh_rejections - bh_errors)/(m - m0)
+mean(bonferroni_rejections - bonferroni_errors)/(m - m0)
+```
+
+5. Relative power of BH increases as $m_0$ decreases:
+
+```{r}
+m <- 100 # number of hypotheses to test
+m0 <- 50
+n <- 50 # sample size for each hypothesis
+nsim <- 10000
+bonferroni_rejections <- rep(NA, nsim)
+bonferroni_errors <- rep(NA, nsim)
+bh_rejections <- rep(NA, nsim)
+bh_errors <- rep(NA, nsim)
+group_means <- rep(c(0, 0.5), times=c(m0, m-m0))
+
+for(j in 1:nsim){
+  pvals <- rep(0, m) # store p-values for each test
+  for(i in 1:m){
+    x <- rnorm(n, mean=group_means[i]) # sample N(0,1) data
+    test_stat <- sqrt(n)*mean(x) # test statistic
+    pvals[i] <- 2*pnorm(abs(test_stat), lower.tail=F) #p-value
+  }
+  
+  # count Bonferroni rejections
+  bonferroni_rejections[j] <- sum(pvals < 0.05/m)
+  bonferroni_errors[j] <- sum(pvals[group_means == 0] < 0.05/m)
+  
+  # count BH rejections
+  bh_pvals <- p.adjust(pvals, method = "BH")
+  bh_rejections[j] <- sum(bh_pvals < 0.05)
+  bh_errors[j] <- sum(bh_pvals[group_means == 0] < 0.05)
+}
+
+mean(bh_rejections - bh_errors)/(m - m0)
+mean(bonferroni_rejections - bonferroni_errors)/(m - m0)
+```
+
+
+
+
+
