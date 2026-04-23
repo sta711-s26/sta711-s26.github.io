@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 APR 2026 11:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 APR 2026 16:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -336,7 +336,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 54--55
 [2]
 
 [3]
-LaTeX Font Info:    Trying to load font information for U+bbm on input line 114
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 116
 .
  (/usr/local/texlive/2025/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
@@ -345,24 +345,24 @@ File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 [4]
 
 [5]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1
-98.
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 2
+00.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2024/11/19 v2.5n Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 198.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 200.
 
 
 [6]
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 289--291
+Underfull \hbox (badness 10000) in paragraph at lines 291--293
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 292--293
+Underfull \hbox (badness 10000) in paragraph at lines 294--295
 
  []
 
@@ -381,7 +381,7 @@ Package rerunfilecheck Info: File `final_exam_review.out' has not changed.
 Here is how much of TeX's memory you used:
  9114 strings out of 473190
  138543 string characters out of 5715801
- 542633 words of memory out of 5000000
+ 541633 words of memory out of 5000000
  32200 multiletter control sequences out of 15000+600000
  570408 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -405,7 +405,7 @@ usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
 r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
 /local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><
 /usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on final_exam_review.pdf (9 pages, 237836 bytes).
+Output written on final_exam_review.pdf (9 pages, 238402 bytes).
 PDF statistics:
  212 PDF objects out of 1000 (max. 8388607)
  162 compressed objects within 2 object streams
