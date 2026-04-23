@@ -16,3 +16,6 @@ April 22
 April 24
 : Interim analysis
   : [Slides](https://sta711-s26.github.io/slides/lecture_37.pdf), [activity](https://sta711-s26.github.io/class_activities/ca_37.html)
+  
+: **LDOC reading**{: .label .label-yellow }
+  : [reading](https://sta711-s26.github.io/homework/ldoc_reading.html)

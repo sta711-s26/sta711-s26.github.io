@@ -1,0 +1,63 @@
+---
+title: "Interim Analysis"
+author: "Ciaran Evans"
+output: beamer_presentation
+---
+
+## Motivation: Stopping early?
+
+Observe data $X_1,...,X_n$ over $n$ months, with single $X_i$ collected each month. Assume that $X_1,...,X_n \overset{iid}{\sim} N(\mu, 1)$
+
+Want to test $H_0: \mu = 0$ vs. $H_A: \mu > 0$. Let $Z_k = \frac{1}{\sqrt{k}} \sum \limits_{i=1}^k X_i$.
+
+**Decision rule:** Reject $H_0$ if $Z_k > c_1$ or $Z_n > c_2$.
+
+**Bonferroni approach:**
+
+\vspace{2cm}
+
+**General union bound:**
+
+\vspace{3cm}
+
+## Exact probability of a type I error
+
+## Pocock approach
+
+$$P(Z_{k} > c_1 \cup Z_{n} > c_2) = P(Z_{k} > c_1) + P(Z_{k} < c_1, Z_{n} > c_2)$$
+
+**Pocock approach:** 
+
+\vspace{5cm}
+
+## O'Brien-Fleming (OBF) approach
+
+**Motivation:** Put most of $\alpha$ into the final analysis, so significance level of final analysis is close to that of a single test procedure
+
+**Setup:** Observe $X_1,...,X_n$. Perform $R$ total analyses: interim analyses at times $k_1, k_2,...,k_{R-1} < n$, and final analysis at time $n$. 
+
+\vspace{6cm}
+
+## Example
+
+$P(Z_k > c_1 \cup Z_n > c_2 | \mu = 0)=$
+$$\begin{aligned}
+(1 - \Phi(c_1)) + \int \limits_{-\infty}^{c_1} \left(1 - \Phi\left(\frac{1}{\sqrt{n - k}} (\sqrt{n} c_2 - \sqrt{k} t) \right) \right) \phi(t) dt
+\end{aligned}$$
+
+**Example:** $R = 2$ (so $k = n/2$), and $\alpha = 0.05$
+
+\vspace{6cm}
+
+## Drawbacks
+
+There are several drawbacks to the Pocock and OBF approaches:
+
+1. Have to prespecify number of analyses, and when you will conduct them.
+
+2. Published Pocock/OBF bounds assume evenly-spaced tests. (Can calculate your own boundaries for non-evenly spaced tests, but that isn't as easy as looking up existing boundaries)
+
+\vspace{2cm}
+
+
+

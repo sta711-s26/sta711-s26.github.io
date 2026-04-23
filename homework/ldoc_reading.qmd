@@ -1,0 +1,42 @@
+---
+title: "LDOC reading"
+format: html
+editor: source
+---
+
+For the last day of class, I would like to have a discussion about the use (and mis-use) of hypothesis testing in the sciences, and implications for false positives and the reproducibility crisis.
+
+To prepare for that discussion, I would like you to read a couple of articles, described below. These articles are pretty short and accessible.
+
+## "Why most published research findings are false"
+
+In 2005, John Ioannidis published an influential paper titled ["Why most published research findings are false"](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124). In this article, he argues that, due to a variety of factors, most published research findings are in fact false discoveries.
+
+Read through the article, and think about the following questions as you read:
+
+* How does Ioannidis come to the conclusion that most published research findings are false?
+* Which factors does Ioannidis claim will cause published research to be *more likely* to be false?
+* Do *you* think that most published research findings are false?
+
+## Brian Wansink, p-hacking and HARKing, and reproducibility
+
+Brian Wansink was a famous professor and the head of the Food and Brand Lab at Cornell University. He published articles with catchy conclusions; for example, that people eat more when they are watching an action movie. 
+
+In 2017, Wansink became the center of a scientific ethics and reproducibility controversy, after he published a blog post which alluded to questionable use of data analysis and hypothesis testing in his studies. 
+
+Wansink's apparent research practices raised concnerns about data management (independent investigators discovered a litany of data errors in some of his manuscripts), p-hacking (testing different hypotheses until you get a "significant" p-value), and hypothesizing after the results are known (i.e. HARKing, in which you choose your research question based on the data, rather than collecting data to answer a specific research question). All of these mis-uses of data and statistics are connected with a reproducibility crisis in several different fields.
+
+Read [this NPR article](https://www.npr.org/sections/thesalt/2018/09/26/651849441/cornell-food-researchers-downfall-raises-larger-questions-for-science) summarizing the Wansink story, and think about the following questions:
+
+* What issues were identified in Wansink's work?
+* How could these issues result in a higher rate of false positives in his published research?
+
+
+## Optional: trying to estimate the actual proportion of false discoveries
+
+*Note: I don't want this reading to take too long! If you have time, take a look at this final paper, but don't worry if you don't.*
+
+John Ioannidis' claim that "most published research findings are false" is disturbing. Can we try to estimate the actual proportion of false discoveries in the published literature?
+
+[Jager and Leek](https://academic.oup.com/biostatistics/article/15/1/1/244509) take this approach, and estimate that about 14% of published findings are false. Read the linked paper; how do the authors estimate the true proportion of false discoveries?
+

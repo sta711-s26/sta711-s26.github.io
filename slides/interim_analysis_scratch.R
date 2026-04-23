@@ -87,3 +87,31 @@ get_pocock_cutoff(0.05)$root
 pnorm(1.875424, lower.tail=F)
 
 
+# pocock
+
+get_obf_cutoff <- function(alpha){
+  g_func <- function(c){
+    g1(sqrt(2) * c) + integrate(function(t) g2(t, c), -Inf, sqrt(2)*c)$value
+  }
+  uniroot(function(c) alpha - g_func(c), interval = c(0, qnorm(alpha/2, lower.tail=F)))
+}
+
+get_obf_cutoff(0.05)$root
+
+pnorm(2.373, lower.tail=F)
+
+
+z15 <- c()
+z30 <- c()
+
+for(i in 1:1000000){
+  x <- rnorm(30)
+  z15[i] <- sum(x[1:15])/sqrt(15)
+  z30[i] <- sum(x[1:30])/sqrt(30)
+}
+
+mean(z15 > 1.678 | z30 > 2.373)
+
+
+
+
