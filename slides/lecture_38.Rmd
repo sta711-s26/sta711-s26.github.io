@@ -59,5 +59,87 @@ There are several drawbacks to the Pocock and OBF approaches:
 
 \vspace{2cm}
 
+## $\alpha$ spending
+
+Suppose we wish to do $R = 5$ total analyses, and we want an overall type I error rate of $\alpha = 0.05$. OBF and Pocock bounds specify the amount of type I error "budget" that we use for each analysis:
+
+```{r, echo=F, message=F, warning=F, fig.width=7, fig.height=3.5}
+library(tidyverse)
+library(patchwork)
+
+t_vals <- c(0, 0.2, 0.4, 0.6, 0.8, 1)
+a1 <- 2 - 2*pnorm(qnorm(0.975)/sqrt(t_vals))
+obf_spent <- diff(a1)
+
+a2 <- 0.05*log(1 + (exp(1) - 1)*t_vals)
+pocock_spent <- diff(a2)
+
+p1 <- data.frame(time = rep(t_vals[-1], 2), 
+           alpha = c(obf_spent, pocock_spent),
+           method = rep(c("OBF", "Pocock"), each=5)) |>
+  ggplot(aes(x = time, y = alpha, color = method, shape=method)) +
+  geom_point() +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Time", y = "Type I error spent per analysis")
+
+p2 <- data.frame(time = rep(t_vals, 2), 
+           alpha = c(a1, a2),
+           method = rep(c("OBF", "Pocock"), each=6)) |>
+  ggplot(aes(x = time, y = alpha, color = method, shape=method)) +
+  geom_point() +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Time", y = "Cumulative type I error spent")
+
+p1 + p2 + plot_layout(guides = "collect") & theme(legend.position = 'bottom')
+```
+
+\vspace{2cm}
+
+## $\alpha$ spending functions
+
+* Non-decreasing function $f(t) : [0, 1] \to [0, \alpha]$ with $f(0) = 0$ and $f(1) = \alpha$, which gives **total** type I error spent by time $t$
+* Conduct analyses at times $0 < t_1 < t_2 < \cdots t_R = 1$
+* Portion of $\alpha$ spent on analysis $t_i$ is $f(t_i) - f(t_{i-1})$
 
 
+```{r, echo=F, message=F, warning=F, fig.width=5, fig.height=3}
+
+t_vals <- seq(0, 1, 0.01)
+a1 <- 2 - 2*pnorm(qnorm(0.975)/sqrt(t_vals))
+
+a2 <- 0.05*log(1 + (exp(1) - 1)*t_vals)
+
+data.frame(time = rep(t_vals, 2), 
+           alpha = c(a1, a2),
+           method = rep(c("OBF", "Pocock"), each=length(t_vals))) |>
+  ggplot(aes(x = time, y = alpha, color = method, lty=method)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Time", y = "Cumulative type I error spent")
+```
+
+\vspace{2cm}
+
+## $\alpha$ spending functions
+
+**Advantage:** Don't have to specify number of interim analyses, or when the analyses will be performed, ahead of time
+
+```{r, echo=F, message=F, warning=F, fig.width=5, fig.height=3}
+
+t_vals <- seq(0, 1, 0.01)
+a1 <- 2 - 2*pnorm(qnorm(0.975)/sqrt(t_vals))
+
+a2 <- 0.05*log(1 + (exp(1) - 1)*t_vals)
+
+data.frame(time = rep(t_vals, 2), 
+           alpha = c(a1, a2),
+           method = rep(c("OBF", "Pocock"), each=length(t_vals))) |>
+  ggplot(aes(x = time, y = alpha, color = method, lty=method)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Time", y = "Cumulative type I error spent")
+```
+
+\vspace{2cm}
