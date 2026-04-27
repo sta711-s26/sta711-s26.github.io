@@ -232,7 +232,7 @@ $$\sqrt{n} D \overset{d}{\to} N(0, 2 \pi_1)$$
 
 \item In general, the Bonferroni method (because it uses the union bound) is conservative, but it is possible for the Bonferroni method to be \textit{exact}. The purpose of this problem is to create a distribution of p-values for which the FWER under the Bonferroni correction is \textit{exactly} $\alpha$. 
 
-Suppose we wish to test $H_{0,1},...,H_{0,m}$, all of which are truly null, and the p-values have a joint distribution that can be described as follows. Let $J \in \{1,...,m\}$ be a random variable with $P(J = i) = \alpha/m$ for $i = 1,...,m$, and let $p_i \in [0, 1]$ depend on $J$:
+Suppose we wish to test $H_{0,1},...,H_{0,m}$, all of which are truly null, and the p-values have a joint distribution that can be described as follows. Let $J \in \{0,1,...,m\}$ be a random variable with $P(J = 0) = 1 - \alpha$, $P(J = i) = \alpha/m$ for $i = 1,...,m$, and let $p_i \in [0, 1]$ depend on $J$:
 $$p_i | (J = i) \sim Uniform(0, \alpha/m) \hspace{1cm} p_i | (J \neq i) \sim Uniform(\alpha/m, 1)$$
 \begin{enumerate}
 \item In general, we want our p-values under the null hypothesis to have a $Uniform(0, 1)$ distribution. Show that the \textit{marginal} distribution of $p_i$ in this setup is $p_i \sim Uniform(0, 1)$.
