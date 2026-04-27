@@ -1,0 +1,82 @@
+---
+title: "Class activity"
+format: html
+editor: source
+---
+
+# Interim analysis and $\alpha$ spending functions
+
+An $\alpha$ spending function is a non-decreasing function $f(t) : [0, 1] \to [0, \alpha]$ with $f(0) = 0$ and $f(1) = \alpha$, which gives the **total** type I error spent by time $t$. 
+
+Suppose we conduct a total of $R$ analyses, at times $0 < t_1 < t_2 < \cdots t_R = 1$. The portion of $\alpha$ spent on the $i$th analysis at time $t_i$ is given by
+$$\alpha_i = f(t_i) - f(t_{i-1})$$
+
+Here are two common $\alpha$ spending functions. The first, $f_1$, approximates the O'Brien-Fleming bounds, while the second, $f_2$, approximates the Pocock bounds.
+
+$$
+\begin{aligned}
+f_1(t) &= 2 - 2 \Phi \left( \dfrac{\Phi^{-1}(1 - \frac{\alpha}{2})}{\sqrt{t}} \right) \\
+f_2(t) &= \alpha \log(1 + (e - 1)t)
+\end{aligned}
+$$
+
+```{r, echo=F, message=F, warning=F, fig.width=5, fig.height=3, fig.align='center'}
+library(tidyverse)
+
+t_vals <- seq(0, 1, 0.01)
+a1 <- 2 - 2*pnorm(qnorm(0.975)/sqrt(t_vals))
+
+a2 <- 0.05*log(1 + (exp(1) - 1)*t_vals)
+
+data.frame(time = rep(t_vals, 2), 
+           alpha = c(a1, a2),
+           method = rep(c("OBF", "Pocock"), each=length(t_vals))) |>
+  ggplot(aes(x = time, y = alpha, color = method, lty=method)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Time", y = "Cumulative type I error spent")
+```
+
+## Questions
+
+You plan a study in which you will observe data $X_i \overset{iid}{\sim} N(\mu, 1)$, and you wish to test $H_0: \mu = 0$ vs. $H_A: \mu > 0$. Your test statistic will be of the form $Z_k = \frac{1}{\sqrt{k}} \sum \limits_{i=1}^k X_i$, and you will reject if $Z_k > c$.
+
+You plan to conduct the study for $n = 30$ months, and you pre-specify in your study plan that your total type I error budget is $\alpha = 0.05$, and you will use $\alpha$ spending function $f_2(t)$ listed above.
+
+After 12 months your funding starts to run low, so you wonder if you can stop the data collection early. 
+
+1. Calculate the type I error budget, $\alpha_1$, for a first interim analysis.
+
+2. Calculate the threshold, $c_1$, for which you will reject $H_0$ in first interim analysis.
+
+You fail to reject $H_0$, so you continue to collect data. At the end of the planned 30 months, you do your second (and final) analysis.
+
+3. What is the type I error budget, $\alpha_2$, for this second analysis?
+
+To calculate a threshold for the second analysis, we will use the fact that
+
+$$P(Z_k < c_1, Z_n > c_2) = \int \limits_{-\infty}^{c_1} \left(1 - \Phi\left(\frac{1}{\sqrt{n - k}} (\sqrt{n} c_2 - \sqrt{k} t) \right) \right) \phi(t) dt$$
+
+The code below calculates $P(Z_k < c_1, Z_n > c_2)$ for given $n$, $k$, $c_1$, and $c_2$.
+
+```{r, eval=F, include=F}
+2 - 2*pnorm(qnorm(0.975)/sqrt(12/30)) # 0.00194
+qnorm(0.00194, lower.tail=F) # 2.89
+```
+
+
+```{r, eval=F}
+n = # fill in
+k = # fill in
+c1 = # fill in
+c2 = # fill in
+
+integrand <- function(t){
+  (1 - pnorm((1/sqrt(n - k)) * (sqrt(n) * c2 - sqrt(k) * t))) * dnorm(t)
+}
+
+integrate(integrand, -Inf, c1)$value
+```
+
+4. Find the threshold $c_2$ to get the desired type I error budget $\alpha_2$ for the second analysis.
+
